@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PetClean — API de Gestão para Pet Shops</title>
+<style>
+  :root { --azul:#0f6e8c; --verde:#2e9e6b; --claro:#f5f8fa; --borda:#d8e3e9; --texto:#1d2a31; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--texto); background:var(--claro); }
+  header { background: linear-gradient(135deg, var(--azul), var(--verde)); color:#fff; padding:40px 24px; }
+  header h1 { margin:0 0 6px; font-size:28px; }
+  header p { margin:0; opacity:.92; max-width:660px; line-height:1.5; }
+  main { max-width:980px; margin:0 auto; padding:24px; }
+  .grade { display:grid; gap:16px; grid-template-columns:repeat(auto-fit, minmax(270px,1fr)); }
+  .card { background:#fff; border:1px solid var(--borda); border-radius:12px; padding:18px 20px; }
+  .card h2 { margin:0 0 8px; font-size:16px; color:var(--azul); }
+  .card p { margin:0 0 12px; font-size:14px; line-height:1.55; color:#42535c; }
+  a.botao { display:inline-block; background:var(--azul); color:#fff; text-decoration:none; padding:9px 16px; border-radius:8px; font-size:14px; font-weight:600; }
+  a.botao.sec { background:var(--verde); }
+  code { background:#eef3f6; padding:2px 6px; border-radius:5px; font-size:13px; }
+  table { width:100%; border-collapse:collapse; background:#fff; border:1px solid var(--borda); border-radius:10px; overflow:hidden; font-size:14px; }
+  th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--borda); }
+  th { background:#eaf1f5; font-size:13px; }
+  td.metodo { font-family: ui-monospace, monospace; font-size:12px; font-weight:700; color:var(--verde); }
+  h3 { margin:26px 0 10px; font-size:17px; }
+  footer { text-align:center; padding:26px; font-size:13px; color:#6b7c85; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🐾 PetClean — API de Gestão para Pet Shops</h1>
+  <p>Backend REST em Spring Boot construído a partir dos 6 épicos e das 25 histórias de usuário do relatório
+     de Gestão Ágil (Kanban + XP): clientes, pets, agendamentos, estoque, dashboards e autenticação com sessão.</p>
+</header>
+
+<main>
+  <div class="grade">
+    <div class="card">
+      <h2>Swagger UI</h2>
+      <p>Todos os endpoints documentados, com exemplos e o esquema de sessão. O cookie criado pelo login é
+         reaproveitado pelo próprio Swagger.</p>
+      <a class="botao" href="/swagger-ui.html">Abrir documentação</a>
+    </div>
+    <div class="card">
+      <h2>Console do H2</h2>
+      <p>Banco em memória para conferir as tabelas e a carga inicial do <code>import.sql</code>.</p>
+      <p><code>JDBC URL: jdbc:h2:mem:petcleandb</code><br><code>usuário: sa</code> · <code>senha: (vazia)</code></p>
+      <a class="botao sec" href="/h2-console">Abrir console</a>
+    </div>
+    <div class="card">
+      <h2>Autenticação</h2>
+      <p>Faça login para liberar as rotas internas (US-01, US-02 e US-14). O cookie de sessão é reaproveitado pelo Swagger.</p>
+      <p><code>helen@petclean.com</code> / <code>petclean123</code><br>
+         <code>gestor@petclean.com</code> / <code>gestor123</code></p>
+      <a class="botao" href="/login">Fazer login</a>
+    </div>
+  </div>
+
+  <h3>Roteiro rápido de teste (US-01 → US-24)</h3>
+  <table>
+    <tr><th>Método</th><th>Rota</th><th>História</th></tr>
+    <tr><td class="metodo">POST</td><td><code>/login</code></td><td>US-01 login com e-mail e senha (bcrypt — RNF-04)</td></tr>
+    <tr><td class="metodo">GET</td><td><code>/api/clientes?termo=Maria</code></td><td>US-04 consulta e filtro de clientes</td></tr>
+    <tr><td class="metodo">POST</td><td><code>/api/clientes</code></td><td>US-03 cadastro · US-15 bloqueio de CPF duplicado</td></tr>
+    <tr><td class="metodo">DELETE</td><td><code>/api/clientes/{id}</code></td><td>US-06 exclusão com integridade referencial (RNF-09)</td></tr>
+    <tr><td class="metodo">GET</td><td><code>/api/pets?termo=Thor</code></td><td>US-08 filtro por nome do pet ou tutor</td></tr>
+    <tr><td class="metodo">GET</td><td><code>/api/agendamentos/agenda?data=2026-11-05</code></td><td>US-12 agenda do dia</td></tr>
+    <tr><td class="metodo">POST</td><td><code>/api/agendamentos</code></td><td>US-11 cadastro · US-17 conflito de horário</td></tr>
+    <tr><td class="metodo">PATCH</td><td><code>/api/agendamentos/{id}/status</code></td><td>US-13 status · US-16 cancelamento</td></tr>
+    <tr><td class="metodo">GET</td><td><code>/api/produtos/estoque-critico</code></td><td>US-20 alerta de estoque crítico</td></tr>
+    <tr><td class="metodo">PATCH</td><td><code>/api/produtos/{id}/movimentar</code></td><td>US-19 entrada/saída de estoque</td></tr>
+    <tr><td class="metodo">GET</td><td><code>/api/dashboard?periodo=semanal</code></td><td>US-22 KPIs · US-23 gráfico · US-24 estoque crítico</td></tr>
+    <tr><td class="metodo">POST</td><td><code>/logout</code></td><td>US-14 encerrar sessão</td></tr>
+  </table>
+  <p style="font-size:14px;color:#42535c">Os testes automatizados das 25 histórias estão em
+     <code>testes-api.sh</code> (raiz do projeto): <code>bash testes-api.sh</code>.</p>
+</main>
+
+<footer>PetClean · Trabalho de Gestão Ágil de Projetos de Software · Kanban e XP aplicados à gestão</footer>
+</body>
+</html>
