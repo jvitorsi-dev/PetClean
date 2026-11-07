@@ -29,10 +29,35 @@ Depois de subir, acesse:
 | Portal do projeto (página inicial) | http://localhost:8080/ |
 | Swagger UI (todos os endpoints) | http://localhost:8080/swagger-ui.html |
 | OpenAPI JSON | http://localhost:8080/api-docs |
-| Tela de login (US-01) | http://localhost:8080/login |
+| Tela de login (US-01) | http://localhost:8080/login *(redireciona para a página original)* |
+| Site público do PetClean | http://localhost:8080/paginas/inicio.html |
 | Console do banco H2 | http://localhost:8080/h2-console |
 
 No console do H2 use: **JDBC URL** `jdbc:h2:mem:petcleandb`, **usuário** `sa`, **senha** vazia.
+
+### Painel do Pet Shop (interface migrada do PHP)
+
+As telas do sistema são as páginas originais do projeto PHP, agora renderizadas por Thymeleaf e
+alimentadas pela API Java. Depois de subir a aplicação:
+
+1. abra http://localhost:8080/paginas/login.html e entre com um dos usuários de demonstração abaixo;
+2. você cai no **dashboard**; o menu lateral leva às demais telas.
+
+| Tela | URL |
+|---|---|
+| Login | http://localhost:8080/paginas/login.html |
+| Dashboard | http://localhost:8080/paginas/dashboard.html |
+| Clientes (tutores) | http://localhost:8080/paginas/clientes.html |
+| Pets | http://localhost:8080/paginas/pets.html |
+| Estoque | http://localhost:8080/paginas/estoque.html |
+| Agendamentos | http://localhost:8080/paginas/agendamentos.html |
+| Relatórios | http://localhost:8080/paginas/relatorios.html |
+| Perfil | http://localhost:8080/paginas/perfil.html |
+| Configurações | http://localhost:8080/paginas/configuracoes.html |
+
+Abrir qualquer URL do painel sem sessão redireciona para o login e, após autenticar, volta para a
+página pedida. O detalhamento da migração (matriz de rastreabilidade, incompatibilidades e
+pendências) está em [`docs/MIGRACAO-PHP-JAVA.md`](docs/MIGRACAO-PHP-JAVA.md).
 
 ### Usuários de demonstração (senha em hash bcrypt — RNF-04)
 
