@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.fatecmaua.petclean.model.Agendamento;
-import br.com.fatecmaua.petclean.model.Cliente;
-import br.com.fatecmaua.petclean.model.Pet;
 import br.com.fatecmaua.petclean.model.CategoriaProdutoEnum;
+import br.com.fatecmaua.petclean.model.Cliente;
+import br.com.fatecmaua.petclean.model.EspecieEnum;
+import br.com.fatecmaua.petclean.model.Pet;
+import br.com.fatecmaua.petclean.model.PorteEnum;
 import br.com.fatecmaua.petclean.model.Produto;
 import br.com.fatecmaua.petclean.model.ServicoEnum;
 import br.com.fatecmaua.petclean.security.SessaoService;
@@ -42,6 +44,8 @@ public class PaginaPainelController {
 	private static final java.util.Map<String, String> SERVICOS_LABEL = java.util.Map.of(
 			"BANHO", "Banho", "TOSA", "Tosa", "BANHO_E_TOSA", "Banho e Tosa",
 			"HIDRATACAO", "Hidratação", "CONSULTA_VETERINARIA", "Consulta");
+	private static final java.util.Map<String, String> PORTES_LABEL = java.util.Map.of(
+			"PEQUENO", "Pequeno", "MEDIO", "Médio", "GRANDE", "Grande");
 	private static final java.util.Map<String, String> CATEGORIAS_LABEL = java.util.Map.of(
 			"RACAO", "Ração", "MEDICAMENTO", "Medicamento", "HIGIENE", "Higiene",
 			"BRINQUEDO", "Brinquedo", "ACESSORIO", "Acessório", "OUTRO", "Outro");
@@ -73,6 +77,7 @@ public class PaginaPainelController {
 		// rotulos com a mesma grafia do banco original (o enum da API e sem acento)
 		model.addAttribute("servicosLabel", SERVICOS_LABEL);
 		model.addAttribute("categoriasLabel", CATEGORIAS_LABEL);
+		model.addAttribute("portesLabel", PORTES_LABEL);
 		// a entidade Usuario nao possui coluna de foto: o avatar cai na inicial,
 		// exatamente como o PHP fazia quando a foto vinha vazia.
 		model.addAttribute("fotoPerfil", null);
@@ -212,6 +217,10 @@ public class PaginaPainelController {
 		}
 		model.addAttribute("pets", lista);
 		model.addAttribute("clientes", clienteService.listar());
+		// catalogos usados no modal de cadastro (especie e porte sao obrigatorios na API)
+		model.addAttribute("especies", EspecieEnum.values());
+		model.addAttribute("portes", PorteEnum.values());
+		model.addAttribute("portesLabel", PORTES_LABEL);
 		return "paginas/pets";
 	}
 

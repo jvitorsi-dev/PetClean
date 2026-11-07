@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputNome = document.getElementById("cliente-nome");
     const inputTelefone = document.getElementById("cliente-telefone");
     const inputEmail = document.getElementById("cliente-email");
+    const inputCpf = document.getElementById("cliente-cpf");
+    const inputEndereco = document.getElementById("cliente-endereco");
     const modalTitulo = document.getElementById("modal-titulo");
 
     // Abrir para Cadastro
@@ -29,6 +31,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (btnFecharModal) btnFecharModal.addEventListener("click", fecharModal);
     if (btnCancelarModal) btnCancelarModal.addEventListener("click", fecharModal);
 
+    // Exibe o CPF salvo (a API grava só dígitos) no formato 000.000.000-00
+    const formatarCpf = (cpf) => {
+        const digitos = (cpf || "").replace(/\D/g, "");
+        if (digitos.length !== 11) return cpf || "";
+        return digitos.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+    };
+
     // Abrir para Edição (Captura dados direto dos atributos do botão)
     document.querySelectorAll(".btn-editar").forEach(btn => {
         btn.addEventListener("click", function () {
@@ -36,6 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
             inputNome.value = this.getAttribute("data-nome");
             inputTelefone.value = this.getAttribute("data-telefone");
             inputEmail.value = this.getAttribute("data-email");
+            inputCpf.value = formatarCpf(this.getAttribute("data-cpf"));
+            inputEndereco.value = this.getAttribute("data-endereco");
             modalTitulo.textContent = "Editar Cliente";
             modalCliente.classList.add("active");
         });
@@ -51,8 +62,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // ClienteRequest da API Java (o formulario original nao possui CPF nem endereco)
             const corpo = {
                 nome: formData.get("nome"),
+                cpf: formData.get("cpf"),
                 telefone: formData.get("telefone"),
-                email: formData.get("email")
+                email: formData.get("email"),
+                endereco: formData.get("endereco")
             };
             const caminho = editando ? "/clientes/" + inputId.value : "/clientes";
 

@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputRaca = document.getElementById("pet-raca");
     const inputIdade = document.getElementById("pet-idade");
     const selectCliente = document.getElementById("pet-cliente");
+    const selectEspecie = document.getElementById("pet-especie");
+    const selectPorte = document.getElementById("pet-porte");
     const modalTitulo = document.getElementById("modal-titulo");
 
     if (btnNovoPet) {
@@ -37,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
             inputRaca.value = this.getAttribute("data-raca");
             inputIdade.value = this.getAttribute("data-idade");
             selectCliente.value = this.getAttribute("data-cliente");
+            selectEspecie.value = this.getAttribute("data-especie");
+            selectPorte.value = this.getAttribute("data-porte");
             modalTitulo.textContent = "Editar Pet";
             modalPet.classList.add("active");
         });
@@ -54,7 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const corpo = {
                 idCliente: Number(formData.get("cliente_id")),
                 nome: formData.get("nome"),
+                especie: formData.get("especie"),
                 raca: formData.get("raca"),
+                porte: formData.get("porte"),
                 idade: formData.get("idade") ? Number(formData.get("idade")) : null
             };
             const caminho = editando ? "/pets/" + inputId.value : "/pets";

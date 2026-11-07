@@ -96,9 +96,9 @@ copiados para dentro de `src/main/resources/`.
 | ID | Incompatibilidade | Tratamento nesta etapa |
 | --- | --- | --- |
 | I1 | API não é multi-tenant (`usuario_id`) | dados globais; documentado |
-| I2 | `ClienteRequest` exige `cpf` e `endereco`; o formulário original não os possui | envio só os campos existentes; a **mensagem real** de validação da API aparece no `alert` (sem sucesso fictício) |
-| I3 | `PetRequest` exige `especie` e `porte` (ausentes no formulário) | idem I2 |
-| I4 | `categoria` é enum no Java e texto livre no PHP | conversão de grafia em `estoque.js`; valor desconhecido → erro real da API |
+| I2 | `ClienteRequest` exige `cpf` e `endereco`; o formulário original não os possui | **resolvido**: campos CPF e Endereço adicionados ao modal (`D1`, seção 9) |
+| I3 | `PetRequest` exige `especie` e `porte` (ausentes no formulário) | **resolvido**: selects de Espécie e Porte adicionados ao modal (`D1`) |
+| I4 | `categoria` é enum no Java e texto livre no PHP | `estoque.js` converte a grafia e valida antes de enviar, listando as 6 categorias válidas |
 | I5 | Sem endpoints de perfil, foto, senha | formulários avisam "recurso ainda não disponível na API Java" |
 | I6 | Sem recuperação de senha / SMTP / demonstração | idem I5 |
 | I7 | PHP fazia *cascade*; a API responde **409** | mensagem real da API exibida |
@@ -206,7 +206,7 @@ Diferenças previstas e já justificadas (não são regressões de layout):
 
 | ID | Pendência | Impacto | Precisa de decisão |
 | --- | --- | --- | --- |
-| D1 | Formulários sem `cpf`+`endereco` (cliente), `especie`+`porte` (pet) e com `categoria` livre | cadastro/edição desses 3 tipos falha com a mensagem real da API | **sim** — adicionar campos (altera o formulário) ou expor campos opcionais na API |
+| D1 | ~~Formulários sem `cpf`+`endereco`, `especie`+`porte` e `categoria` livre~~ | **resolvido na seção 9** | não |
 | D2 | Perfil, foto, senha, recuperação e demonstração sem endpoint | botões avisam que o recurso não existe na API | **sim** — criar endpoints ou aceitar como fora de escopo |
 | D3 | Ausência de multi-tenant (`usuario_id`) | todos os usuários veem a mesma base | **sim** — fora de escopo declarado |
 | — | `HIDRATACAO` existe no enum e não no PHP | serviço novo aparece na API mas não no select (mantido como o original) | não |
@@ -226,3 +226,34 @@ Diferenças previstas e já justificadas (não são regressões de layout):
 
 Credenciais de demonstração (`import.sql`): `helen@petclean.com` / `petclean123` (Atendente),
 `gestor@petclean.com` / `gestor123` (Gestor).
+
+---
+
+## 9. Resolução de D1 (campos obrigatórios)
+
+Implementado o "Fix 1 + 2 + 3(a)" aprovado:
+
+| Arquivo | Alteração |
+| --- | --- |
+| `templates/paginas/clientes.html` | + campos **CPF** (`maxlength=14`) e **Endereço** (`maxlength=200`); `th:data-cpf` / `th:data-endereco` no botão Editar |
+| `templates/paginas/pets.html` | + selects **Espécie** (6 opções) e **Porte** (3 opções, com acentuação "Médio"); `th:data-especie` / `th:data-porte` |
+| `control/PaginaPainelController.java` | `especies`, `portes` e `portesLabel` no modelo da página de pets |
+| `static/js/clientes.js` | envia `cpf` (máscara 000.000.000-00 na edição) e `endereco` no JSON |
+| `static/js/pets.js` | preenche e envia `especie` e `porte` |
+| `static/js/estoque.js` | valida a categoria antes do POST/PUT e avisa quais são aceitas |
+
+**Impacto visual (mínimo e inevitável):** os dois modais ficaram mais altos (cliente 3→5 campos,
+pet 4→6 campos, ~+155 px cada). Nenhuma regra de CSS foi criada ou alterada; foram reutilizadas as
+classes `.form-modal-group` e o estilo inline já usado pelo `<select>` do tutor. Em viewports com
+menos de ~650 px de altura útil o modal pode encostar nas bordas — correção opcional de 1 linha em
+`perfil.css` (`.modal-box { max-height: 90vh; overflow-y: auto; }`), **não aplicada**.
+
+**Placeholder mantido:** o campo de categoria do estoque continua com o texto original
+("Ex: Higiene, Alimentos, Farmácia...") para não alterar a interface; a validação do JS orienta
+quais são as categorias válidas da API.
+
+**Captura / pré-visualização:** ver `docs/preview/modal-cliente.html` e `docs/preview/modal-pet.html`
+— páginas estáticas com o **markup real dos modais** e o **CSS real do projeto** (dados de exemplo),
+usadas para conferir o resultado sem precisar subir o servidor. Não é a aplicação em execução.
+
+---

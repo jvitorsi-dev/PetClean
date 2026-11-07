@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Clientes (pré-visualização)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../src/main/resources/static/css/menus-globais.css">
+    <link rel="stylesheet" href="../../src/main/resources/static/css/perfil.css">
+</head>
+<body>
+<!--
+  PRE-VISUALIZACAO ESTATICA (nao e a aplicacao em execucao): markup copiado de
+  src/main/resources/templates/paginas/clientes.html + CSS real do projeto, com os
+  atributos th:* resolvidos a mao e dados de exemplo. Serve para conferir o modal.
+-->
+<div class="modal-overlay active" id="modal-cliente">
+        <div class="modal-box">
+            <button class="modal-close" id="btn-fechar-modal">✕</button>
+            <h2 id="modal-titulo">Editar Cliente</h2>
+            <form id="form-cliente">
+                <input type="hidden" id="cliente-id" name="id">
+                <div class="form-modal-group">
+                    <label for="cliente-nome">Nome Completo *</label>
+                    <input type="text" id="cliente-nome" name="nome" value="Lola Fernandes" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="cliente-telefone">Telefone *</label>
+                    <input type="text" id="cliente-telefone" name="telefone" value="(11) 98765-4321" placeholder="(11) 98765-4321" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="cliente-email">E-mail *</label>
+                    <input type="email" id="cliente-email" name="email" value="lola.fernandes@email.com" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="cliente-cpf">CPF *</label>
+                    <input type="text" id="cliente-cpf" name="cpf" value="529.982.247-25" placeholder="000.000.000-00" maxlength="14" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="cliente-endereco">Endereço *</label>
+                    <input type="text" id="cliente-endereco" name="endereco" value="Rua das Acácias, 47 - Mauá/SP" placeholder="Rua, número - Cidade/UF" maxlength="200" required />
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar-modal">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

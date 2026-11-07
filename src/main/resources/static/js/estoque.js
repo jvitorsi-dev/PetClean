@@ -67,6 +67,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 estoqueMinimo: Number(formData.get("estoque_minimo")),
                 preco: formData.get("preco_venda")
             };
+            // A API so aceita uma das 6 categorias do enum: avisa antes de enviar
+            if (!corpo.categoria) {
+                alert("Categoria inválida. Use: Ração, Medicamento, Higiene, Brinquedo, Acessório ou Outro.");
+                return;
+            }
+
             const caminho = editando ? "/produtos/" + inputId.value : "/produtos";
 
             PetCleanApi.requisitar(caminho, editando ? "PUT" : "POST", corpo)

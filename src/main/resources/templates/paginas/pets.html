@@ -87,7 +87,7 @@
                                         <td style="padding: 12px;">[[${p.idade}]] anos</td>
                                         <td style="padding: 12px; font-weight: 500;">[[${p.cliente.nome}]]</td>
                                         <td style="padding: 12px; text-align: center;">
-                                            <button class="btn-change-password btn-editar" th:data-id="${p.id}" th:data-nome="${p.nome}" th:data-raca="${p.raca}" th:data-idade="${p.idade}" th:data-cliente="${p.cliente.id}" style="padding: 4px 10px; font-size: 12px; border-color: #3b82f6; color: #3b82f6; margin-right: 6px;">
+                                            <button class="btn-change-password btn-editar" th:data-id="${p.id}" th:data-nome="${p.nome}" th:data-raca="${p.raca}" th:data-idade="${p.idade}" th:data-cliente="${p.cliente.id}" th:data-especie="${p.especie.name()}" th:data-porte="${p.porte.name()}" style="padding: 4px 10px; font-size: 12px; border-color: #3b82f6; color: #3b82f6; margin-right: 6px;">
                                                 Editar
                                             </button>
                                             <button class="btn-change-password btn-excluir" th:data-id="${p.id}" style="padding: 4px 10px; font-size: 12px; border-color: #ef4444; color: #ef4444;">
@@ -117,6 +117,20 @@
                 <div class="form-modal-group">
                     <label for="pet-raca">Raça *</label>
                     <input type="text" id="pet-raca" name="raca" placeholder="Ex: Poodle, SRD..." required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="pet-especie">Espécie *</label>
+                    <select id="pet-especie" name="especie" style="width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; outline: none; background: #fff;" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="e : ${especies}" th:value="${e.name()}" th:text="${e.descricao}"></option>
+                    </select>
+                </div>
+                <div class="form-modal-group">
+                    <label for="pet-porte">Porte *</label>
+                    <select id="pet-porte" name="porte" style="width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; outline: none; background: #fff;" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="o : ${portes}" th:value="${o.name()}" th:text="${portesLabel[o.name()]}"></option>
+                    </select>
                 </div>
                 <div class="form-modal-group">
                     <label for="pet-idade">Idade (Anos) *</label>
