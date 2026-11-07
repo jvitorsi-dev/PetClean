@@ -6,7 +6,7 @@ descritas no documento, com os critérios de aceitação *Dado/Quando/Então* ve
 
 Segue o mesmo modelo do projeto de referência (`projeto-musica`): mesmas camadas
 (`model`, `repository`, `projection`, `control`, `swagger`), Spring Data JPA, banco H2 em memória,
-`import.sql` para a carga inicial e springdoc/Swagger UI para documentação.
+`data.sql` (UTF-8) para a carga inicial e springdoc/Swagger UI para documentação.
 
 ---
 
@@ -197,7 +197,7 @@ petclean/
     │   └── swagger/SwaggerConfig.java
     ├── main/resources/
     │   ├── application.properties
-    │   ├── import.sql                # dados de demonstração
+    │   ├── data.sql                  # dados de demonstração (UTF-8)
     │   └── static/index.html         # portal com atalhos e roteiro de teste
     └── test/java/...                 # 28 testes JUnit
 ```

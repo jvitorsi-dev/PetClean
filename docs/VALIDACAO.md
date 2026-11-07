@@ -57,7 +57,7 @@ bash testes-api.sh
 **Esperado:** todas as linhas `OK`, contagem final sem `FAIL`.
 
 O script usa um cookie jar e cria registros no banco em memória. Para zerar a massa, pare a
-aplicação e suba de novo (`ddl-auto=create` recria e o `import.sql` repopula).
+aplicação e suba de novo (`ddl-auto=create` recria e o `data.sql` repopula).
 
 ---
 
@@ -119,11 +119,11 @@ Comparar sem ajustar a escala produz falso negativo.
    `estoque`, `agendamentos`, `perfil`, `configuracoes`.
 5. Os **3 modais alterados** (D1) têm pré-visualização própria, também a 75 %:
    `docs/preview/modal-cliente.html`, `docs/preview/modal-pet.html`, `docs/preview/modal-estoque.html`.
-6. Massa de dados: as capturas mostram ~1 registro por tabela (LOLA, POPY, shampoo); o `import.sql`
+6. Massa de dados: as capturas mostram ~1 registro por tabela (LOLA, POPY, shampoo); o `data.sql`
    traz 8 clientes / 10 pets / 10 produtos. Para comparar 1:1, filtre pela busca
    (`/paginas/clientes.html?busca=Maria`) em vez de alterar o banco.
 7. Divergências **esperadas** (não são regressões): cargo exibido como Atendente/Gestor;
-   campos de perfil vazios; números do dashboard vindos do `import.sql`; categoria do estoque como
+   campos de perfil vazios; números do dashboard vindos do `data.sql`; categoria do estoque como
    `select`; modais de cliente/pet ~155 px mais altos.
 
 ---

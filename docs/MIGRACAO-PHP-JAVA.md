@@ -205,7 +205,7 @@ referência correspondente e conferir: sidebar 256 px, header 88,80 px, `#FF8C94
 Diferenças previstas e já justificadas (não são regressões de layout):
 1. legenda do perfil mostra o perfil real (`Atendente`/`Gestor`) e não `Demonstração` (I8);
 2. campos de perfil/telefone/petshop vazios — a API não tem essas colunas (I5);
-3. números de dashboard/relatórios refletem o `import.sql` da API (8 clientes, 10 pets, 10 produtos)
+3. números de dashboard/relatórios refletem o `data.sql` da API (8 clientes, 10 pets, 10 produtos)
    e não a massa da captura.
 
 ---
@@ -217,7 +217,8 @@ Diferenças previstas e já justificadas (não são regressões de layout):
 | D1 | ~~Formulários sem `cpf`+`endereco`, `especie`+`porte` e `categoria` livre~~ | **resolvido na seção 9** | não |
 | D2 | Perfil, foto, senha, recuperação e demonstração sem endpoint | botões avisam que o recurso não existe na API | **sim** — criar endpoints ou aceitar como fora de escopo |
 | D3 | Ausência de multi-tenant (`usuario_id`) | todos os usuários veem a mesma base | **sim** — fora de escopo declarado |
-| — | Acentuação do `import.sql` no Windows: o log do Hibernate no run do usuário mostrou `'SiamÃªs'`, `'RaÃ§Ã£o'` | pode ser só o console ou mojibake real (Java 17 no Windows lê o script com o charset da plataforma) — **verificar na tela de estoque**; se estiver corrompido, renomear `import.sql` → `data.sql` (o `spring.sql.init.encoding=UTF-8` já está configurado) | **sim** |
+| — | Acentuação do `data.sql` no Windows: o log do Hibernate no run do usuário mostrou `'SiamÃªs'`, `'RaÃ§Ã£o'` | pode ser só o console ou mojibake real (Java 17 no Windows lê o script com o charset da plataforma) — **verificar na tela de estoque**; se estiver corrompido, renomear `data.sql` → `data.sql` (o `spring.sql.init.encoding=UTF-8` já está configurado) | **sim** |
+| — | Chart.js vinha de CDN (`cdn.jsdelivr.net`) e a página de relatórios falhava com `ERR_INCOMPLETE_CHUNKED_ENCODING` | biblioteca passou a ser servida localmente em `static/js/vendor/chart.umd.min.js` (v4.6.1, mesma versão do CDN); nenhuma mudança visual |
 | — | `HIDRATACAO` existe no enum e não no PHP | serviço novo aparece na API mas não no select (mantido como o original) | não |
 | — | Validação funcional (D) e visual (E) | bloqueadas pelo ambiente (sem JDK/Maven) | executar localmente |
 
@@ -233,7 +234,7 @@ Diferenças previstas e já justificadas (não são regressões de layout):
 # API/Swagger:        /swagger-ui.html   |   console H2: /h2-console
 ```
 
-Credenciais de demonstração (`import.sql`): `helen@petclean.com` / `petclean123` (Atendente),
+Credenciais de demonstração (`data.sql`): `helen@petclean.com` / `petclean123` (Atendente),
 `gestor@petclean.com` / `gestor123` (Gestor).
 
 ---

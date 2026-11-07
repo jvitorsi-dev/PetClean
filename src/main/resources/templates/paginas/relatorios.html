@@ -300,7 +300,9 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart.js servido localmente (era https://cdn.jsdelivr.net/npm/chart.js):
+         evita falha da pagina quando o CDN e bloqueado ou a conexao cai -->
+    <script src="../js/vendor/chart.umd.min.js"></script>
     <script th:inline="javascript">
         const opcoesResponsivas = {
             responsive: true,
