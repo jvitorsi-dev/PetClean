@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.fatecmaua.petclean.model.Agendamento;
 import br.com.fatecmaua.petclean.model.CategoriaProdutoEnum;
 import br.com.fatecmaua.petclean.model.Cliente;
@@ -63,6 +65,8 @@ public class PaginaPainelController {
 	private AgendamentoService agendamentoService;
 	@Autowired
 	private ProdutoService produtoService;
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	// =====================================================================
 	// Cabecalho comum (nome, e-mail, cargo e avatar do usuario logado)
@@ -142,11 +146,23 @@ public class PaginaPainelController {
 		model.addAttribute("faturamentoMeses", faturamentoMeses);
 
 		// grafico de pizza: as 4 fatias do projeto original
-		model.addAttribute("pizzaDados", List.of(
+		List<Long> pizzaDados = List.of(
 				contarServico(todos, ServicoEnum.BANHO),
 				contarServico(todos, ServicoEnum.TOSA),
 				contarServico(todos, ServicoEnum.BANHO_E_TOSA),
-				contarServico(todos, ServicoEnum.CONSULTA_VETERINARIA)));
+				contarServico(todos, ServicoEnum.CONSULTA_VETERINARIA));
+		model.addAttribute("pizzaDados", pizzaDados);
+
+		// graficos: os arrays vao serializados em atributos data-* (sem th:inline="javascript")
+		try {
+			model.addAttribute("labelsDiasJson", objectMapper.writeValueAsString(labelsDias));
+			model.addAttribute("agendamentosDiasJson", objectMapper.writeValueAsString(agendamentosDias));
+			model.addAttribute("labelsMesesJson", objectMapper.writeValueAsString(labelsMeses));
+			model.addAttribute("faturamentoMesesJson", objectMapper.writeValueAsString(faturamentoMeses));
+			model.addAttribute("pizzaDadosJson", objectMapper.writeValueAsString(pizzaDados));
+		} catch (com.fasterxml.jackson.core.JsonProcessingException e) {
+			throw new IllegalStateException("Falha ao serializar os dados dos graficos", e);
+		}
 
 		// agendamentos de hoje (no maximo 4, por horario)
 		List<Agendamento> proximos = todos.stream().filter(a -> hoje.equals(a.getData()))

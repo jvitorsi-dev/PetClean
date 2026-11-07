@@ -258,14 +258,21 @@
     <!-- Chart.js servido localmente (era https://cdn.jsdelivr.net/npm/chart.js):
          evita falha da pagina quando o CDN e bloqueado ou a conexao cai -->
     <script src="../js/vendor/chart.umd.min.js"></script>
-    <script th:inline="javascript">
-        const diasLabels = /*[[${labelsDias}]]*/ [];
-        const diasDados = /*[[${agendamentosDias}]]*/ [];
+    <!-- Os arrays dos graficos chegam em data-* (sem th:inline="javascript") -->
+    <script id="dados-dashboard" th:data-labels-dias="${labelsDiasJson}"
+        th:data-agendamentos-dias="${agendamentosDiasJson}"
+        th:data-labels-meses="${labelsMesesJson}"
+        th:data-faturamento-meses="${faturamentoMesesJson}"
+        th:data-pizza="${pizzaDadosJson}"></script>
+    <script>
+        const dadosDashboard = document.getElementById('dados-dashboard').dataset;
+        const diasLabels = JSON.parse(dadosDashboard.labelsDias || '[]');
+        const diasDados = JSON.parse(dadosDashboard.agendamentosDias || '[]');
 
-        const mesesLabels = /*[[${labelsMeses}]]*/ [];
-        const mesesDados = /*[[${faturamentoMeses}]]*/ [];
+        const mesesLabels = JSON.parse(dadosDashboard.labelsMeses || '[]');
+        const mesesDados = JSON.parse(dadosDashboard.faturamentoMeses || '[]');
 
-        const pizzaDados = /*[[${pizzaDados}]]*/ [];
+        const pizzaDados = JSON.parse(dadosDashboard.pizza || '[]');
 
         // 1. Gráfico de Barras: Agendamentos por Dia
         const ctxDias = document.getElementById('graficoDias').getContext('2d');

@@ -218,7 +218,8 @@ Diferenças previstas e já justificadas (não são regressões de layout):
 | D2 | Perfil, foto, senha, recuperação e demonstração sem endpoint | botões avisam que o recurso não existe na API | **sim** — criar endpoints ou aceitar como fora de escopo |
 | D3 | Ausência de multi-tenant (`usuario_id`) | todos os usuários veem a mesma base | **sim** — fora de escopo declarado |
 | — | Acentuação do `data.sql` no Windows: o log do Hibernate no run do usuário mostrou `'SiamÃªs'`, `'RaÃ§Ã£o'` | pode ser só o console ou mojibake real (Java 17 no Windows lê o script com o charset da plataforma) — **verificar na tela de estoque**; se estiver corrompido, renomear `data.sql` → `data.sql` (o `spring.sql.init.encoding=UTF-8` já está configurado) | **sim** |
-| — | Chart.js vinha de CDN (`cdn.jsdelivr.net`) e a página de relatórios falhava com `ERR_INCOMPLETE_CHUNKED_ENCODING` | biblioteca passou a ser servida localmente em `static/js/vendor/chart.umd.min.js` (v4.6.1, mesma versão do CDN); nenhuma mudança visual |
+| — | Chart.js vinha de CDN (`cdn.jsdelivr.net`) | biblioteca servida localmente em `static/js/vendor/chart.umd.min.js` (v4.6.1); nenhuma mudança visual |
+| — | `th:inline="javascript"` nos gráficos (`relatorios` e `dashboard`) | **removido**: os valores vão em atributos `data-*` (JSON serializado no controller para o dashboard) e o JS lê por `dataset` + `JSON.parse`. Elimina a inlining de JS do Thymeleaf, que era o último construto não-padrão das duas páginas |
 | — | `HIDRATACAO` existe no enum e não no PHP | serviço novo aparece na API mas não no select (mantido como o original) | não |
 | — | Validação funcional (D) e visual (E) | bloqueadas pelo ambiente (sem JDK/Maven) | executar localmente |
 
