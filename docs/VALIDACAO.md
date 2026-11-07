@@ -28,10 +28,10 @@ Maven **não** é necessário: o projeto traz o wrapper. No Windows use `mvnw.cm
 
 **Esperado:** `BUILD SUCCESS` e `Tests run: 28, Failures: 0, Errors: 0, Skipped: 0`.
 
-> Primeira execução (07/11/2026): 28 testes, **2 falhas** — `navegacaoSemSessaoRedireciona`
-> (redirect do interceptor, já corrigido) e `conflitoDeHorario` (data fixa `2026-11-05` que virou
-> passado; agora os testes usam `LocalDate.now().plusDays(7)`). Detalhes na seção 5 do
-> `docs/MIGRACAO-PHP-JAVA.md`.
+> **Confirmado em 07/11/2026 (Windows, Java 17.0.12): BUILD SUCCESS, 28/28.**
+> A primeira execução deu 2 falhas — `navegacaoSemSessaoRedireciona` (redirect do interceptor, já
+> corrigido) e `conflitoDeHorario` (data fixa `2026-11-05` que virou passado; agora os testes usam
+> `LocalDate.now().plusDays(7)`). Detalhes na seção 5 do `docs/MIGRACAO-PHP-JAVA.md`.
 
 | Suíte | Testes | Cobre |
 | --- | --- | --- |
@@ -146,10 +146,10 @@ Hoje ele reporta **1 aviso** — exatamente o botão de invalidar sessões citad
 
 | Validação | Data | Resultado | Evidência |
 | --- | --- | --- | --- |
-| V1 testes | | | saída do `mvnw test` |
-| V2 smoke | | | saída do `testes-api.sh` |
-| V3 funcional | | | tabela acima anotada |
-| V4 visual | | | `docs/referencia/*.png` (não versionado) |
-| V5 estático | | | saída do `validar-estatico.sh` |
+| V1 testes | 07/11/2026 | ✅ BUILD SUCCESS — 28 testes, 0 falhas | `mvnw.cmd clean test` (2 falhas na 1ª execução, corrigidas) |
+| V2 smoke | | ⏳ pendente | saída do `testes-api.sh` |
+| V3 funcional | | ⏳ pendente | tabela acima anotada |
+| V4 visual | | ⏳ pendente | `docs/referencia/*.png` (não versionado) |
+| V5 estático | 07/11/2026 | ✅ 0 falhas, 1 aviso (botão de sessões, item 17 do V3) | `bash validar-estatico.sh` |
 
 Ao concluir, atualize as seções 5 e 6 de `docs/MIGRACAO-PHP-JAVA.md` marcando o que foi executado.

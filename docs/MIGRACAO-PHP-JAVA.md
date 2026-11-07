@@ -155,17 +155,17 @@ original (`.fundo-rosa-topo`, `.seta`, `.container10` …) continuam sem regra �
 
 ## 5. D. Validação funcional
 
-> **Status: executada pelo usuário em 07/11/2026** (`mvnw.cmd clean test`, Windows, Java 17.0.12):
-> **28 testes, 2 falhas** — nenhum erro de compilação. As duas falhas foram investigadas e
-> corrigidas (abaixo); a re-execução ainda não foi feita. O ambiente de desenvolvimento da migração
-> não possui JDK/Maven, por isso as correções foram validadas apenas por inspeção.
+> **Status: APROVADA em 07/11/2026** (`mvnw.cmd clean test`, Windows, Java 17.0.12).
+> A primeira execução deu **28 testes / 2 falhas** (nenhum erro de compilação); as duas falhas foram
+> investigadas e corrigidas (abaixo) e a re-execução terminou em **BUILD SUCCESS, 28 testes,
+> 0 falhas, 0 erros**. A validação funcional (V3) e a visual (V4) seguem pendentes.
 
 **Falhas encontradas e corrigidas**
 
-| Teste | Causa | Correção |
-| --- | --- | --- |
-| `navegacaoSemSessaoRedireciona` | eu havia trocado o 302 do interceptor de `/login` para `/paginas/login.html` | interceptor voltou a redirecionar para `/login` (o contrato da US-02); quem encaminha para a página é o próprio `GET /login` |
-| `conflitoDeHorario` | **pré-existente e alheia à migração**: o teste usava a data fixa `2026-11-05`, que passou a ser data passada (a API recusa com 422) | as 4 datas literais dos testes de agendamento passaram a ser calculadas por `LocalDate.now().plusDays(7)` (`DATA_FUTURA`) |
+| Teste | Causa | Correção | Situação |
+| --- | --- | --- | --- |
+| `navegacaoSemSessaoRedireciona` | eu havia trocado o 302 do interceptor de `/login` para `/paginas/login.html` | interceptor voltou a redirecionar para `/login` (o contrato da US-02); quem encaminha para a página é o próprio `GET /login` | ✅ passou |
+| `conflitoDeHorario` | **pré-existente e alheia à migração**: o teste usava a data fixa `2026-11-05`, que passou a ser data passada (a API recusa com 422) | as 4 datas literais dos testes de agendamento passaram a ser calculadas por `LocalDate.now().plusDays(7)` (`DATA_FUTURA`) | ✅ passou |
 
 ### 5.1 O que foi verificado estaticamente (executado de fato)
 - 0 blocos PHP remanescentes nos 8 templates (`grep -rn "<?php\|<?=\|endforeach\|endif"` → vazio).
