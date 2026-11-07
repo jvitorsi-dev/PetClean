@@ -231,9 +231,8 @@
                             <p>Se você suspeitar que esqueceu sua conta aberta em outro computador, encerre todas as
                                 sessões ativas imediatamente.</p>
 
-                            <!-- BOTÃO ATUALIZADO APONTANDO PARA O PHP DE DESTRUIÇÃO -->
-                            <button type="button" class="btn-terminate-sessions"
-                                onclick="if(confirm('Tem certeza que deseja invalidar todas as sessões e deslogar do sistema?')) window.location.href='../php/configuracoes/invalidar-sessoes.php';">
+                            <!-- Encerra a sessão na API Java (POST /logout); o handler está no main.js -->
+                            <button type="button" class="btn-terminate-sessions">
                                 <i class="fa-solid fa-triangle-exclamation"></i> Invalidar Todas as Sessões
                             </button>
                         </div>

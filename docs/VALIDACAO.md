@@ -150,6 +150,6 @@ Hoje ele reporta **1 aviso** — exatamente o botão de invalidar sessões citad
 | V2 smoke | | ⏳ pendente | saída do `testes-api.sh` |
 | V3 funcional | | ⏳ pendente | tabela acima anotada |
 | V4 visual | | ⏳ pendente | `docs/referencia/*.png` (não versionado) |
-| V5 estático | 07/11/2026 | ✅ 0 falhas, 1 aviso (botão de sessões, item 17 do V3) | `bash validar-estatico.sh` |
+| V5 estático | 07/11/2026 | ✅ 0 falhas, **0 avisos** (o aviso do botão de sessões foi corrigido) | `bash validar-estatico.sh` |
 
 Ao concluir, atualize as seções 5 e 6 de `docs/MIGRACAO-PHP-JAVA.md` marcando o que foi executado.

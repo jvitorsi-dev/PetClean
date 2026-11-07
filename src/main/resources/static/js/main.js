@@ -157,6 +157,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Botão "Invalidar Todas as Sessões" (tela de Configurações): mesma semântica do
+    // invalidar-sessoes.php original — encerra a sessão atual e volta para o login
+    const botaoInvalidarSessoes = document.querySelector(".btn-terminate-sessions");
+
+    if (botaoInvalidarSessoes) {
+        botaoInvalidarSessoes.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            if (confirm("Tem certeza que deseja invalidar todas as sessões e deslogar do sistema?")) {
+                fetch("/logout", { method: "POST", credentials: "same-origin" })
+                    .catch(err => console.error("Erro ao invalidar sessões:", err))
+                    .finally(() => { window.location.href = "/paginas/login.html"; });
+            }
+        });
+    }
+
     // ==========================================================================
     // 5. EXECUÇÃO AUTOMÁTICA
     // ==========================================================================
