@@ -71,9 +71,13 @@ pendências) está em [`docs/MIGRACAO-PHP-JAVA.md`](docs/MIGRACAO-PHP-JAVA.md).
 ### Testes
 
 ```bash
-./mvnw test          # 27 testes JUnit (criterios de aceitacao)
-bash testes-api.sh   # 45 verificacoes de ponta a ponta na API rodando
+./mvnw test              # 28 testes JUnit (criterios de aceitacao)
+bash testes-api.sh       # 45 verificacoes de ponta a ponta na API rodando
+bash validar-estatico.sh # checagens da migracao (HTML, JS, links, variaveis)
 ```
+
+O passo a passo de **todas** as validacoes (testes, smoke, funcional, visual e estatico), com o
+resultado esperado de cada uma, esta em [`docs/VALIDACAO.md`](docs/VALIDACAO.md).
 
 ---
 
@@ -195,7 +199,7 @@ petclean/
     │   ├── application.properties
     │   ├── import.sql                # dados de demonstração
     │   └── static/index.html         # portal com atalhos e roteiro de teste
-    └── test/java/...                 # 27 testes JUnit
+    └── test/java/...                 # 28 testes JUnit
 ```
 
 ---

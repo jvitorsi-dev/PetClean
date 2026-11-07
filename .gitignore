@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Capturas de referencia da validacao visual (evidencia local, nao versionar)
+docs/referencia/
