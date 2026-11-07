@@ -51,28 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const formData = new FormData(formProd);
             const editando = !!inputId.value;
 
-            // A API Java trabalha com o enum CategoriaProduto; o formulario original
-            // e texto livre. A conversao abaixo aceita a grafia do usuario.
-            const categorias = {
-                "RACAO": "RACAO", "RAÇÃO": "RACAO", "RACAO.": "RACAO",
-                "MEDICAMENTO": "MEDICAMENTO", "HIGIENE": "HIGIENE",
-                "BRINQUEDO": "BRINQUEDO", "ACESSORIO": "ACESSORIO", "ACESSÓRIO": "ACESSORIO",
-                "OUTRO": "OUTRO"
-            };
-            const categoriaTexto = (formData.get("categoria") || "").toString().trim().toUpperCase();
+            // A categoria e um <select> com as 6 opcoes do enum da API
             const corpo = {
                 nome: formData.get("nome"),
-                categoria: categorias[categoriaTexto] || null,
+                categoria: formData.get("categoria"),
                 quantidade: Number(formData.get("quantidade")),
                 estoqueMinimo: Number(formData.get("estoque_minimo")),
                 preco: formData.get("preco_venda")
             };
-            // A API so aceita uma das 6 categorias do enum: avisa antes de enviar
-            if (!corpo.categoria) {
-                alert("Categoria inválida. Use: Ração, Medicamento, Higiene, Brinquedo, Acessório ou Outro.");
-                return;
-            }
-
             const caminho = editando ? "/produtos/" + inputId.value : "/produtos";
 
             PetCleanApi.requisitar(caminho, editando ? "PUT" : "POST", corpo)

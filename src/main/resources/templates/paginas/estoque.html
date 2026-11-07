@@ -150,8 +150,10 @@
                 </div>
                 <div class="form-modal-group">
                     <label for="prod-categoria">Categoria *</label>
-                    <input type="text" id="prod-categoria" name="categoria"
-                        placeholder="Ex: Higiene, Alimentos, Farmácia..." required />
+                    <select id="prod-categoria" name="categoria" style="width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; outline: none; background: #fff;" required>
+                        <option value="">Selecione...</option>
+                        <option th:each="cat : ${categorias}" th:value="${cat.name()}" th:text="${categoriasLabel[cat.name()]}"></option>
+                    </select>
                 </div>
                 <div class="form-modal-group">
                     <label for="prod-quantidade">Quantidade Atual *</label>

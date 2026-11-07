@@ -241,6 +241,8 @@ public class PaginaPainelController {
 							|| contem(p.getCategoria().getDescricao(), termo)))).toList();
 		}
 		model.addAttribute("produtos", lista);
+		// a categoria e um enum na API: o campo do modal e uma lista fixa de opcoes
+		model.addAttribute("categorias", CategoriaProdutoEnum.values());
 		return "paginas/estoque";
 	}
 

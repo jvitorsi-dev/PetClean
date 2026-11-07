@@ -98,7 +98,7 @@ copiados para dentro de `src/main/resources/`.
 | I1 | API não é multi-tenant (`usuario_id`) | dados globais; documentado |
 | I2 | `ClienteRequest` exige `cpf` e `endereco`; o formulário original não os possui | **resolvido**: campos CPF e Endereço adicionados ao modal (`D1`, seção 9) |
 | I3 | `PetRequest` exige `especie` e `porte` (ausentes no formulário) | **resolvido**: selects de Espécie e Porte adicionados ao modal (`D1`) |
-| I4 | `categoria` é enum no Java e texto livre no PHP | `estoque.js` converte a grafia e valida antes de enviar, listando as 6 categorias válidas |
+| I4 | `categoria` é enum no Java e `varchar(50)` livre no PHP | **resolvido**: o campo virou lista de seleção com as 6 categorias (seção 9.2) |
 | I5 | Sem endpoints de perfil, foto, senha | formulários avisam "recurso ainda não disponível na API Java" |
 | I6 | Sem recuperação de senha / SMTP / demonstração | idem I5 |
 | I7 | PHP fazia *cascade*; a API responde **409** | mensagem real da API exibida |
@@ -240,7 +240,7 @@ Implementado o "Fix 1 + 2 + 3(a)" aprovado:
 | `control/PaginaPainelController.java` | `especies`, `portes` e `portesLabel` no modelo da página de pets |
 | `static/js/clientes.js` | envia `cpf` (máscara 000.000.000-00 na edição) e `endereco` no JSON |
 | `static/js/pets.js` | preenche e envia `especie` e `porte` |
-| `static/js/estoque.js` | valida a categoria antes do POST/PUT e avisa quais são aceitas |
+| `static/js/estoque.js` | envia o valor do `<select>` de categoria (o mapa de conversão de texto foi removido) |
 
 **Impacto visual (mínimo e inevitável):** os dois modais ficaram mais altos (cliente 3→5 campos,
 pet 4→6 campos, ~+155 px cada). Nenhuma regra de CSS foi criada ou alterada; foram reutilizadas as
@@ -248,11 +248,32 @@ classes `.form-modal-group` e o estilo inline já usado pelo `<select>` do tutor
 menos de ~650 px de altura útil o modal pode encostar nas bordas — correção opcional de 1 linha em
 `perfil.css` (`.modal-box { max-height: 90vh; overflow-y: auto; }`), **não aplicada**.
 
-**Placeholder mantido:** o campo de categoria do estoque continua com o texto original
-("Ex: Higiene, Alimentos, Farmácia...") para não alterar a interface; a validação do JS orienta
-quais são as categorias válidas da API.
+### 9.2 Categoria do estoque: campo de texto → lista de seleção (opção A)
 
-**Captura / pré-visualização:** ver `docs/preview/modal-cliente.html` e `docs/preview/modal-pet.html`
+Confirmado no código da API: `categoria` é o enum `CategoriaProdutoEnum` (6 valores) e o
+`ProdutoRequest` a exige como `@NotNull`. O PHP original a tratava como texto livre
+(`categoria varchar(50) NOT NULL`), com um `<input>` cujo placeholder sugeria "Alimentos" e
+"Farmácia" — valores que **não existem** no contrato. Por isso o campo virou `<select>`:
+
+```html
+<select id="prod-categoria" name="categoria" required>
+    <option value="">Selecione...</option>
+    <option th:each="cat : ${categorias}" th:value="${cat.name()}"
+            th:text="${categoriasLabel[cat.name()]}"></option>
+</select>
+```
+
+| Item | Detalhe |
+| --- | --- |
+| Arquivos | `templates/paginas/estoque.html`, `PaginaPainelController.estoque()` (`model.addAttribute("categorias", CategoriaProdutoEnum.values())`), `static/js/estoque.js` |
+| Estilo | inline, idêntico ao `<select>` do tutor/serviço (`border: 1px solid #E5E7EB; border-radius: 8px; padding: 10px`) — **nenhuma regra de CSS criada ou alterada** |
+| Rótulos | `Ração`, `Medicamento`, `Higiene`, `Brinquedo`, `Acessório`, `Outro` (acentuados, como no banco original) |
+| Edição | o botão Editar já traz `th:data-categoria="${p.categoria.name()}"`, que casa com o `value` da opção |
+| Divergência | **deliberada** em relação à captura PHP (input → select); justificada pelo enum da API e registrada aqui |
+| Ganho | elimina digitação inválida e o mapa de conversão de grafia que existia no JS |
+
+**Captura / pré-visualização:** ver `docs/preview/modal-cliente.html`, `docs/preview/modal-pet.html`
+e `docs/preview/modal-estoque.html`
 — páginas estáticas com o **markup real dos modais** e o **CSS real do projeto** (dados de exemplo),
 usadas para conferir o resultado sem precisar subir o servidor. Não é a aplicação em execução.
 
