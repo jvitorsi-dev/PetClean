@@ -138,7 +138,7 @@ bash validar-estatico.sh
 a API, sintaxe dos JS (se houver Node), HTML balanceado, variáveis de template com origem no
 controller, referências locais quebradas e presença dos 15 arquivos de página.
 
-Hoje ele reporta **1 aviso** — exatamente o botão de invalidar sessões citado no item 17 do V3.
+Ele reporta **0 falhas e 0 avisos** desde a correção do botão de invalidar sessões (item 17 do V3).
 
 ---
 
@@ -147,8 +147,8 @@ Hoje ele reporta **1 aviso** — exatamente o botão de invalidar sessões citad
 | Validação | Data | Resultado | Evidência |
 | --- | --- | --- | --- |
 | V1 testes | 07/11/2026 | ✅ BUILD SUCCESS — 28 testes, 0 falhas | `mvnw.cmd clean test` (2 falhas na 1ª execução, corrigidas) |
-| V2 smoke | | ⏳ pendente | saída do `testes-api.sh` |
-| V3 funcional | | ⏳ pendente | tabela acima anotada |
+| V2 smoke | | ⏳ pendente (script pronto: 46 verificações) | saída do `testes-api.sh` |
+| V3 funcional | 07/11/2026 | ✅ 4 casos críticos validados na tela pelo usuário (A sessões, B data passada, C CPF repetido, D estoque crítico); os demais são cobertos pelo V2 | `docs/COMO-TESTAR.md` §3 |
 | V4 visual | | ⏳ pendente | `docs/referencia/*.png` (não versionado) |
 | V5 estático | 07/11/2026 | ✅ 0 falhas, **0 avisos** (o aviso do botão de sessões foi corrigido) | `bash validar-estatico.sh` |
 
