@@ -28,6 +28,11 @@ Maven **não** é necessário: o projeto traz o wrapper. No Windows use `mvnw.cm
 
 **Esperado:** `BUILD SUCCESS` e `Tests run: 28, Failures: 0, Errors: 0, Skipped: 0`.
 
+> Primeira execução (07/11/2026): 28 testes, **2 falhas** — `navegacaoSemSessaoRedireciona`
+> (redirect do interceptor, já corrigido) e `conflitoDeHorario` (data fixa `2026-11-05` que virou
+> passado; agora os testes usam `LocalDate.now().plusDays(7)`). Detalhes na seção 5 do
+> `docs/MIGRACAO-PHP-JAVA.md`.
+
 | Suíte | Testes | Cobre |
 | --- | --- | --- |
 | `ApiPetCleanIntegrationTest` | 22 | US-01 a US-25 (contrato, códigos de status, sessão) |

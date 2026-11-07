@@ -132,7 +132,7 @@ docs/MIGRACAO-PHP-JAVA.md                               (este arquivo)
 | `pom.xml` | + `spring-boot-starter-thymeleaf` |
 | `application.properties` | locale `pt_BR` fixo (R$ 1.234,56) e cache de template desligado |
 | `security/ConfiguracaoWeb.java` | `/css/**`, `/js/**`, `/assets/**` e as 7 páginas públicas liberadas |
-| `security/InterceptorSeguranca.java` | redireciona para `/paginas/login.html` |
+| `security/InterceptorSeguranca.java` | mantém o 302 para `/login` (contrato da US-02), que encaminha o navegador para `paginas/login.html` |
 | `control/PaginaController.java` | `GET /login` agora redireciona para a página original de login |
 | `static/js/*.js` | URLs `../php/*.php` → API REST (JSON); mantidos `alert`, `confirm` e `reload()` |
 | `templates/paginas/configuracoes.html` | corrigido `</spa n>` (erro de digitação do PHP original que quebrava o layout) |
@@ -155,9 +155,17 @@ original (`.fundo-rosa-topo`, `.seta`, `.container10` …) continuam sem regra �
 
 ## 5. D. Validação funcional
 
-> **Status: NÃO EXECUTADA neste ambiente.** O sandbox não possui JDK nem Maven instalados e o
-> acesso à internet está restrito (Maven Central não é alcançável), portanto `./mvnw test` e
-> `./mvnw spring-boot:run` **não puderam ser executados**. Nada abaixo é declarado como aprovado.
+> **Status: executada pelo usuário em 07/11/2026** (`mvnw.cmd clean test`, Windows, Java 17.0.12):
+> **28 testes, 2 falhas** — nenhum erro de compilação. As duas falhas foram investigadas e
+> corrigidas (abaixo); a re-execução ainda não foi feita. O ambiente de desenvolvimento da migração
+> não possui JDK/Maven, por isso as correções foram validadas apenas por inspeção.
+
+**Falhas encontradas e corrigidas**
+
+| Teste | Causa | Correção |
+| --- | --- | --- |
+| `navegacaoSemSessaoRedireciona` | eu havia trocado o 302 do interceptor de `/login` para `/paginas/login.html` | interceptor voltou a redirecionar para `/login` (o contrato da US-02); quem encaminha para a página é o próprio `GET /login` |
+| `conflitoDeHorario` | **pré-existente e alheia à migração**: o teste usava a data fixa `2026-11-05`, que passou a ser data passada (a API recusa com 422) | as 4 datas literais dos testes de agendamento passaram a ser calculadas por `LocalDate.now().plusDays(7)` (`DATA_FUTURA`) |
 
 ### 5.1 O que foi verificado estaticamente (executado de fato)
 - 0 blocos PHP remanescentes nos 8 templates (`grep -rn "<?php\|<?=\|endforeach\|endif"` → vazio).
@@ -209,6 +217,7 @@ Diferenças previstas e já justificadas (não são regressões de layout):
 | D1 | ~~Formulários sem `cpf`+`endereco`, `especie`+`porte` e `categoria` livre~~ | **resolvido na seção 9** | não |
 | D2 | Perfil, foto, senha, recuperação e demonstração sem endpoint | botões avisam que o recurso não existe na API | **sim** — criar endpoints ou aceitar como fora de escopo |
 | D3 | Ausência de multi-tenant (`usuario_id`) | todos os usuários veem a mesma base | **sim** — fora de escopo declarado |
+| — | Acentuação do `import.sql` no Windows: o log do Hibernate no run do usuário mostrou `'SiamÃªs'`, `'RaÃ§Ã£o'` | pode ser só o console ou mojibake real (Java 17 no Windows lê o script com o charset da plataforma) — **verificar na tela de estoque**; se estiver corrompido, renomear `import.sql` → `data.sql` (o `spring.sql.init.encoding=UTF-8` já está configurado) | **sim** |
 | — | `HIDRATACAO` existe no enum e não no PHP | serviço novo aparece na API mas não no select (mantido como o original) | não |
 | — | Validação funcional (D) e visual (E) | bloqueadas pelo ambiente (sem JDK/Maven) | executar localmente |
 

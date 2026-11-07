@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,12 @@ import org.springframework.test.web.servlet.MvcResult;
 @SpringBootTest
 @AutoConfigureMockMvc
 class ApiPetCleanIntegrationTest {
+
+	/**
+	 * Datas dos testes de agendamento sao calculadas a partir de hoje: a API recusa
+	 * data passada (422), portanto literais fixos quebravam o teste com o tempo.
+	 */
+	private static final String DATA_FUTURA = LocalDate.now().plusDays(7).toString();
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -159,11 +167,11 @@ class ApiPetCleanIntegrationTest {
 	@DisplayName("US-17 (1): horario ja ocupado impede novo agendamento")
 	void conflitoDeHorario() throws Exception {
 		mockMvc.perform(post("/api/agendamentos").session(sessao).contentType(MediaType.APPLICATION_JSON)
-				.content("{\"idCliente\":1,\"idPet\":1,\"servico\":\"BANHO\",\"data\":\"2026-11-05\",\"hora\":\"09:00\"}"))
+				.content("{\"idCliente\":1,\"idPet\":1,\"servico\":\"BANHO\",\"data\":\"" + DATA_FUTURA + "\",\"hora\":\"09:00\"}"))
 				.andExpect(status().isCreated());
 
 		mockMvc.perform(post("/api/agendamentos").session(sessao).contentType(MediaType.APPLICATION_JSON)
-				.content("{\"idCliente\":1,\"idPet\":2,\"servico\":\"TOSA\",\"data\":\"2026-11-05\",\"hora\":\"09:00\"}"))
+				.content("{\"idCliente\":1,\"idPet\":2,\"servico\":\"TOSA\",\"data\":\"" + DATA_FUTURA + "\",\"hora\":\"09:00\"}"))
 				.andExpect(status().isConflict())
 				.andExpect(jsonPath("$.mensagem").value(org.hamcrest.Matchers.containsString("Ja existe um agendamento")));
 	}
@@ -172,7 +180,7 @@ class ApiPetCleanIntegrationTest {
 	@DisplayName("US-11 (1): pet de outro tutor e recusado")
 	void petDeOutroTutor() throws Exception {
 		mockMvc.perform(post("/api/agendamentos").session(sessao).contentType(MediaType.APPLICATION_JSON)
-				.content("{\"idCliente\":1,\"idPet\":3,\"servico\":\"BANHO\",\"data\":\"2026-11-06\",\"hora\":\"08:00\"}"))
+				.content("{\"idCliente\":1,\"idPet\":3,\"servico\":\"BANHO\",\"data\":\"" + DATA_FUTURA + "\",\"hora\":\"08:00\"}"))
 				.andExpect(status().isUnprocessableEntity());
 	}
 
@@ -181,7 +189,7 @@ class ApiPetCleanIntegrationTest {
 	void atualizaStatusRegistrandoDataHora() throws Exception {
 		MvcResult criado = mockMvc
 				.perform(post("/api/agendamentos").session(sessao).contentType(MediaType.APPLICATION_JSON)
-						.content("{\"idCliente\":2,\"idPet\":3,\"servico\":\"BANHO\",\"data\":\"2026-11-07\",\"hora\":\"10:00\"}"))
+						.content("{\"idCliente\":2,\"idPet\":3,\"servico\":\"BANHO\",\"data\":\"" + DATA_FUTURA + "\",\"hora\":\"10:00\"}"))
 				.andExpect(status().isCreated()).andReturn();
 		String corpo = criado.getResponse().getContentAsString();
 		String id = corpo.replaceAll(".*\"id\":(\\d+).*", "$1");

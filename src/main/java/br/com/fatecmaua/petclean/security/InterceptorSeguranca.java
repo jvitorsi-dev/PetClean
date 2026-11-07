@@ -14,7 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * <ul>
  * <li>Requisicoes de API (prefixo /api) recebem 401 com JSON explicativo;</li>
  * <li>requisicoes de navegacao recebem 302 para /login, guardando a rota pendente
- * para o retorno pos-login (US-02, criterio 2).</li>
+ * para o retorno pos-login (US-02, criterio 2). O proprio /login encaminha o
+ * navegador para a tela do projeto (paginas/login.html).</li>
  * </ul>
  */
 @Component
@@ -43,7 +44,7 @@ public class InterceptorSeguranca implements HandlerInterceptor {
 		// guardando a rota de origem para voltar depois do login (criterio 2).
 		if (ehNavegacaoDeNavegador(request)) {
 			sessaoService.registrarRotaPendente(request, rota);
-			response.sendRedirect(request.getContextPath() + "/paginas/login.html");
+			response.sendRedirect(request.getContextPath() + "/login");
 			return false;
 		}
 
