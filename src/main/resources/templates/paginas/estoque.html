@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Estoque</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item"><img src="../assets/icones/dash.png"
+                        class="menu-icon-png"><span>Dashboard</span></a>
+                <a href="clientes.html" class="menu-item"><img src="../assets/icones/clientes.png"
+                        class="menu-icon-png"><span>Clientes</span></a>
+                <a href="pets.html" class="menu-item"><img src="../assets/icones/pets.png"
+                        class="menu-icon-png"><span>Pets</span></a>
+                <a href="agendamentos.html" class="menu-item"><img src="../assets/icones/agendamentos.png"
+                        class="menu-icon-png"><span>Agendamentos</span></a>
+                <a href="estoque.html" class="menu-item active"><img src="../assets/icones/estoque.png"
+                        class="menu-icon-png"><span>Estoque</span></a>
+                <a href="relatorios.html" class="menu-item"><img src="../assets/icones/relatorios.png"
+                        class="menu-icon-png"><span>Relatórios</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout"><img src="../assets/icones/sair.png"
+                        class="menu-icon-png"><span>Sair</span></a>
+            </div>
+        </aside>
+
+        <div class="main-container-right">
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Estoque</h1>
+                    <p>Controle o estoque de insumos e produtos para venda</p>
+                </div>
+
+                <div class="header-actions">
+                    <form action="estoque.html" method="GET" class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="busca" placeholder="Buscar por produto......"
+                            th:value="${busca}">
+                    </form>
+
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span class="user-name">[[${nomeUsuario}]]</span>
+                                <span class="user-role">[[${cargoUsuario}]]</span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main style="padding: 32px;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                    <button type="button" class="btn-submit-profile" id="btn-novo-produto"
+                        style="padding: 10px 20px; font-size: 14px; border-radius: 12px;">
+                        <i class="fa-solid fa-plus"></i> Novo Produto
+                    </button>
+                </div>
+
+                <div class="card main-table-container">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #E5E7EB;">
+                                <th style="padding: 12px;">Produto</th>
+                                <th style="padding: 12px;">Categoria</th>
+                                <th style="padding: 12px; text-align: center;">Qtd Atual</th>
+                                <th style="padding: 12px; text-align: center;">Mínimo</th>
+                                <th style="padding: 12px;">Preço Unidade</th>
+                                <th style="padding: 12px; text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr th:if="${#lists.isEmpty(produtos)}">
+                                    <td colspan="6"
+                                        style="padding: 24px; text-align: center; color: #99A1AF; font-style: italic;">
+                                        Nenhum produto encontrado correspondente à busca.</td>
+                                </tr>
+                            
+                                
+                                    <tr style="border-bottom: 1px solid #E5E7EB;" th:each="p : ${produtos}">
+                                        <td style="padding: 12px; font-weight: 500;">
+                                            [[${p.nome}]]</td>
+                                        <td style="padding: 12px;"><span
+                                                style="color: #6A7282; font-size: 14px;">[[${categoriasLabel[p.categoria.name()]}]]</span>
+                                        </td>
+                                        <td
+                                            th:style="'padding: 12px; text-align: center; font-weight: 600; ' + (${p.estoqueCritico} ? 'color: #EF4444;' : '')">
+                                            [[${p.quantidade}]]
+                                            <i th:if="${p.estoqueCritico}" class="fa-solid fa-triangle-exclamation"
+                                                    style="margin-left: 4px; font-size: 12px;"
+                                                    title="Estoque Baixo!"></i>
+                                        </td>
+                                        <td style="padding: 12px; text-align: center; color: #99A1AF;">
+                                            [[${p.estoqueMinimo}]]</td>
+                                        <td style="padding: 12px; font-weight: 500; color: #2C3E50;">R$
+                                            [[${#numbers.formatDecimal(p.preco,1,2)}]]</td>
+                                        <td style="padding: 12px; text-align: center;">
+                                            <button class="btn-change-password btn-editar" th:data-id="${p.id}"
+                                                th:data-nome="${p.nome}"
+                                                th:data-categoria="${p.categoria.name()}"
+                                                th:data-quantidade="${p.quantidade}"
+                                                th:data-minimo="${p.estoqueMinimo}"
+                                                th:data-preco="${p.preco}"
+                                                style="padding: 4px 10px; font-size: 12px; border-color: #3b82f6; color: #3b82f6; margin-right: 6px;">
+                                                Editar
+                                            </button>
+                                            <button class="btn-change-password btn-excluir" th:data-id="${p.id}"
+                                                style="padding: 4px 10px; font-size: 12px; border-color: #ef4444; color: #ef4444;">
+                                                Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-produto">
+        <div class="modal-box">
+            <button class="modal-close" id="btn-fechar-modal">✕</button>
+            <h2 id="modal-titulo">Novo Produto</h2>
+            <form id="form-produto">
+                <input type="hidden" id="produto-id" name="id">
+                <div class="form-modal-group">
+                    <label for="prod-nome">Nome do Produto *</label>
+                    <input type="text" id="prod-nome" name="nome" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="prod-categoria">Categoria *</label>
+                    <input type="text" id="prod-categoria" name="categoria"
+                        placeholder="Ex: Higiene, Alimentos, Farmácia..." required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="prod-quantidade">Quantidade Atual *</label>
+                    <input type="number" id="prod-quantidade" name="quantidade" min="0" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="prod-minimo">Estoque Mínimo de Alerta *</label>
+                    <input type="number" id="prod-minimo" name="estoque_minimo" min="0" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="prod-preco">Preço de Venda (R$) *</label>
+                    <input type="number" id="prod-preco" name="preco_venda" step="0.01" min="0.00" placeholder="0.00"
+                        required />
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar-modal">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/estoque.js"></script>
+</body>
+
+</html>

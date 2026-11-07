@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Clientes</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item"><img src="../assets/icones/dash.png"
+                        class="menu-icon-png"><span>Dashboard</span></a>
+                <a href="clientes.html" class="menu-item active"><img src="../assets/icones/clientes.png"
+                        class="menu-icon-png"><span>Clientes</span></a>
+                <a href="pets.html" class="menu-item"><img src="../assets/icones/pets.png"
+                        class="menu-icon-png"><span>Pets</span></a>
+                <a href="agendamentos.html" class="menu-item"><img src="../assets/icones/agendamentos.png"
+                        class="menu-icon-png"><span>Agendamentos</span></a>
+                <a href="estoque.html" class="menu-item"><img src="../assets/icones/estoque.png"
+                        class="menu-icon-png"><span>Estoque</span></a>
+                <a href="relatorios.html" class="menu-item"><img src="../assets/icones/relatorios.png"
+                        class="menu-icon-png"><span>Relatórios</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout"><img src="../assets/icones/sair.png"
+                        class="menu-icon-png"><span>Sair</span></a>
+            </div>
+        </aside>
+
+        <div class="main-container-right">
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Clientes</h1>
+                    <p>Gerencie os tutores cadastrados no sistema</p>
+                </div>
+
+                <div class="header-actions">
+                    <form action="clientes.html" method="GET" class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="busca" placeholder="Buscar cliente..."
+                            th:value="${busca}">
+                    </form>
+
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span class="user-name">[[${nomeUsuario}]]</span>
+                                <span class="user-role">[[${cargoUsuario}]]</span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main style="padding: 32px;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                    <button type="button" class="btn-submit-profile" id="btn-novo-cliente"
+                        style="padding: 10px 20px; font-size: 14px; border-radius: 12px;">
+                        <i class="fa-solid fa-plus"></i> Novo Cliente
+                    </button>
+                </div>
+
+                <div class="card main-table-container">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #E5E7EB;">
+                                <th style="padding: 12px;">Nome</th>
+                                <th style="padding: 12px;">Telefone</th>
+                                <th style="padding: 12px;">E-mail</th>
+                                <th style="padding: 12px; text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                <tr th:if="${#lists.isEmpty(clientes)}">
+                                    <td colspan="4"
+                                        style="padding: 24px; text-align: center; color: #99A1AF; font-style: italic;">
+                                        Nenhum tutor encontrado correspondente à busca.</td>
+                                </tr>
+                            
+                                
+                                    <tr style="border-bottom: 1px solid #E5E7EB;" th:each="c : ${clientes}">
+                                        <td style="padding: 12px; font-weight: 500;">
+                                            [[${c.nome}]]</td>
+                                        <td style="padding: 12px;">[[${c.telefone}]]</td>
+                                        <td style="padding: 12px;">[[${c.email}]]</td>
+                                        <td style="padding: 12px; text-align: center;">
+                                            <button class="btn-change-password btn-editar" th:data-id="${c.id}"
+                                                th:data-nome="${c.nome}"
+                                                th:data-telefone="${c.telefone}"
+                                                th:data-email="${c.email}"
+                                                style="padding: 4px 10px; font-size: 12px; border-color: #3b82f6; color: #3b82f6; margin-right: 6px;">
+                                                Editar
+                                            </button>
+                                            <button class="btn-change-password btn-excluir" th:data-id="${c.id}"
+                                                style="padding: 4px 10px; font-size: 12px; border-color: #ef4444; color: #ef4444;">
+                                                Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-cliente">
+        <div class="modal-box">
+            <button class="modal-close" id="btn-fechar-modal">✕</button>
+            <h2 id="modal-titulo">Novo Cliente</h2>
+            <form id="form-cliente">
+                <input type="hidden" id="cliente-id" name="id">
+                <div class="form-modal-group">
+                    <label for="cliente-nome">Nome Completo *</label>
+                    <input type="text" id="cliente-nome" name="nome" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="cliente-telefone">Telefone *</label>
+                    <input type="text" id="cliente-telefone" name="telefone" placeholder="(11) 98765-4321" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="cliente-email">E-mail *</label>
+                    <input type="email" id="cliente-email" name="email" required />
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar-modal">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/clientes.js"></script>
+</body>
+
+</html>

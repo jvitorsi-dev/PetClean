@@ -43,7 +43,7 @@ public class InterceptorSeguranca implements HandlerInterceptor {
 		// guardando a rota de origem para voltar depois do login (criterio 2).
 		if (ehNavegacaoDeNavegador(request)) {
 			sessaoService.registrarRotaPendente(request, rota);
-			response.sendRedirect(request.getContextPath() + "/login");
+			response.sendRedirect(request.getContextPath() + "/paginas/login.html");
 			return false;
 		}
 

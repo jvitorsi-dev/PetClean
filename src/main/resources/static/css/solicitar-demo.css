@@ -1,0 +1,217 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #ffffff;
+  color: #000;
+}
+
+/* MENU PADRÃO */
+.topo {
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.logo img {
+  width: 180px;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  margin-left: 40px;
+}
+
+.menu a {
+  background: rgba(255, 255, 255, 0.38);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.menu a:hover,
+.menu a.ativo {
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+/* ÁREA PRINCIPAL */
+.solicitar-demo {
+  padding-top: 160px;
+  width: 100%;
+}
+
+.header-bg {
+  width: 100%;
+  height: 260px; /* ajuste se necessário */
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1; /* fica atrás do menu e do título */
+}
+
+/* TÍTULO */
+.titulo-area {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.titulo-area h1 {
+  font-size: 42px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.titulo-area p {
+  font-size: 20px;
+  color: #475467;
+  margin-top: 8px;
+}
+
+/* FORMULÁRIO */
+.form-container {
+  width: 780px;
+  margin: 0 auto 80px auto;
+  background: transparent;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0px 2px 12px rgba(0,0,0,0.06);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* CAMPOS */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #344054;
+}
+
+/* INPUTS */
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #d0d5dd;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  font-weight: 400;
+  color: #000;
+  background: #ffffff;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+  color: rgba(10,10,10,0.5);
+}
+
+/* FOCUS */
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  border-color: #ff7f7f;
+  box-shadow: 0 0 0 3px rgba(255,170,170,0.35);
+}
+
+/* TEXTAREA */
+.campo textarea {
+  height: 160px;
+  resize: none;
+}
+
+/* BOTÃO ROSA */
+.botao-enviar {
+  background: #ffaaaa;
+  border-radius: 12px;
+  height: 56px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  color: #4f5052;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: 0.2s ease;
+}
+
+.botao-enviar:hover {
+  background: #ff9a9a;
+}
+
+.botao-enviar img {
+  width: 20px;
+  height: 20px;
+}
+
+/* FUNDO ESCURO */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: none; /* começa invisível */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* CAIXA DE SUCESSO */
+.sucesso-box {
+  background: #ffffff;
+  padding: 28px 32px;
+  border-radius: 16px;
+  width: 420px;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 18px;
+  color: #333;
+  line-height: 26px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.25);
+}
+
+
+
+
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .form-container {
+    width: 90%;
+  }
+}
