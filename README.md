@@ -71,7 +71,7 @@ pendências) está em [`docs/MIGRACAO-PHP-JAVA.md`](docs/MIGRACAO-PHP-JAVA.md).
 ### Testes
 
 ```bash
-./mvnw test              # 28 testes JUnit (criterios de aceitacao)
+./mvnw test              # 34 testes JUnit (criterios de aceitacao)
 bash testes-api.sh       # 45 verificacoes de ponta a ponta na API rodando
 bash validar-estatico.sh # checagens da migracao (HTML, JS, links, variaveis)
 ```
@@ -156,6 +156,15 @@ curl -b cookie.txt http://localhost:8080/api/clientes?termo=Maria
 | **US-02** Proteger rotas | 401 para API / 302 para navegador, com retorno à rota pedida | `InterceptorSeguranca` |
 | **US-14** Logout | invalida a sessão | `POST /logout` |
 
+### Perfil do usuário (tela de Perfil)
+| Funcionalidade | Regra implementada | Endpoint |
+|---|---|---|
+| Dados do perfil | nome, e-mail (único), telefone, pet shop e endereço | `GET` · `PUT /api/usuarios/{id}` |
+| Alterar senha | exige a senha atual; nova senha em **bcrypt**; grava a data da troca | `PUT /api/usuarios/{id}/senha` |
+| Foto de perfil | imagem até 2 MB, gravada no banco e exibida no avatar de todas as páginas | `POST` · `GET /api/usuarios/{id}/foto` |
+
+Cada usuário só altera o próprio perfil (`403` caso contrário).
+
 ---
 
 ## 4. Estrutura do projeto
@@ -199,7 +208,7 @@ petclean/
     │   ├── application.properties
     │   ├── data.sql                  # dados de demonstração (UTF-8)
     │   └── static/index.html         # portal com atalhos e roteiro de teste
-    └── test/java/...                 # 28 testes JUnit
+    └── test/java/...                 # 34 testes JUnit
 ```
 
 ---

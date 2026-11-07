@@ -24,12 +24,14 @@ import br.com.fatecmaua.petclean.model.Pet;
 import br.com.fatecmaua.petclean.model.PorteEnum;
 import br.com.fatecmaua.petclean.model.Produto;
 import br.com.fatecmaua.petclean.model.ServicoEnum;
+import br.com.fatecmaua.petclean.model.Usuario;
 import br.com.fatecmaua.petclean.security.SessaoService;
 import br.com.fatecmaua.petclean.security.UsuarioSessao;
 import br.com.fatecmaua.petclean.service.AgendamentoService;
 import br.com.fatecmaua.petclean.service.ClienteService;
 import br.com.fatecmaua.petclean.service.PetService;
 import br.com.fatecmaua.petclean.service.ProdutoService;
+import br.com.fatecmaua.petclean.service.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -67,6 +69,8 @@ public class PaginaPainelController {
 	private ProdutoService produtoService;
 	@Autowired
 	private ObjectMapper objectMapper;
+	@Autowired
+	private UsuarioService usuarioService;
 
 	// =====================================================================
 	// Cabecalho comum (nome, e-mail, cargo e avatar do usuario logado)
@@ -82,9 +86,13 @@ public class PaginaPainelController {
 		model.addAttribute("servicosLabel", SERVICOS_LABEL);
 		model.addAttribute("categoriasLabel", CATEGORIAS_LABEL);
 		model.addAttribute("portesLabel", PORTES_LABEL);
-		// a entidade Usuario nao possui coluna de foto: o avatar cai na inicial,
-		// exatamente como o PHP fazia quando a foto vinha vazia.
-		model.addAttribute("fotoPerfil", null);
+		// avatar: quando o usuario tem foto, todas as paginas passam a exibir a imagem
+		// (/api/usuarios/{id}/foto); sem foto, cai na inicial, como no PHP.
+		String fotoPerfil = null;
+		if (usuario != null && usuarioService.temFoto(usuario.id())) {
+			fotoPerfil = "/api/usuarios/" + usuario.id() + "/foto";
+		}
+		model.addAttribute("fotoPerfil", fotoPerfil);
 	}
 
 	private String cargo(UsuarioSessao usuario) {
@@ -291,13 +299,23 @@ public class PaginaPainelController {
 	public String perfil(HttpServletRequest request, Model model) {
 		cabecalho(model, request);
 
-		// campos que a entidade Usuario da API nao possui (telefone, nome do pet shop,
-		// endereco, foto e data da ultima troca de senha) ficam nulos: o template
-		// renderiza os mesmos campos vazios que o PHP renderizava sem dados.
-		model.addAttribute("nomePetshop", null);
-		model.addAttribute("telefone", null);
-		model.addAttribute("endereco", null);
-		model.addAttribute("dataAlteracaoSenha", LocalDate.now().format(DIA_MES_ANO));
+		// dados do perfil gravados no usuario (tela de Perfil: salvar e alterar senha)
+		UsuarioSessao sessao = sessaoService.usuarioAtual(request);
+		if (sessao != null) {
+			Usuario conta = usuarioService.buscar(sessao.id());
+			model.addAttribute("usuarioId", conta.getId());
+			model.addAttribute("telefone", conta.getTelefone());
+			model.addAttribute("nomePetshop", conta.getNomePetshop());
+			model.addAttribute("endereco", conta.getEndereco());
+			model.addAttribute("dataAlteracaoSenha",
+					conta.getDataAlteracaoSenha() == null ? "" : conta.getDataAlteracaoSenha().format(DIA_MES_ANO));
+		} else {
+			model.addAttribute("usuarioId", null);
+			model.addAttribute("telefone", null);
+			model.addAttribute("nomePetshop", null);
+			model.addAttribute("endereco", null);
+			model.addAttribute("dataAlteracaoSenha", "");
+		}
 		model.addAttribute("diasMembro", 0);
 		return "paginas/perfil";
 	}

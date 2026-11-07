@@ -132,7 +132,8 @@
 
             <main class="profile-body-wrapper">
                 <div class="profile-body">
-                    <form id="form-perfil" method="POST" enctype="multipart/form-data">
+                    <form id="form-perfil" method="POST" enctype="multipart/form-data"
+                        th:data-usuario-id="${usuarioId}">
 
                         <section class="card profile-header-card">
                             <div class="avatar-meta-group">
@@ -259,8 +260,7 @@
 
     <div class="modal-overlay" id="modal-senha">
         <div class="modal-box">
-            <button class="modal-close" id="btn-fechar-modal-senha" type="button"
-                onclick="document.getElementById('modal-senha').style.display='none';">✕</button>
+            <button class="modal-close" id="btn-fechar-modal-senha" type="button">✕</button>
             <h2>Alterar Senha</h2>
 
             <form id="form-alterar-senha" action="#" data-legado="perfil/alterar_senha.php" method="POST">
@@ -273,8 +273,7 @@
                     <input type="password" id="nova-senha" name="nova_senha" minlength="6" required />
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal-senha"
-                        onclick="document.getElementById('modal-senha').style.display='none';">Cancelar</button>
+                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal-senha">Cancelar</button>
                     <button type="submit" class="btn-salvar-modal">Atualizar Senha</button>
                 </div>
             </form>

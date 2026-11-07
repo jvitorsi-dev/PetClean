@@ -2,8 +2,10 @@ package br.com.fatecmaua.petclean.control;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -263,6 +266,72 @@ class ApiPetCleanIntegrationTest {
 		mockMvc.perform(get("/api/dashboard").param("periodo", "mensal").session(sessao)).andExpect(status().isOk())
 				.andExpect(jsonPath("$.agendamentos.periodo").value("MENSAL"))
 				.andExpect(jsonPath("$.agendamentos.rotulos.length()").value(6));
+	}
+
+	// -----------------------------------------------------------------
+	// Tela de Perfil (dados, senha e foto)
+	// -----------------------------------------------------------------
+
+	@Test
+	@DisplayName("Perfil: GET devolve os dados do usuario autenticado, sem o hash da senha")
+	void perfilDoUsuarioAutenticado() throws Exception {
+		mockMvc.perform(get("/api/usuarios/1").session(sessao).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.nome").value("Helen Vitoria Silva Aclina"))
+				.andExpect(jsonPath("$.email").value("helen@petclean.com"))
+				.andExpect(jsonPath("$.perfil").value("ATENDENTE"))
+				.andExpect(jsonPath("$.senhaHash").doesNotExist());
+	}
+
+	@Test
+	@DisplayName("Perfil: PUT grava telefone, nome do pet shop e endereco")
+	void atualizarPerfil() throws Exception {
+		mockMvc.perform(put("/api/usuarios/1").session(sessao).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"nome\":\"Helen Vitoria Silva Aclina\",\"email\":\"helen@petclean.com\","
+						+ "\"telefone\":\"(11) 91234-5678\",\"nomePetshop\":\"PetClean Central\","
+						+ "\"endereco\":\"Rua das Flores, 123 - Santo Andre/SP\"}"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.telefone").value("(11) 91234-5678"))
+				.andExpect(jsonPath("$.nomePetshop").value("PetClean Central"));
+	}
+
+	@Test
+	@DisplayName("Perfil: alterar o perfil de outro usuario devolve 403")
+	void naoAlteraPerfilDeOutroUsuario() throws Exception {
+		mockMvc.perform(put("/api/usuarios/2").session(sessao).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"nome\":\"Outro Nome\",\"email\":\"gabriel@petclean.com\"}"))
+				.andExpect(status().isForbidden());
+	}
+
+	@Test
+	@DisplayName("Perfil: alterar senha com a senha atual errada devolve 422")
+	void alterarSenhaComSenhaAtualErrada() throws Exception {
+		mockMvc.perform(put("/api/usuarios/1/senha").session(sessao).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"senhaAtual\":\"senha-errada\",\"novaSenha\":\"outraSenha123\"}"))
+				.andExpect(status().isUnprocessableEntity())
+				.andExpect(jsonPath("$.mensagem").value("Senha atual incorreta."));
+	}
+
+	@Test
+	@DisplayName("Perfil: trocar a senha e devolver para a original mantem o login funcionando")
+	void trocarSenhaEVoltar() throws Exception {
+		mockMvc.perform(put("/api/usuarios/1/senha").session(sessao).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"senhaAtual\":\"petclean123\",\"novaSenha\":\"temporaria123\"}"))
+				.andExpect(status().isNoContent());
+		mockMvc.perform(put("/api/usuarios/1/senha").session(sessao).contentType(MediaType.APPLICATION_JSON)
+				.content("{\"senhaAtual\":\"temporaria123\",\"novaSenha\":\"petclean123\"}"))
+				.andExpect(status().isNoContent());
+	}
+
+	@Test
+	@DisplayName("Perfil: upload de foto grava a imagem e o avatar do cabecalho passa a existir")
+	void enviarFoto() throws Exception {
+		MockMultipartFile arquivo = new MockMultipartFile("foto", "avatar.png", "image/png",
+				new byte[] { (byte) 0x89, 'P', 'N', 'G' });
+		mockMvc.perform(multipart("/api/usuarios/1/foto").file(arquivo).session(sessao))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.temFoto").value(true));
+		mockMvc.perform(get("/api/usuarios/1/foto").session(sessao)).andExpect(status().isOk());
 	}
 
 }

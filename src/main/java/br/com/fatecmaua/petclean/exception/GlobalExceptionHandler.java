@@ -12,6 +12,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import br.com.fatecmaua.petclean.dto.ErroResposta;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,6 +52,15 @@ public class GlobalExceptionHandler {
 				: "Parametro da requisicao invalido.";
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 				.body(new ErroResposta(400, "Requisicao invalida", mensagem, List.of(), req.getRequestURI()));
+	}
+
+	/** Foto de perfil maior que o limite do multipart. */
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public ResponseEntity<ErroResposta> tratarUploadGrande(MaxUploadSizeExceededException ex,
+			HttpServletRequest req) {
+		return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
+				.body(new ErroResposta(422, "Arquivo muito grande", "A imagem deve ter no maximo 2 MB.",
+						List.of(), req.getRequestURI()));
 	}
 
 	@ExceptionHandler(Exception.class)

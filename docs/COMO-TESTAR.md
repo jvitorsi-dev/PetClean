@@ -36,10 +36,10 @@ bash testes-api.sh
 
 > No Windows use o **Git Bash** (o mesmo que você já usa para `bash validar-estatico.sh`).
 
-O resultado são 46 linhas. Cada uma começa com `OK` ou `FAIL`, e no fim aparece:
+O resultado são 50 linhas. Cada uma começa com `OK` ou `FAIL`, e no fim aparece:
 
 ```
- RESUMO: 46 testes OK | 0 falhas
+ RESUMO: 50 testes OK | 0 falhas
 ```
 
 **O que ele verifica:** login, logout, acesso sem sessão (401), CRUD de clientes, CRUD de pets,
@@ -56,7 +56,7 @@ agendamentos (data passada, pet de outro tutor, horário duplicado, cancelamento
 
 ---
 
-## 3. As 4 verificações manuais
+## 3. As 5 verificações manuais
 
 ### Teste A — Botão "Invalidar Todas as Sessões"
 
@@ -117,6 +117,23 @@ deve voltar para o login.
 
 ---
 
+### Teste E — Perfil: salvar dados, foto e senha
+
+| # | O que fazer |
+|---|---|
+| 1 | Menu lateral → **Perfil** |
+| 2 | Preencha **Telefone** e **Nome do Pet Shop** → clique em **Salvar** |
+| 3 | **Esperado:** caixa *"Perfil atualizado com sucesso."* e a página recarrega com os campos preenchidos |
+| 4 | Clique na **câmera** do avatar e escolha uma imagem do computador |
+| 5 | **Esperado:** *"Foto de perfil atualizada com sucesso."* e o avatar passa a mostrar a foto (inclusive no canto superior) |
+| 6 | Clique em **Alterar Senha** → senha atual `petclean123`, nova `teste1234` → **Atualizar Senha** |
+| 7 | **Esperado:** *"Senha alterada com sucesso."*; ao sair e entrar de novo, a senha nova funciona |
+| 8 | Volte a senha para `petclean123` (senão os testes automáticos e a documentação ficam inválidos) |
+
+> Senha errada na etapa 6 devolve *"Senha atual incorreta."* — essa é a regra de negócio, não uma falha.
+
+---
+
 ## 4. O que NÃO dá para testar pela tela (e por quê)
 
 Não é falha — é a tela impedindo o erro antes de chegar na API. Esses casos são cobertos pelo
@@ -153,6 +170,7 @@ Com isso eu vou direto ao ponto, sem chutar.
 [ ] 7. Teste B — agendamento em data passada é recusado
 [ ] 8. Teste C — CPF repetido é recusado
 [ ] 9. Teste D — alerta de estoque crítico aparece e desaparece
-[ ] 10. bash testes-api.sh → 46 OK / 0 falhas
-[ ] 11. bash validar-estatico.sh → 0 falhas / 0 avisos
+[ ] 10. Teste E — perfil salva dados, foto e senha (e volta a senha original)
+[ ] 11. bash testes-api.sh → 50 OK / 0 falhas
+[ ] 12. bash validar-estatico.sh → 0 falhas / 0 avisos
 ```

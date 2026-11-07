@@ -147,7 +147,7 @@ Ele reporta **0 falhas e 0 avisos** desde a correção do botão de invalidar se
 | Validação | Data | Resultado | Evidência |
 | --- | --- | --- | --- |
 | V1 testes | 07/11/2026 | ✅ BUILD SUCCESS — 28 testes, 0 falhas | `mvnw.cmd clean test` (2 falhas na 1ª execução, corrigidas) |
-| V2 smoke | | ⏳ pendente (script pronto: 46 verificações) | saída do `testes-api.sh` |
+| V2 smoke | | ⏳ pendente (script pronto: 50 verificações) | saída do `testes-api.sh` |
 | V3 funcional | 07/11/2026 | ✅ 4 casos críticos validados na tela pelo usuário (A sessões, B data passada, C CPF repetido, D estoque crítico); os demais são cobertos pelo V2 | `docs/COMO-TESTAR.md` §3 |
 | V4 visual | | ⏳ pendente | `docs/referencia/*.png` (não versionado) |
 | V5 estático | 07/11/2026 | ✅ 0 falhas, **0 avisos** (o aviso do botão de sessões foi corrigido) | `bash validar-estatico.sh` |

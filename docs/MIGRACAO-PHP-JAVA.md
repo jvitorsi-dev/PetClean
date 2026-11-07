@@ -65,7 +65,7 @@ copiados para dentro de `src/main/resources/`.
 | 11 | `paginas/pets.php` | `/paginas/pets.html` | `templates/paginas/pets.html` | `PetService`, `ClienteService` | ✅ leitura / ⚠️ I3 gravação |
 | 12 | `paginas/estoque.php` | `/paginas/estoque.html` | `templates/paginas/estoque.html` | `ProdutoService` | ✅ leitura / ⚠️ I4 gravação |
 | 13 | `paginas/agendamentos.php` | `/paginas/agendamentos.html` | `templates/paginas/agendamentos.html` | `AgendamentoService`, `PetService` | ✅ |
-| 14 | `paginas/perfil.php` | `/paginas/perfil.html` | `templates/paginas/perfil.html` | sessão | 🟡 I5 |
+| 14 | `paginas/perfil.php` | `/paginas/perfil.html` | `templates/paginas/perfil.html` | sessão | ✅ (API própria do perfil) |
 | 15 | `paginas/configuracoes.php` | `/paginas/configuracoes.html` | `templates/paginas/configuracoes.html` | sessão | ✅ |
 
 ### 3.2 Chamadas AJAX → endpoints reais
@@ -86,8 +86,8 @@ copiados para dentro de `src/main/resources/`.
 | `agendamentos/excluir.php` | `DELETE /api/agendamentos/{id}` | ✅ |
 | `notificacoes/listar.php` | `GET /api/produtos/estoque-critico` + `GET /api/agendamentos/agenda?data=hoje` | alertas derivados de dados reais |
 | `notificacoes/marcar-lidas.php` | — | sem persistência: `sessionStorage` |
-| `perfil/atualizar-cadastro.php` | — | ⚠️ I5 (sem endpoint) |
-| `perfil/alterar_senha.php` | — | ⚠️ I5 (sem endpoint) |
+| `perfil/atualizar-cadastro.php` | `PUT /api/usuarios/{id}` | ✅ |
+| `perfil/alterar_senha.php` | `PUT /api/usuarios/{id}/senha` | ✅ |
 | `solicitar-demo/processar-solicitacao.php` | — | ⚠️ I6 (sem endpoint) |
 | `autenticacao/recuperar.php` | — | ⚠️ I6 (sem endpoint) |
 
@@ -99,7 +99,7 @@ copiados para dentro de `src/main/resources/`.
 | I2 | `ClienteRequest` exige `cpf` e `endereco`; o formulário original não os possui | **resolvido**: campos CPF e Endereço adicionados ao modal (`D1`, seção 9) |
 | I3 | `PetRequest` exige `especie` e `porte` (ausentes no formulário) | **resolvido**: selects de Espécie e Porte adicionados ao modal (`D1`) |
 | I4 | `categoria` é enum no Java e `varchar(50)` livre no PHP | **resolvido**: o campo virou lista de seleção com as 6 categorias (seção 9.2) |
-| I5 | Sem endpoints de perfil, foto, senha | formulários avisam "recurso ainda não disponível na API Java" |
+| ~~I5~~ | ~~Sem endpoints de perfil, foto, senha~~ | **resolvido**: `Usuario` ganhou `telefone`, `nomePetshop`, `endereco`, `foto` e `dataAlteracaoSenha`; a API expõe `GET|PUT /api/usuarios/{id}`, `PUT /api/usuarios/{id}/senha` e `POST|GET /api/usuarios/{id}/foto`, e a tela de Perfil voltou a salvar |
 | I6 | Sem recuperação de senha / SMTP / demonstração | idem I5 |
 | I7 | PHP fazia *cascade*; a API responde **409** | mensagem real da API exibida |
 | I8 | `cargo` PHP (`Administrador`/`Demonstração`) ≠ `PerfilEnum` (`Atendente`/`Gestor`) | exibe a descrição real do perfil |
@@ -158,7 +158,8 @@ original (`.fundo-rosa-topo`, `.seta`, `.container10` …) continuam sem regra �
 > **Status: APROVADA em 07/11/2026** (`mvnw.cmd clean test`, Windows, Java 17.0.12).
 > A primeira execução deu **28 testes / 2 falhas** (nenhum erro de compilação); as duas falhas foram
 > investigadas e corrigidas (abaixo) e a re-execução terminou em **BUILD SUCCESS, 28 testes,
-> 0 falhas, 0 erros**. A validação funcional (V3) e a visual (V4) seguem pendentes.
+> 0 falhas, 0 erros**. Depois disso entraram **6 testes da tela de Perfil** (dados, senha, foto,
+> 403 e 422), totalizando **34**. A validação visual (V4) segue pendente.
 
 **Falhas encontradas e corrigidas**
 

@@ -96,6 +96,14 @@ req GET "/api/dashboard?periodo=semanal" "" 200
 req GET "/api/dashboard?periodo=mensal" "" 200
 req GET /api/dashboard/estoque-critico "" 200
 
+
+echo
+echo "=== Tela de Perfil: dados, senha e foto ==="
+req GET /api/usuarios/1 "" 200
+req PUT /api/usuarios/1 '{"nome":"Helen Vitoria Silva Aclina","email":"helen@petclean.com","telefone":"(11) 91234-5678","nomePetshop":"PetClean Central","endereco":"Rua das Flores, 123 - Santo Andre/SP"}' 200
+req PUT /api/usuarios/1/senha '{"senhaAtual":"senha-errada","novaSenha":"outraSenha123"}' 422
+req PUT /api/usuarios/2 '{"nome":"Nao Pode","email":"gabriel@petclean.com"}' 403
+
 echo
 echo "=== US-14: logout ==="
 req POST /logout "" 204

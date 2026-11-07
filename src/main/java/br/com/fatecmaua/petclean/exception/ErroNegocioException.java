@@ -45,6 +45,11 @@ public class ErroNegocioException extends RuntimeException {
 		return new ErroNegocioException(mensagem, HttpStatus.CONFLICT);
 	}
 
+	/** Perfil: o usuario autenticado so pode alterar os proprios dados. */
+	public static ErroNegocioException proibido(String mensagem) {
+		return new ErroNegocioException(mensagem, HttpStatus.FORBIDDEN);
+	}
+
 	/** US-01 (2), US-02 (1): credenciais invalidas ou acesso nao autenticado. */
 	public static ErroNegocioException naoAutorizado(String mensagem) {
 		return new ErroNegocioException(mensagem, HttpStatus.UNAUTHORIZED);
