@@ -77,7 +77,7 @@ bash validar-estatico.sh # checagens da migracao (HTML, JS, links, variaveis)
 ```
 
 O passo a passo de **todas** as validacoes (testes, smoke, funcional, visual e estatico), com o
-resultado esperado de cada uma, esta em [`docs/VALIDACAO.md`](docs/VALIDACAO.md).
+resultado esperado de cada uma, esta em [`docs/VALIDACAO.md (referência técnica) e `docs/COMO-TESTAR.md` (passo a passo)`](docs/VALIDACAO.md (referência técnica) e `docs/COMO-TESTAR.md` (passo a passo)).
 
 ---
 
