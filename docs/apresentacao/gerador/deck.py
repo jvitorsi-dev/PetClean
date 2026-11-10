@@ -2,10 +2,10 @@
 """
 Conteudo da apresentacao "PetClean API".
 
-15 slides / 14 minutos, divididos igualmente:
-  Bloco 01 - Helen Aclina   (slides 1-6,  4:40) Modelos e Entidades
-  Bloco 02 - Gabriel Wagner (slides 7-10, 4:40) Banco de Dados e Repositories
-  Bloco 03 - Joao Vitor     (slides 11-15, 4:40) Swagger, CRUD e endpoints
+15 slides divididos igualmente entre os tres blocos:
+  Bloco 01 - Helen Aclina   (slides 1-6)   Modelos e Entidades
+  Bloco 02 - Gabriel Wagner (slides 7-10)  Banco de Dados e Repositories
+  Bloco 03 - Joao Vitor     (slides 11-15) Swagger, CRUD e endpoints
 """
 
 import os
@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from engine import (ASSETS, CREAM, GREEN_PALE, INK, LINE, MINT, MINT_SOFT,
                     MINT_TEXT, MUTED, MUTED_2, PEACH, PEACH_SOFT, PEACH_TEXT, PINK,
-                    PINK_SOFT, PINK_TEXT, SOFT, WHITE, Canvas, blend)
+                    PINK_SOFT, PINK_TEXT, SOFT, WHITE, Canvas, blend, estimate_width)
 
 M = 0.55                 # margem lateral
 CW = 13.333 - 2 * M      # largura util (12.233)
@@ -37,12 +37,12 @@ SLIDES = []
 
 
 # ============================================================ utilidades =====
-def add(canvas, title, presenter, time, notes=""):
-    SLIDES.append(dict(canvas=canvas, meta=dict(title=title, presenter=presenter,
-                                                time=time), notes=notes))
+def add(canvas, title, presenter, notes=""):
+    SLIDES.append(dict(canvas=canvas, meta=dict(title=title, presenter=presenter),
+                       notes=notes))
 
 
-def shell(cv, section, presenter, time, page, total=15):
+def shell(cv, section, presenter, page, total=15):
     """Barra superior + rodape iguais em todos os slides internos."""
     cv.rect(0, 0, 13.333, 0.78, WHITE, None, radius=0)
     cv.line(0, 0.775, 13.333, 0.012, LINE)
@@ -51,12 +51,12 @@ def shell(cv, section, presenter, time, page, total=15):
     cv.text(2.0, 0.30, 5.2, 0.24, section.upper(), size=8.6, bold=True,
             color=MUTED_2, spacing=1.0)
 
-    cv.text(8.6, 0.285, 2.05, 0.25, presenter, size=9, bold=True, color=INK,
-            align="r", spacing=1.0)
-    w = cv.chip(RIGHT - 0.62 - 0.95, 0.255, time, size=8.4, fill=PINK_SOFT,
-                color=PINK_TEXT, line=PINK_SOFT, h=0.27)
-    cv.chip(RIGHT - w - 0.95, 0.255, f"{page:02d}/{total}", size=8.4, fill=SOFT,
-            color=MUTED, h=0.27)
+    chip_label = f"{page:02d}/{total}"
+    chip_w = estimate_width(chip_label, 8.4, False, "p") / 72.0 + 0.26
+    cv.text(RIGHT - chip_w - 0.24 - 1.85, 0.285, 1.85, 0.25, presenter, size=9,
+            bold=True, color=INK, align="r", spacing=1.0)
+    cv.chip(RIGHT - chip_w, 0.255, chip_label, size=8.4, fill=SOFT, color=MUTED,
+            h=0.27)
 
     cv.line(0.55, 7.10, CW, 0.010, LINE)
     cv.text(0.55, 7.17, 8.2, 0.22,
@@ -188,12 +188,12 @@ def s01_capa():
             size=8.4, spacing=1.0)
 
     cv.rect(M, 5.9, CW, 0.92, WHITE, LINE, radius=0.2)
-    itens = [("15 minutos", "de apresentação"), ("3 blocos", "iguais de 5 min"),
-             ("6 requisitos", "do projeto atendidos")]
+    itens = [("6 requisitos", "do projeto atendidos"), ("6 entidades", "e 7 enums no domínio"),
+             ("48 endpoints", "REST documentados")]
     for i, (big, small) in enumerate(itens):
         x = M + 0.34 + i * 3.05
-        cv.text(x, 6.08, 2.2, 0.28, big, size=12.5, bold=True, color=INK, spacing=1.0)
-        cv.text(x, 6.38, 2.4, 0.24, small, size=8.8, color=MUTED, spacing=1.0)
+        cv.text(x, 6.08, 2.4, 0.28, big, size=12.5, bold=True, color=INK, spacing=1.0)
+        cv.text(x, 6.38, 2.6, 0.24, small, size=8.8, color=MUTED, spacing=1.0)
     cv.line(M + 2.7, 6.06, 0.010, 0.58, LINE)
     cv.line(M + 5.75, 6.06, 0.010, 0.58, LINE)
     cv.text(9.35, 6.16, 3.2, 0.4,
@@ -202,15 +202,15 @@ def s01_capa():
                        font="m")],
             align="r", spacing=1.1)
 
-    add(cv, "Capa", HELEN, "0:30", notes=(
+    add(cv, "Capa", HELEN, notes=(
         "Boa noite! Somos o grupo do PetClean — eu sou a Helen, e junto comigo estão o "
-        "Gabriel e o João Vitor. Nos próximos 15 minutos vamos apresentar a API do "
-        "PetClean, o back-end Java do nosso Projeto Interdisciplinar.\n"
+        "Gabriel e o João Vitor. Vamos apresentar a API do PetClean, o back-end Java "
+        "do nosso Projeto Interdisciplinar.\n"
         "A ideia é simples: o painel que vocês já conhecem só funciona porque existe uma "
         "API por trás. É ela que guarda os clientes, os pets, os agendamentos e o estoque. "
         "Hoje mostramos como essa API foi construída — os modelos, o banco H2, os "
         "repositories, a documentação no Swagger e os endpoints com as regras de negócio.\n"
-        "Dividimos em três blocos de cinco minutos: eu começo pelos modelos e entidades, "
+        "Dividimos a apresentação em três blocos: eu começo pelos modelos e entidades, "
         "o Gabriel segue com banco de dados e repositories e o João Vitor fecha com "
         "Swagger, CRUD e endpoints especializados."))
 
@@ -218,9 +218,9 @@ def s01_capa():
 # ============================================================== slide 02 =====
 def s02_roteiro():
     cv = Canvas()
-    shell(cv, "Roteiro", HELEN, "0:40", 2)
-    head(cv, "Roteiro · 15 minutos",
-         "Três blocos de 5 minutos, cada um com um responsável",
+    shell(cv, "Roteiro", HELEN, 2)
+    head(cv, "Roteiro",
+         "Três blocos, cada um com um responsável",
          "A ordem acompanha o caminho de uma requisição: do modelo de dados até o endpoint documentado.")
 
     cards = [
@@ -230,27 +230,27 @@ def s02_roteiro():
                     "As 6 entidades JPA e os 7 enums",
                     "Relacionamentos e integridade referencial",
                     "Anotações JPA e @Schema no código"],
-             tempo="4:40 · slides 1 a 6"),
+             tempo="slides 1 a 6"),
         dict(nome=GABRIEL, img="CachorroGab.png", tema="Banco de Dados e Repositories",
              tag="BLOCO 02", cor=PINK_SOFT, cor2=PINK_TEXT, faixa=PINK,
              itens=["H2 em memória, console e ddl-auto",
                     "data.sql: 71 registros de demonstração",
                     "Spring Data JPA: o CRUD vem pronto",
                     "HQL, SQL nativo e projections"],
-             tempo="4:40 · slides 7 a 10"),
+             tempo="slides 7 a 10"),
         dict(nome=JOAO, img="Hamster Lu.png", tema="Swagger, CRUD e regras",
              tag="BLOCO 03", cor=PEACH_SOFT, cor2=PEACH_TEXT, faixa=PEACH,
              itens=["springdoc: Swagger UI e OpenAPI JSON",
                     "CRUD completo com status HTTP corretos",
                     "Filtros e buscas parametrizadas",
                     "Conflito de horário e estoque crítico"],
-             tempo="4:40 · slides 11 a 15"),
+             tempo="slides 11 a 15"),
     ]
 
     w, gap = 3.85, 0.34
     for i, c in enumerate(cards):
         x = M + i * (w + gap)
-        cv.rect(x, 2.32, w, 3.92, WHITE, LINE, radius=0.2)
+        cv.rect(x, 2.32, w, 3.86, WHITE, LINE, radius=0.2)
         cv.rect(x, 2.32, w, 0.10, c["faixa"], None, radius=0.05)
         cv.chip(x + 0.26, 2.55, c["tag"], size=7.6, fill=c["cor"], color=c["cor2"],
                 line=c["cor"], h=0.26)
@@ -260,24 +260,15 @@ def s02_roteiro():
         cv.text(x + 1.1, 3.26, w - 1.25, 0.44, c["tema"], size=9.2, bold=True,
                 color=c["cor2"], spacing=1.2)
         cv.line(x + 0.26, 3.86, w - 0.52, 0.010, LINE)
-        bullets(cv, x + 0.26, 4.0, w - 0.5, c["itens"], size=8.9, gap=0.335,
+        bullets(cv, x + 0.26, 4.02, w - 0.5, c["itens"], size=9.1, gap=0.40,
                 dot=c["faixa"])
-        cv.text(x + 0.26, 5.86, w - 0.52, 0.24, c["tempo"], size=8.2, color=MUTED,
+        cv.line(x + 0.26, 5.74, w - 0.52, 0.010, LINE)
+        cv.text(x + 0.26, 5.84, w - 0.52, 0.24, c["tempo"], size=8.4, color=MUTED,
                 spacing=1.0)
 
-    segs = [(0, 5, MINT, "0:00 — 5:00  Helen"), (5, 10, PINK, "5:00 — 10:00  Gabriel"),
-            (10, 15, PEACH, "10:00 — 15:00  João Vitor")]
-    y = 6.42
-    for a, b, cor, label in segs:
-        x = M + CW * a / 15
-        ww = CW * (b - a) / 15 - 0.08
-        cv.rect(x, y, ww, 0.34, blend(cor, 0.45), None, radius=0.17)
-        cv.text(x, y, ww, 0.34, label, size=8.4, bold=True, color=INK, align="c",
-                valign="m", spacing=1.0)
-
-    add(cv, "Roteiro", HELEN, "0:40", notes=(
+    add(cv, "Roteiro", HELEN, notes=(
         "Antes de começar, só para vocês saberem onde estamos indo.\n"
-        "A apresentação tem três blocos de cinco minutos, um para cada integrante. Eu "
+        "A apresentação tem três blocos, um para cada integrante. Eu "
         "começo pelo modelo de dados: como o PetClean representa clientes, pets, "
         "agendamentos e estoque no código Java. O Gabriel continua com a camada de "
         "persistência — o banco H2 e os repositories. E o João Vitor fecha com a parte "
@@ -290,7 +281,7 @@ def s02_roteiro():
 # ============================================================== slide 03 =====
 def s03_arquitetura():
     cv = Canvas()
-    shell(cv, "Visão geral", HELEN, "0:50", 3)
+    shell(cv, "Visão geral", HELEN, 3)
     head(cv, "Arquitetura do projeto",
          "Cada classe tem um papel: do HTTP ao banco",
          "Organização em camadas no pacote br.com.fatecmaua.petclean, o mesmo padrão do projeto de referência da disciplina.")
@@ -353,7 +344,7 @@ def s03_arquitetura():
                   dict(t="  →   AgendamentoRepository   →   H2")],
             size=9.2, color=PLN, font="m", spacing=1.0)
 
-    add(cv, "Arquitetura", HELEN, "0:50", notes=(
+    add(cv, "Arquitetura", HELEN, notes=(
         "Antes de entrar nas entidades, vale entender onde elas vivem.\n"
         "O projeto está dividido em camadas, igual ao padrão que a gente viu na "
         "disciplina. A requisição entra pelo control, que só cuida de HTTP: recebe o JSON, "
@@ -369,7 +360,7 @@ def s03_arquitetura():
 # ============================================================== slide 04 =====
 def s04_entidades():
     cv = Canvas()
-    shell(cv, "Modelos e entidades", HELEN, "1:20", 4)
+    shell(cv, "Modelos e entidades", HELEN, 4)
     head(cv, "Modelos e Entidades",
          "Seis entidades, um domínio só",
          "Pacote model/ — cada classe é uma tabela (@Entity + @Table) e cada campo é uma coluna documentada com @Schema.")
@@ -423,7 +414,7 @@ def s04_entidades():
                        color=MUTED, size=7.8)],
             valign="m", spacing=1.0)
 
-    add(cv, "Entidades", HELEN, "1:20", notes=(
+    add(cv, "Entidades", HELEN, notes=(
         "Este é o coração do projeto: seis entidades que cobrem todo o domínio de um pet shop.\n"
         "Cliente é o tutor. Pet está sempre vinculado a um cliente — a chave estrangeira é "
         "obrigatória. Agendamento amarra cliente, pet, serviço, data e hora, e guarda o valor "
@@ -439,7 +430,7 @@ def s04_entidades():
 # ============================================================== slide 05 =====
 def s05_relacionamentos():
     cv = Canvas()
-    shell(cv, "Modelos e entidades", HELEN, "0:50", 5)
+    shell(cv, "Modelos e entidades", HELEN, 5)
     head(cv, "Relacionamentos",
          "As ligações e as regras que elas protegem",
          "Um relacionamento bem mapeado é o que permite bloquear exclusões indevidas e impedir dois banhos no mesmo horário.")
@@ -503,7 +494,7 @@ def s05_relacionamentos():
                   dict(t="vira valor de enum, não texto solto.", color=PLN, size=8.2)],
             valign="m", spacing=1.0)
 
-    add(cv, "Relacionamentos", HELEN, "0:50", notes=(
+    add(cv, "Relacionamentos", HELEN, notes=(
         "Aqui estão as três ligações principais. Cliente para pet é um para muitos: um tutor "
         "pode ter vários pets, mas cada pet tem um tutor. Agendamento aponta para o cliente e "
         "para o pet ao mesmo tempo, porque na tela a gente precisa mostrar os dois.\n"
@@ -518,7 +509,7 @@ def s05_relacionamentos():
 # ============================================================== slide 06 =====
 def s06_codigo():
     cv = Canvas()
-    shell(cv, "Modelos e entidades", HELEN, "0:30", 6)
+    shell(cv, "Modelos e entidades", HELEN, 6)
     head(cv, "No código", "A entidade Pet, linha por linha", None)
 
     rows = [
@@ -570,7 +561,7 @@ def s06_codigo():
         cv.text(x2 + 0.26, y + 0.44, 4.24, 0.62, texto, size=8.4, color=MUTED,
                 spacing=1.3)
 
-    add(cv, "Código da entidade", HELEN, "0:30", notes=(
+    add(cv, "Código da entidade", HELEN, notes=(
         "Para fechar meu bloco, um pedaço real do código, sem simplificação.\n"
         "Em quatro linhas a gente tem o essencial: a classe vira tabela, o cliente vira chave "
         "estrangeira obrigatória, a espécie é um enum gravado como texto e cada campo tem uma "
@@ -582,7 +573,7 @@ def s06_codigo():
 
 # ============================================================== divisor ======
 def divisor(numero, nome, img, tema, itens, cor_fundo, cor_principal, cor_suave,
-            tempo, proximo):
+            proximo):
     cv = Canvas(bg=cor_fundo)
     cv.circle(9.6, 1.1, 5.4, 5.4, fill=cor_suave, line=None)
     cv.circle(11.9, 5.6, 1.9, 1.9, fill=WHITE, line=None)
@@ -590,7 +581,7 @@ def divisor(numero, nome, img, tema, itens, cor_fundo, cor_principal, cor_suave,
     cv.rect(M, 0.62, 3.4, 0.10, blend(cor_principal, 0.35), None, radius=0.05)
     cv.rect(M, 0.62, 3.4 * numero / 3, 0.10, cor_principal, None, radius=0.05)
 
-    cv.text(M, 1.06, 6.0, 0.26, f"BLOCO {numero:02d} · {tempo}", size=9, bold=True,
+    cv.text(M, 1.06, 6.0, 0.26, f"BLOCO {numero:02d}", size=9, bold=True,
             color=blend(cor_principal, 0.6), spacing=1.0)
     cv.text(M, 1.36, 2.6, 1.5, f"{numero:02d}", size=104, bold=True,
             color=blend(cor_principal, 0.32), spacing=0.95)
@@ -611,7 +602,7 @@ def divisor(numero, nome, img, tema, itens, cor_fundo, cor_principal, cor_suave,
     cv.text(8.5, 5.42, 4.2, 0.3, nome, size=12.5, bold=True, color=INK, align="c",
             spacing=1.0)
     cv.text(M, 6.36, 8.2, 0.26, proximo, size=9, color=MUTED, spacing=1.0)
-    add(cv, f"Bloco {numero:02d}", nome, tempo, notes="")
+    add(cv, f"Bloco {numero:02d}", nome, notes="")
 
 
 def s07_divisor_gabriel():
@@ -620,7 +611,7 @@ def s07_divisor_gabriel():
              "Console do banco e carga inicial com data.sql",
              "Repositories: o CRUD pronto do Spring Data",
              "HQL, SQL nativo e projections"],
-            MINT_SOFT, MINT, blend(MINT, 0.45), "4:40",
+            MINT_SOFT, MINT, blend(MINT, 0.45),
             "Em seguida: Banco de Dados  →  Repositories  →  Consultas")
     SLIDES[-1]["notes"] = (
         "Obrigado, Helen. Meu bloco é o que fica embaixo da API: onde os dados realmente "
@@ -634,7 +625,7 @@ def s08_divisor_joao():
              "Testar a API pelo navegador, com sessão",
              "As quatro operações CRUD e seus status",
              "Filtros, conflitos e consultas de negócio"],
-            PINK_SOFT, PINK, blend(PINK, 0.4), "4:40",
+            PINK_SOFT, PINK, blend(PINK, 0.4),
             "Em seguida: Swagger/OpenAPI  →  CRUD  →  Endpoints especializados")
     SLIDES[-1]["notes"] = (
         "Boa, Gabriel. Eu fecho mostrando a parte que dá para ver funcionando: a "
@@ -645,7 +636,7 @@ def s08_divisor_joao():
 # ============================================================== slide 08 =====
 def s09_h2():
     cv = Canvas()
-    shell(cv, "Banco de dados", GABRIEL, "1:25", 8)
+    shell(cv, "Banco de dados", GABRIEL, 8)
     head(cv, "Banco de Dados", "H2 em memória: leve, rápido e descartável")
 
     rows = [
@@ -703,7 +694,7 @@ def s09_h2():
             runs=[dict(t="6 tabelas · 71 registros", color=MUTED_2, size=7.6)],
             align="r", spacing=1.0)
 
-    add(cv, "Banco H2", GABRIEL, "1:25", notes=(
+    add(cv, "Banco H2", GABRIEL, notes=(
         "O enunciado permitia usar o H2, e a gente escolheu justamente por ser em memória: "
         "o projeto sobe, cria as tabelas e carrega os dados de demonstração sozinho. Ninguém "
         "precisa instalar MySQL para rodar na sua máquina.\n"
@@ -721,7 +712,7 @@ def s09_h2():
 # ============================================================== slide 09 =====
 def s10_repositories():
     cv = Canvas()
-    shell(cv, "Repositories", GABRIEL, "1:30", 9)
+    shell(cv, "Repositories", GABRIEL, 9)
     head(cv, "Repositories",
          "Spring Data JPA: o CRUD vem de graça",
          "Basta estender JpaRepository<Entidade, Long> — findAll, findById, save e deleteById já existem, sem uma linha de implementação.")
@@ -783,7 +774,7 @@ def s10_repositories():
             "escritos em HQL ou SQL nativo dentro do repository.",
             size=7.8, color=PLN, spacing=1.3)
 
-    add(cv, "Repositories", GABRIEL, "1:30", notes=(
+    add(cv, "Repositories", GABRIEL, notes=(
         "O Spring Data JPA resolve a maior parte do trabalho pesado. As seis interfaces "
         "estendem JpaRepository e, só com isso, cada entidade já tem findAll, findById, "
         "save, deleteById e paginação. Não existe classe de implementação no projeto — o "
@@ -800,7 +791,7 @@ def s10_repositories():
 # ============================================================== slide 10 =====
 def s11_queries():
     cv = Canvas()
-    shell(cv, "Repositories", GABRIEL, "1:25", 10)
+    shell(cv, "Repositories", GABRIEL, 10)
     head(cv, "Consultas especializadas",
          "HQL, SQL nativo e projections",
          "A mesma busca tem duas versões: a que devolve a entidade completa e a que devolve apenas três colunas.")
@@ -869,7 +860,7 @@ def s11_queries():
                   dict(t="  — o estoque já vem ordenado pelo banco", color=PLN, size=7.6)],
             valign="m", spacing=1.1)
 
-    add(cv, "Consultas", GABRIEL, "1:25", notes=(
+    add(cv, "Consultas", GABRIEL, notes=(
         "Essa dupla de métodos mostra bem a evolução. A primeira consulta é HQL e devolve a "
         "entidade Pet inteira, com todos os relacionamentos. É o que a tela de edição "
         "precisa.\n"
@@ -887,7 +878,7 @@ def s11_queries():
 # ============================================================== slide 12 =====
 def s12_swagger():
     cv = Canvas()
-    shell(cv, "Swagger / OpenAPI", JOAO, "1:30", 12)
+    shell(cv, "Swagger / OpenAPI", JOAO, 12)
     head(cv, "Swagger / OpenAPI",
          "Documentação que também é ferramenta de teste",
          "O springdoc lê os controllers e gera a especificação OpenAPI em /api-docs.")
@@ -954,7 +945,7 @@ def s12_swagger():
                 color=MINT_TEXT, align="c", valign="m", spacing=1.0)
         cv.text(x2 + 0.52, yy, 4.6, 0.2, passo, size=7.5, color=PLN, spacing=1.0)
 
-    add(cv, "Swagger", JOAO, "1:30", notes=(
+    add(cv, "Swagger", JOAO, notes=(
         "Boa noite. Fecho o grupo mostrando o que o Swagger faz por nós.\n"
         "A configuração é uma classe só. O springdoc lê os controllers e gera a "
         "especificação OpenAPI automaticamente — quem escreve a documentação é o próprio "
@@ -973,7 +964,7 @@ def s12_swagger():
 # ============================================================== slide 13 =====
 def s13_crud():
     cv = Canvas()
-    shell(cv, "Operações CRUD", JOAO, "1:30", 13)
+    shell(cv, "Operações CRUD", JOAO, 13)
     head(cv, "Operações CRUD",
          "As quatro operações, com os status certos",
          "Cada verbo HTTP devolve o código que o painel espera — e cada falha tem um código próprio.")
@@ -1033,7 +1024,7 @@ def s13_crud():
         cv.text(M + 11.03, y, 1.3, 0.28, desc, size=7.6, color=PLN, valign="m",
                 spacing=1.0)
 
-    add(cv, "CRUD", JOAO, "1:30", notes=(
+    add(cv, "CRUD", JOAO, notes=(
         "Sobre o CRUD: as quatro operações existem para todas as entidades principais, "
         "então são 48 endpoints no total. O que importa aqui é que cada uma "
         "devolve o status correto.\n"
@@ -1050,7 +1041,7 @@ def s13_crud():
 # ============================================================== slide 14 =====
 def s14_especializados():
     cv = Canvas()
-    shell(cv, "Endpoints especializados", JOAO, "1:00", 14)
+    shell(cv, "Endpoints especializados", JOAO, 14)
     head(cv, "Endpoints especializados",
          "Onde a regra de negócio aparece na URL")
 
@@ -1091,7 +1082,7 @@ def s14_especializados():
                        color=PLN, size=9)],
             valign="m", spacing=1.0)
 
-    add(cv, "Especializados", JOAO, "1:00", notes=(
+    add(cv, "Especializados", JOAO, notes=(
         "O último requisito era o que mais gostei de fazer: endpoints que não são CRUD, "
         "que existem por causa de uma regra do PetClean.\n"
         "Alguns são consultas: busca por termo em clientes, filtro combinado de nome e "
@@ -1111,7 +1102,7 @@ def s15_fechamento():
     cv.circle(-0.7, 5.5, 2.4, 2.4, fill=GREEN_PALE, line=None)
 
     cv.img(M, 0.5, 2.1, 0.68, os.path.join(ASSETS, "logotipo.png"))
-    cv.text(M, 1.28, 8.0, 0.26, "FECHAMENTO · 0:30", size=9, bold=True,
+    cv.text(M, 1.28, 8.0, 0.26, "FECHAMENTO", size=9, bold=True,
             color=PINK_TEXT, spacing=1.0)
     cv.text(M, 1.58, 8.2, 0.62, "Os seis requisitos, entregues", size=31, bold=True,
             color=INK, spacing=1.05)
@@ -1166,7 +1157,7 @@ def s15_fechamento():
             "Interdisciplinar · Fatec Mauá · 2026",
             size=8, color=MUTED, spacing=1.0)
 
-    add(cv, "Fechamento", JOAO, "0:30", notes=(
+    add(cv, "Fechamento", JOAO, notes=(
         "Fechando: os seis requisitos do trabalho estão entregues. Modelos e entidades com "
         "as seis classes JPA, banco H2 em memória com carga inicial, repositories com Spring "
         "Data, Swagger configurado e documentado, CRUD completo e os endpoints "
