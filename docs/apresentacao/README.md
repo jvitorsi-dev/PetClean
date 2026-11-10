@@ -13,40 +13,40 @@ avatares dos integrantes) são os arquivos originais de `static/assets`.
 |---|---|
 | **`PetClean-API.pptx`** | Apresentação editável (15 slides, 16:9) com **notas do apresentador** em cada slide e a marcação de quem fala. |
 | **`index.html`** | Versão para navegador, pixel a pixel igual aos slides. Abra no Chrome/Edge e use `←` `→` para navegar, `N` para ver o roteiro e `F` para tela cheia. Funciona offline. |
-| **`ROTEIRO.md`** | Roteiro de fala completo, bloco por bloco, com o tempo alvo de cada slide. |
+| **`ROTEIRO.md`** | Roteiro de fala completo, bloco por bloco, slide a slide. |
 | `assets/`, `fontes/` | Imagens e a fonte Poppins usadas pelos dois formatos (nada depende de internet). |
 | `gerador/` | Código que gera o `.pptx`, o `index.html` e o `ROTEIRO.md`. |
 
-## Roteiro: 15 minutos, três blocos iguais
+## Estrutura: três blocos iguais
 
-| Bloco | Integrante | Slides | Tempo |
-|---|---|---|---|
-| **01 · Modelos e Entidades** | Helen Aclina | 1 — 6 | 4:40 (janela 0:00 — 5:00) |
-| **02 · Banco de Dados e Repositories** | Gabriel Wagner | 7 — 10 | 4:40 (janela 5:00 — 10:00) |
-| **03 · Swagger, CRUD e Endpoints** | João Vitor Silva | 11 — 15 | 4:40 (janela 10:00 — 15:00) |
+| Bloco | Integrante | Slides |
+|---|---|---|
+| **01 · Modelos e Entidades** | Helen Aclina | 1 — 6 |
+| **02 · Banco de Dados e Repositories** | Gabriel Wagner | 7 — 10 |
+| **03 · Swagger, CRUD e Endpoints** | João Vitor Silva | 11 — 15 |
 
-Os tempos por slide somam **14:00**; o minuto restante cobre as duas trocas de
-apresentador. Cada bloco abre com um slide-divisor que anuncia quem assume.
+Cada bloco abre com um slide-divisor que anuncia quem assume. Os slides não
+trazem marcação de tempo — o controle fica com quem apresenta.
 
 ### Slide a slide
 
-| # | Slide | Quem | ⏱ |
-|---|---|---|---|
-| 01 | Capa | Helen | 0:30 |
-| 02 | Roteiro dos três blocos | Helen | 0:40 |
-| 03 | Arquitetura em camadas | Helen | 0:50 |
-| 04 | Modelos e Entidades (6 entidades + 7 enums) | Helen | 1:20 |
-| 05 | Relacionamentos e integridade referencial | Helen | 0:50 |
-| 06 | A entidade `Pet` no código | Helen | 0:30 |
-| 07 | **Divisor — Bloco 02** | Gabriel | — |
-| 08 | Banco de Dados H2 e `data.sql` | Gabriel | 1:25 |
-| 09 | Repositories (Spring Data JPA) | Gabriel | 1:30 |
-| 10 | HQL, SQL nativo e projections | Gabriel | 1:25 |
-| 11 | **Divisor — Bloco 03** | João Vitor | — |
-| 12 | Swagger / OpenAPI | João Vitor | 1:30 |
-| 13 | Operações CRUD e status HTTP | João Vitor | 1:30 |
-| 14 | Endpoints especializados | João Vitor | 1:00 |
-| 15 | Fechamento: os seis requisitos | João Vitor | 0:30 |
+| # | Slide | Quem |
+|---|---|---|
+| 01 | Capa com a resposta da API | Helen |
+| 02 | Roteiro dos três blocos | Helen |
+| 03 | Arquitetura em camadas | Helen |
+| 04 | Modelos e Entidades (6 entidades + 7 enums) | Helen |
+| 05 | Relacionamentos e integridade referencial | Helen |
+| 06 | A entidade `Pet` no código | Helen |
+| 07 | **Divisor — Bloco 02** | Gabriel |
+| 08 | Banco de Dados H2 e `data.sql` | Gabriel |
+| 09 | Repositories (Spring Data JPA) | Gabriel |
+| 10 | HQL, SQL nativo e projections | Gabriel |
+| 11 | **Divisor — Bloco 03** | João Vitor |
+| 12 | Swagger / OpenAPI | João Vitor |
+| 13 | Operações CRUD e status HTTP | João Vitor |
+| 14 | Endpoints especializados | João Vitor |
+| 15 | Fechamento: os seis requisitos | João Vitor |
 
 ## Cobertura dos requisitos
 
@@ -105,5 +105,4 @@ caixa de texto nativa, exceto as ilustrações (logotipo, ícones e avatares).
 - O momento de maior impacto é uma demonstração de 40 segundos do
   `http://localhost:8080/swagger-ui.html` logo depois do slide 12, com a
   aplicação rodando via `./mvnw spring-boot:run`.
-- Os tempos estão nas notas de cada slide — use a tela do apresentador com
-  cronômetro.
+- Os slides não exibem tempos; combine a divisão dos blocos antes de apresentar.

@@ -11,9 +11,9 @@ from deck import GABRIEL, HELEN, JOAO, build
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "ROTEIRO.md")
 
 BLOCOS = {
-    HELEN: ("Bloco 01 — Modelos e Entidades", "0:00 — 5:00"),
-    GABRIEL: ("Bloco 02 — Banco de Dados e Repositories", "5:00 — 10:00"),
-    JOAO: ("Bloco 03 — Swagger, CRUD e Endpoints Especializados", "10:00 — 15:00"),
+    HELEN: ("Bloco 01 — Modelos e Entidades", "slides 1 a 6"),
+    GABRIEL: ("Bloco 02 — Banco de Dados e Repositories", "slides 7 a 10"),
+    JOAO: ("Bloco 03 — Swagger, CRUD e Endpoints Especializados", "slides 11 a 15"),
 }
 
 
@@ -22,15 +22,16 @@ def main():
     linhas = [
         "# Roteiro de fala — Apresentação da API PetClean",
         "",
-        "**Duração:** 15 minutos · **3 blocos de 5 minutos**, um por integrante.",
+        "**Três blocos**, um por integrante: Helen Aclina, Gabriel Wagner e João Vitor Silva.",
         "Este arquivo é gerado a partir das notas do apresentador embutidas no `.pptx`",
-        "(`gerador/deck.py`). Cada slide tem a fala sugerida e o tempo alvo.",
+        "(`gerador/deck.py`). Cada slide tem a fala sugerida.",
         "",
-        "| Bloco | Quem | Slides | Janela |",
-        "|---|---|---|---|",
-        "| 01 · Modelos e Entidades | Helen Aclina | 1 a 6 | 0:00 — 5:00 |",
-        "| 02 · Banco de Dados e Repositories | Gabriel Wagner | 7 a 10 | 5:00 — 10:00 |",
-        "| 03 · Swagger, CRUD e Endpoints | João Vitor Silva | 11 a 15 | 10:00 — 15:00 |",
+        "| Bloco | Quem | Slides |",
+        "|---|---|---|",
+    ]
+    for quem, (titulo, faixa) in BLOCOS.items():
+        linhas.append(f"| {titulo.split(' — ')[0]} · {titulo.split(' — ')[1]} | {quem} | {faixa} |")
+    linhas += [
         "",
         "> As notas também estão no arquivo do PowerPoint: em **Exibir › Anotações do",
         "> apresentador** (ou na tela do apresentador).",
@@ -44,9 +45,9 @@ def main():
         quem = s["meta"]["presenter"]
         if quem != atual:
             atual = quem
-            titulo, janela = BLOCOS[quem]
-            linhas += [f"## {titulo}", "", f"**{quem}** · janela de tempo: {janela}", ""]
-        linhas.append(f"### Slide {i:02d} — {s['meta']['title']} · ⏱ {s['meta']['time']}")
+            titulo, faixa = BLOCOS[quem]
+            linhas += [f"## {titulo}", "", f"**{quem}** · {faixa}", ""]
+        linhas.append(f"### Slide {i:02d} — {s['meta']['title']}")
         linhas.append("")
         for par in s.get("notes", "").strip().split("\n"):
             if par.strip():
@@ -58,13 +59,11 @@ def main():
         "",
         "## Dicas de condução",
         "",
-        "- **Cronômetro:** os tempos por slide somam 14:00; os 60 segundos restantes",
-        "  cobrem as duas trocas de apresentador.",
         "- **Passagem de bastão:** cada bloco termina com uma frase que entrega a palavra.",
-        "- **Se atrasar:** os slides 3 (arquitetura) e 5 (relacionamentos) podem ser",
-        "  resumidos em uma frase; os slides de código (06, 09, 12) devem ser mantidos.",
+        "- **Se precisar encurtar:** os slides 3 (arquitetura) e 5 (relacionamentos) podem",
+        "  ser resumidos em uma frase; os slides de código (06, 09, 12) devem ser mantidos.",
         "- **Demonstração ao vivo (opcional):** abrir `localhost:8080/swagger-ui.html`",
-        "  depois do slide 12 é o momento de maior impacto — leva 40 segundos.",
+        "  depois do slide 12 é o momento de maior impacto.",
         "",
     ]
 

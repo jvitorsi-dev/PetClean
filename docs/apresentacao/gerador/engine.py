@@ -256,10 +256,9 @@ def render_html(slides, dest, title="PetClean - API"):
         parts.append(f"""
     <section class="slide" id="s{i}" data-title="{htmlmod.escape(meta['title'])}"
              data-presenter="{htmlmod.escape(meta['presenter'])}"
-             data-time="{htmlmod.escape(meta['time'])}"
              style="background:#{data['canvas'].bg}">
       {body}
-      <div class="notes"><div class="notes-inner"><b>Fala de {htmlmod.escape(meta['presenter'])}</b> · {htmlmod.escape(meta['time'])}<br>{notes}</div></div>
+      <div class="notes"><div class="notes-inner"><b>Fala de {htmlmod.escape(meta['presenter'])}</b><br>{notes}</div></div>
     </section>""")
 
     doc = HTML_TEMPLATE.replace("__SLIDES__", "".join(parts)).replace("__TITLE__", title)
@@ -370,7 +369,7 @@ __SLIDES__
 </div>
 <div id="panel"></div>
 <div id="hud">
-  <span><b id="pname">Helen Aclina</b> · <span id="ptime">0:30</span></span>
+  <span><b id="pname">Helen Aclina</b></span>
   <span class="dot"></span>
   <span id="pcount">1 / 15</span>
   <button id="btn-notes">Roteiro</button>
@@ -387,7 +386,6 @@ function show(n){
   i=Math.max(0,Math.min(slides.length-1,n));
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   document.getElementById('pname').textContent=slides[i].dataset.presenter;
-  document.getElementById('ptime').textContent=slides[i].dataset.time;
   document.getElementById('pcount').textContent=(i+1)+' / '+slides.length;
   document.getElementById('bar').style.width=((i+1)/slides.length*100)+'%';
   document.getElementById('panel').innerHTML='<div class="notes">'+slides[i].querySelector('.notes').innerHTML+'</div>';
