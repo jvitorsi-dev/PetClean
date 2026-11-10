@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Meu Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <img src="../assets/icones/dash.png" alt="Dashboard" class="menu-icon-png">
+                    <span>Dashboard</span>
+                </a>
+                <a href="clientes.html" class="menu-item">
+                    <img src="../assets/icones/clientes.png" alt="Clientes" class="menu-icon-png">
+                    <span>Clientes</span>
+                </a>
+                <a href="pets.html" class="menu-item">
+                    <img src="../assets/icones/pets.png" alt="Pets" class="menu-icon-png">
+                    <span>Pets</span>
+                </a>
+                <a href="agendamentos.html" class="menu-item">
+                    <img src="../assets/icones/agendamentos.png" alt="Agendamentos" class="menu-icon-png">
+                    <span>Agendamentos</span>
+                </a>
+                <a href="estoque.html" class="menu-item">
+                    <img src="../assets/icones/estoque.png" alt="Estoque" class="menu-icon-png">
+                    <span>Estoque</span>
+                </a>
+                <a href="relatorios.html" class="menu-item">
+                    <img src="../assets/icones/relatorios.png" alt="Relatórios" class="menu-icon-png">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout">
+                    <img src="../assets/icones/sair.png" alt="Sair" class="menu-icon-png">
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-container-right">
+
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Meu Perfil</h1>
+                    <p>Olá, [[${nomeUsuario}]]! Tenha um ótimo dia</p>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+
+                    <div class="notificacoes-usuario-wrapper" id="notificacoes-gatilho">
+                        <div class="alerta-notificacao">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="badge-dot">3</span>
+                        </div>
+                        <div class="dropdown-notificacoes-menu">
+                            <div class="notif-header">
+                                <h3>Notificações</h3>
+                                <button type="button" class="btn-marcar-todas">Marcar todas como lidas</button>
+                            </div>
+                            <p class="notif-sub" id="notif-count-text">Carregando...</p>
+                            <div class="notif-list" id="notif-list-container"></div>
+                            <a href="relatorios.html" class="notif-footer-link">Ver todas as notificações</a>
+                        </div>
+                    </div>
+
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span class="user-name">
+                                    [[${nomeUsuario}]]
+                                </span>
+                                <span class="user-role">
+                                    [[${cargoUsuario}]]
+                                </span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-perfil-menu">
+                            <div class="dropdown-cabecalho-usuario">
+                                <div class="dropdown-avatar">
+                                    <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                                </div>
+                                <div class="dropdown-meta-dados">
+                                    <strong>
+                                        [[${nomeUsuario}]]
+                                    </strong>
+                                    <span>
+                                        [[${emailUsuario}]]
+                                    </span>
+                                </div>
+                            </div>
+                            <ul class="dropdown-lista-links">
+                                <li><a href="perfil.html" class="dropdown-link-item"><i
+                                            class="fa-regular fa-user"></i><span>Meu Perfil</span></a></li>
+                                <li><a href="configuracoes.html" class="dropdown-link-item"><i
+                                            class="fa-solid fa-gear"></i><span>Configurações</span></a></li>
+                                <li class="dropdown-divisor-linha"></li>
+                                <li><a href="login.html" class="dropdown-link-item link-sair-painel"><i
+                                            class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="profile-body-wrapper">
+                <div class="profile-body">
+                    <form id="form-perfil" method="POST" enctype="multipart/form-data"
+                        th:data-usuario-id="${usuarioId}">
+
+                        <section class="card profile-header-card">
+                            <div class="avatar-meta-group">
+                                <div class="profile-avatar-large">
+                                    <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}"
+                                            class="avatar-img-render-large"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+
+                                    <input type="file" id="input-foto-avatar" name="foto_avatar" accept="image/*"
+                                        style="display: none;">
+                                    <button type="button" class="btn-change-avatar" id="btn-acionar-foto"
+                                        title="Alterar Foto">
+                                        <i class="fa-solid fa-camera"></i>
+                                    </button>
+                                </div>
+                                <div class="profile-title-meta">
+                                    <h2>
+                                        [[${nomeUsuario}]]
+                                    </h2>
+                                    <p class="sub-role">
+                                        [[${cargoUsuario}]]
+                                    </p>
+                                    <p class="sub-shop">
+                                        [[${nomePetshop != null and !nomePetshop.isEmpty() ? nomePetshop : 'PetClean Central'}]]
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="profile-actions">
+                                <button type="button" class="btn-cancel"
+                                    onclick="window.location.reload();">Cancelar</button>
+                                <button type="submit" class="btn-submit-profile">
+                                    <i class="fa-regular fa-floppy-disk"></i> Salvar
+                                </button>
+                            </div>
+                        </section>
+
+                        <section class="card inputs-card">
+                            <div class="inputs-grid">
+                                <div class="form-group">
+                                    <label>Nome Completo</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-regular fa-user"></i>
+                                        <input type="text" name="nome"
+                                            th:value="${nomeUsuario}" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-regular fa-envelope"></i>
+                                        <input type="email" name="email"
+                                            th:value="${emailUsuario}" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Telefone</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-phone"></i>
+                                        <input type="text" name="telefone"
+                                            th:value="${telefone}"
+                                            placeholder="(11) 98765-4321" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Nome do Pet Shop</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-store"></i>
+                                        <input type="text" name="nome_petshop"
+                                            th:value="${nomePetshop}"
+                                            placeholder="PetClean Central" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>Endereço</label>
+                                    <div class="input-wrapper">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <input type="text" name="endereco"
+                                            th:value="${endereco}"
+                                            placeholder="Rua das Flores, 123 - São Paulo, SP" />
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+
+                    <section class="card security-card">
+                        <div class="security-header">
+                            <div>
+                                <h3>Segurança</h3>
+                                <p>Altere sua senha de acesso ao sistema</p>
+                            </div>
+                            <button type="button" class="btn-change-password" id="btn-abrir-modal-senha">Alterar
+                                Senha</button>
+                        </div>
+                        <div class="security-meta-info">
+                            <p>Última alteração de senha: <span
+                                    id="data-alteracao-senha">[[${dataAlteracaoSenha}]]</span></p>
+                        </div>
+                    </section>
+
+                    <section class="stats-grid">
+                        <div class="stat-box bg-mint">
+                            <p class="stat-number">152</p>
+                            <p class="stat-label">Ações realizadas</p>
+                        </div>
+                        <div class="stat-box bg-rose">
+                            <p class="stat-number">
+                                [[${diasMembro}]] dias
+                            </p>
+                            <p class="stat-label">Membro desde</p>
+                        </div>
+                        <div class="stat-box bg-apricot">
+                            <p class="stat-number">98%</p>
+                            <p class="stat-label">Taxa de sucesso</p>
+                        </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-senha">
+        <div class="modal-box">
+            <button class="modal-close" id="btn-fechar-modal-senha" type="button">✕</button>
+            <h2>Alterar Senha</h2>
+
+            <form id="form-alterar-senha" action="#" data-legado="perfil/alterar_senha.php" method="POST">
+                <div class="form-modal-group">
+                    <label for="senha-atual">Senha Atual *</label>
+                    <input type="password" id="senha-atual" name="senha_atual" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="nova-senha">Nova Senha *</label>
+                    <input type="password" id="nova-senha" name="nova_senha" minlength="6" required />
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal-senha">Cancelar</button>
+                    <button type="submit" class="btn-salvar-modal">Atualizar Senha</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/perfil.js"></script>
+</body>
+
+</html>

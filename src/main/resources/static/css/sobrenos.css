@@ -1,0 +1,244 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #ffffff;
+  color: #000;
+}
+
+/* CONTAINER GERAL */
+.sobre {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* HEADER / MENU (igual padrão da home) */
+.topo {
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: flex-start; /* logo left / menu right */
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.logo img {
+  width: 180px;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+}
+
+.menu a {
+  background: rgba(255, 255, 255, 0.38);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+/* HOVER IGUAL AO DA HOME */
+.menu a:hover,
+.menu a.ativo {
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+/* HERO */
+.hero-sobre {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+}
+
+.hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-texto {
+  position: absolute;
+  top: 55%;
+  left: 60px;
+  transform: translateY(-50%);
+  max-width: 480px;
+  color: #000;
+}
+
+.hero-texto h1 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.hero-texto p {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* QUEM SOMOS */
+.quem-somos {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  padding: 70px 60px;
+  gap: 40px;
+  align-items: center;
+}
+
+.quem-somos h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.quem-somos p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.quem-somos .imagem img {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 24px;
+  border: 12px solid #a8e6ce;
+  display: block;
+  margin-left: auto;
+}
+
+/* MISSÃO / VISÃO / VALORES */
+.mvv {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding: 0 60px 70px;
+}
+
+/* CARD BASE */
+.mvv .card {
+  border-radius: 20px;
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* CORES DOS CARDS (ajustadas para lembrar o layout) */
+.card-valores {
+  background: #DCEDC2; /* verde claro */
+}
+
+.card-missao {
+  background: #FFAAAA; /* rosa claro */
+}
+
+.card-visao {
+  background: #FFD3B5; /* laranja claro */
+}
+
+/* ÍCONE NO CANTINHO ESQUERDO */
+.card-header img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* TEXTO ALINHADO À ESQUERDA */
+.card-body {
+  text-align: left;
+}
+
+.card-body h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-body p,
+.card-body ul {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.card-body ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+
+  .topo {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero-sobre {
+    height: 360px;
+  }
+
+  .hero-texto {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+  }
+
+  .hero-texto h1 {
+    font-size: 28px;
+  }
+
+  .hero-texto p {
+    font-size: 16px;
+  }
+
+  .quem-somos {
+    grid-template-columns: 1fr;
+    padding: 40px 20px;
+  }
+
+  .quem-somos .imagem img {
+    margin: 0 auto;
+  }
+
+  .mvv {
+    grid-template-columns: 1fr;
+    padding: 0 20px 40px;
+  }
+}
+
+.topo {
+  width: 92% !important; /* Estica o bloco original até o canto direito da tela */
+}
+
+.btn-nav-login {
+  background: #FFD3B5;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #000000 !important;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: auto; /* Empurra o botão exclusivamente para a ponta direita */
+  transition: 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-nav-login:hover {
+  background: #FFD3B5;
+  transform: translateY(-2px);
+}

@@ -1,0 +1,115 @@
+/* ==========================================================================
+   1. CONTAINER DO CORPO DE RELATÓRIOS (FLUXO BASE)
+   ========================================================================== */
+.reports-body-wrapper {
+    padding: 32px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    box-sizing: border-box;
+}
+
+/* Definição padrão dos cartões internos */
+.reports-body-wrapper .card {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 0.80px #E5E7EB solid;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   2. FILEIRA DE 4 CARDS SUPERIORES (MÉTRICAS DINÂMICAS)
+   ========================================================================== */
+.reports-cards-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permite a descida de linha organizada em zoom alto */
+    gap: 24px;
+    width: 100%;
+}
+
+.reports-cards-grid .metric-card {
+    flex: 1; /* Força a distribuição matemática idêntica em telas largas */
+    min-width: 220px; /* Largura mínima protetiva para o texto não amassar */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 0.80px #E5E7EB solid;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   3. FILEIRA CENTRAL (DOIS GRÁFICOS GRANDES COM PESO PROPORCIONAL)
+   ========================================================================== */
+.main-charts-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+}
+
+/* Peso de 60% para o gráfico de faturamento */
+.main-charts-row .chart-large-box:nth-child(1) {
+    flex: 1.2;
+    min-width: 320px;
+}
+
+/* Peso de 40% para o gráfico de crescimento */
+.main-charts-row .chart-large-box:nth-child(2) {
+    flex: 0.8;
+    min-width: 280px;
+}
+
+/* ==========================================================================
+   4. FILEIRA INFERIOR (TRÊS GRÁFICOS E LISTAS COMPACTAS)
+   ========================================================================== */
+.bottom-charts-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+}
+
+.bottom-charts-row .small-chart-box {
+    flex: 1;
+    min-width: 280px; /* Alinha os blocos como colunas verticais se o espaço faltar */
+}
+
+/* ==========================================================================
+   5. CONTÊINERES RESIZABLE (MECÂNICA CRÍTICA DE TRAVA DE ZOOM COPIADA DA DASHBOARD)
+   ========================================================================== */
+.chart-container-resizable {
+    position: relative;
+    height: 250px; /* Fixa rigorosamente a altura do gráfico para não achatar no zoom */
+    width: 100%;   /* Libera a largura para expandir/encolher elasticamente com a janela */
+}
+
+.donut-container-resizable {
+    position: relative;
+    height: 120px; /* Mantém a proporção quadrada do gráfico de distribuição donut */
+    width: 120px;
+    flex-shrink: 0; /* Proíbe o navegador de deformar o círculo do gráfico */
+}
+
+/* ==========================================================================
+   6. COMPONENTES INTERNOS SECUNDÁRIOS (PROGRESS BARS E LISTAS)
+   ========================================================================== */
+/* Wrappers das barras de carregamento (Serviços por Tipo Real) */
+.progress-bar-wrapper {
+    width: 100%;
+    height: 6px;
+    background: #F3F4F6;
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+}

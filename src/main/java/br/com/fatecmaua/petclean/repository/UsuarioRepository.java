@@ -13,4 +13,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 	boolean existsByEmailIgnoreCase(String email);
 
+	/** Tela de perfil: evita carregar o BLOB so para saber se existe avatar. */
+	boolean existsByIdAndFotoIsNotNull(Long id);
+
 }

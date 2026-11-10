@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PetClean — Fale Conosco</title>
+  <link rel="stylesheet" href="../css/faleconosco.css" />
+</head>
+
+<body>
+
+  <header class="topo fundo-rosa-topo">
+    <div class="logo">
+      <img src="../assets/logo.png" alt="Logotipo PetClean">
+    </div>
+
+    <nav class="menu">
+      <a href="inicio.html">Início</a>
+      <a href="sobrenos.html">Sobre Nós</a>
+      <a href="funcionalidades.html">Funcionalidades</a>
+      <a href="faleconosco.html" class="ativo">Fale Conosco</a>
+    </nav>
+
+    <a href="login.html" class="btn-nav-login">Entrar</a>
+  </header>
+
+  <div class="fale-conosco">
+
+    <div class="titulo-area">
+      <h1>Fale Conosco</h1>
+      <p>Estamos aqui para ajudar. Entre em contato e tire suas dúvidas</p>
+    </div>
+
+    <div class="container">
+      <form class="form">
+
+        <div class="container2">
+          <div class="label">
+            <label for="nome">Nome Completo *</label>
+          </div>
+          <div class="text-input">
+            <input id="nome" type="text" placeholder="Seu nome" required>
+          </div>
+        </div>
+
+        <div class="container3">
+          <div class="container4">
+            <div class="label">
+              <label for="email">E-mail *</label>
+            </div>
+            <div class="email-input">
+              <input id="email" type="email" placeholder="seu@email.com" required>
+            </div>
+          </div>
+
+          <div class="container5">
+            <div class="label">
+              <label for="telefone">Telefone</label>
+            </div>
+            <div class="phone-input">
+              <input id="telefone" type="text" placeholder="(11) 98765-4321">
+            </div>
+          </div>
+        </div>
+
+        <div class="container6">
+          <div class="label">
+            <label for="assunto">Assunto *</label>
+          </div>
+          <div class="dropdown">
+            <select id="assunto" required>
+              <option value="" disabled selected>Selecione um assunto</option>
+              <option value="duvidas">Dúvidas</option>
+              <option value="suporte">Suporte Técnico</option>
+              <option value="financeiro">Financeiro</option>
+              <option value="outros">Outros</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="container7">
+          <div class="label">
+            <label for="mensagem">Mensagem *</label>
+          </div>
+          <div class="text-area">
+            <textarea id="mensagem" placeholder="Escreva sua mensagem aqui..." required></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="button">
+          <img class="icon" src="../assets/icones/enviar.png" alt="Ícone de envio" />
+          <span class="enviar-mensagem">Enviar Mensagem</span>
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+
+  <div id="modal-sucesso" class="modal-sucesso">
+    <div class="modal-conteudo">
+      <p>Mensagem enviada com sucesso!</p>
+    </div>
+  </div>
+
+  <script src="../js/faleconosco.js"></script>
+
+</body>
+</html>

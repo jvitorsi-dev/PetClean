@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Relatórios Avançados</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+    <link rel="stylesheet" href="../css/relatorio.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <img src="../assets/icones/dash.png" class="menu-icon-png">
+                    <span>Dashboard</span>
+                </a>
+                <a href="clientes.html" class="menu-item">
+                    <img src="../assets/icones/clientes.png" class="menu-icon-png">
+                    <span>Clientes</span>
+                </a>
+                <a href="pets.html" class="menu-item">
+                    <img src="../assets/icones/pets.png" class="menu-icon-png">
+                    <span>Pets</span>
+                </a>
+                <a href="agendamentos.html" class="menu-item">
+                    <img src="../assets/icones/agendamentos.png" class="menu-icon-png">
+                    <span>Agendamentos</span>
+                </a>
+                <a href="estoque.html" class="menu-item">
+                    <img src="../assets/icones/estoque.png" class="menu-icon-png">
+                    <span>Estoque</span>
+                </a>
+                <a href="relatorios.html" class="menu-item active">
+                    <img src="../assets/icones/relatorios.png" class="menu-icon-png">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout">
+                    <img src="../assets/icones/sair.png" class="menu-icon-png">
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <div class="main-container-right">
+
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Relatórios Avançados</h1>
+                    <p>Análise de desempenho operacional e faturamento</p>
+                </div>
+
+                <div class="header-actions">
+                    <form action="relatorios.html" method="GET" class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="busca" placeholder="Buscar..."
+                            th:value="${busca}">
+                    </form>
+
+                    <div class="notificacoes-usuario-wrapper" id="notificacoes-gatilho">
+                        <div class="alerta-notificacao">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="badge-dot" style="display:none;">3</span>
+                        </div>
+                        <div class="dropdown-notificacoes-menu">
+                            <div class="notif-header">
+                                <h3>Notificações</h3>
+                                <button type="button" class="btn-marcar-todas">Marcar todas como lidas</button>
+                            </div>
+                            <p class="notif-sub" id="notif-count-text">Carregando...</p>
+                            <div class="notif-list" id="notif-list-container"></div>
+                            <a href="relatorios.html" class="notif-footer-link">Ver todas as notificações</a>
+                        </div>
+                    </div>
+
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span class="user-name">[[${nomeUsuario}]]</span>
+                                <span class="user-role">[[${cargoUsuario}]]</span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-perfil-menu">
+                            <div class="dropdown-cabecalho-usuario">
+                                <div class="dropdown-avatar">
+                                    <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                                </div>
+                                <div class="dropdown-meta-dados">
+                                    <strong>[[${nomeUsuario}]]</strong>
+                                    <span>[[${emailUsuario}]]</span>
+                                </div>
+                            </div>
+                            <ul class="dropdown-lista-links">
+                                <li><a href="perfil.html" class="dropdown-link-item"><i
+                                            class="fa-regular fa-user"></i><span>Meu Perfil</span></a></li>
+                                <li><a href="configuracoes.html" class="dropdown-link-item"><i
+                                            class="fa-solid fa-gear"></i><span>Configurações</span></a></li>
+                                <li class="dropdown-divisor-linha"></li>
+                                <li><a href="login.html" class="dropdown-link-item link-sair-painel"><i
+                                            class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="reports-body-wrapper">
+
+                <section class="reports-cards-grid">
+                    <div class="metric-card">
+                        <div>
+                            <span style="color: #6A7282; font-size: 14px;">Total de Tutores</span>
+                            <h2 style="font-size: 28px; color: #2C3E50; margin-top: 4px; font-weight: 600;">
+                                [[${totalTutores}]]
+                            </h2>
+                            <span style="color: #10B981; font-size: 12px; display: block; margin-top: 4px;">Clientes
+                                ativos no sistema</span>
+                        </div>
+                        <div
+                            style="background: rgba(168,230,206,0.2); color: #065F46; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div>
+                            <span style="color: #6A7282; font-size: 14px;">Animais Atendidos</span>
+                            <h2 style="font-size: 28px; color: #2C3E50; margin-top: 4px; font-weight: 600;">
+                                [[${totalPets}]]
+                            </h2>
+                            <span style="color: #FF8C94; font-size: 12px; display: block; margin-top: 4px;">Pets
+                                cadastrados</span>
+                        </div>
+                        <div
+                            style="background: rgba(255,140,148,0.15); color: #991B1B; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-paw"></i>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div>
+                            <span style="color: #6A7282; font-size: 14px;">Serviços Agendados</span>
+                            <h2 style="font-size: 28px; color: #2C3E50; margin-top: 4px; font-weight: 600;">
+                                [[${totalAgendamentos}]]
+                            </h2>
+                            <span style="color: #10B981; font-size: 12px; display: block; margin-top: 4px;">Histórico de
+                                agendamentos</span>
+                        </div>
+                        <div
+                            style="background: rgba(255,211,181,0.2); color: #B45309; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-regular fa-calendar-days"></i>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div>
+                            <span style="color: #6A7282; font-size: 14px;">Média Pet / Tutor</span>
+                            <h2 style="font-size: 28px; color: #2C3E50; margin-top: 4px; font-weight: 600;">
+                                [[${mediaPetTutor}]]
+                            </h2>
+                            <span style="color: #10B981; font-size: 12px; display: block; margin-top: 4px;">Proporção de
+                                animais</span>
+                        </div>
+                        <div
+                            style="background: rgba(59,130,246,0.1); color: #1E3A8A; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="main-charts-row">
+                    <div class="card chart-large-box">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3 style="font-size: 16px; font-weight: 500; color: #2C3E50;">Faturamento e Serviços por
+                                Mês</h3>
+                            <span
+                                style="background: #F3F4F6; padding: 4px 12px; border-radius: 8px; font-size: 12px; color: #4A5565;">Jun</span>
+                        </div>
+                        <div class="chart-container-resizable">
+                            <canvas id="chartFaturamentoMensal"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card chart-large-box">
+                        <h3 style="font-size: 16px; font-weight: 500; color: #2C3E50; margin-bottom: 16px;">Crescimento
+                            de Clientes e Pets</h3>
+                        <div class="chart-container-resizable">
+                            <canvas id="chartCrescimentoLinha"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bottom-charts-row">
+                    <div class="card small-chart-box">
+                        <h3 style="font-size: 16px; font-weight: 500; color: #2C3E50; margin-bottom: 16px;">Distribuição
+                            de Clientes</h3>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <div class="donut-container-resizable">
+                                <canvas id="chartDistribuicaoDonut" th:data-total-tutores="${totalTutores}"></canvas>
+                            </div>
+                            <div style="font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
+                                <p style="color: #10B981;">Ativos: <strong>[[${totalTutores}]]</strong></p>
+                                <p style="color: #FF8C94;">Novos: <strong>0</strong></p>
+                                <p style="color: #94A3B8;">Inativos: <strong>0</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card small-chart-box">
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3 style="font-size: 16px; font-weight: 500; color: #2C3E50;">Serviços por Tipo Real</h3>
+                            <span
+                                style="background: #F3F4F6; padding: 2px 8px; border-radius: 6px; font-size: 11px; color: #4A5565;">Jun</span>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 14px; font-size: 13px;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span>Banho</span><strong>35%</strong>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar-fill" style="width: 35%; background: #A8E6CE;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span>Tosa</span><strong>20%</strong>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar-fill" style="width: 20%; background: #FF8C94;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span>Banho e Tosa</span><strong>25%</strong>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar-fill" style="width: 25%; background: #FFD3B5;"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                    <span>Consulta Vet</span><strong>20%</strong>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="progress-bar-fill" style="width: 20%; background: #FF8C94;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card small-chart-box">
+                        <h3 style="font-size: 16px; font-weight: 500; color: #2C3E50; margin-bottom: 16px;">Produtos
+                            Mais Vendidos</h3>
+                        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div
+                                    style="width: 24px; height: 24px; background: #FFD3B5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #B45309; font-size: 11px;">
+                                    1</div>
+                                <div style="flex:1;"><strong>Shampoo Neutro</strong><br><span
+                                        style="font-size:11px; color:#6A7282;">145 vendas</span></div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div
+                                    style="width: 24px; height: 24px; background: #FFD3B5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #B45309; font-size: 11px;">
+                                    2</div>
+                                <div style="flex:1;"><strong>Ração Premium</strong><br><span
+                                        style="font-size:11px; color:#6A7282;">98 vendas</span></div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div
+                                    style="width: 24px; height: 24px; background: #FFD3B5; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #B45309; font-size: 11px;">
+                                    3</div>
+                                <div style="flex:1;"><strong>Petiscos</strong><br><span
+                                        style="font-size:11px; color:#6A7282;">87 vendas</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Chart.js servido localmente (era https://cdn.jsdelivr.net/npm/chart.js):
+         evita falha da pagina quando o CDN e bloqueado ou a conexao cai -->
+    <script src="../js/vendor/chart.umd.min.js"></script>
+    <script>
+        const opcoesResponsivas = {
+            responsive: true,
+            maintainAspectRatio: false, // Força a renderização fluida baseada no contêiner CSS
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        };
+
+        // 1. Gráfico: Faturamento e Serviços por Mês
+        const ctxFat = document.getElementById('chartFaturamentoMensal').getContext('2d');
+        new Chart(ctxFat, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                datasets: [
+                    { label: 'Faturamento', data: [2500, 3500, 5000, 4800, 6500, 7000], backgroundColor: '#A8E6CE', borderRadius: 4 },
+                    { label: 'Serviços', data: [2000, 3200, 4200, 4000, 6000, 6600], backgroundColor: '#FF8C94', borderRadius: 4 }
+                ]
+            },
+            options: opcoesResponsivas
+        });
+
+        // 2. Gráfico: Crescimento de Clientes e Pets
+        const ctxCres = document.getElementById('chartCrescimentoLinha').getContext('2d');
+        new Chart(ctxCres, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+                datasets: [
+                    { label: 'Clientes', data: [120, 200, 280, 320, 410], borderColor: '#A8E6CE', backgroundColor: 'transparent', pointBackgroundColor: '#FF8C94', pointBorderColor: '#FF8C94', pointRadius: 5, tension: 0.2 },
+                    { label: 'Pets', data: [180, 260, 390, 460, 560], borderColor: '#FF8C94', backgroundColor: 'transparent', pointBackgroundColor: '#FF8C94', pointBorderColor: '#FF8C94', pointRadius: 5, tension: 0.2 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 8, font: { family: 'Poppins', size: 11 } }
+                    }
+                }
+            }
+        });
+
+        // 3. Gráfico: Distribuição de Clientes (Donut)
+        // O total vem do servidor pelo atributo data-total-tutores do canvas
+        const canvasDonut = document.getElementById('chartDistribuicaoDonut');
+        const totalTutores = Number(canvasDonut.dataset.totalTutores) || 0;
+        const ctxDonut = canvasDonut.getContext('2d');
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ativos', 'Novos', 'Inativos'],
+                datasets: [{ data: [totalTutores, 0, 0], backgroundColor: ['#A8E6CE', '#FF8C94', '#94A3B8'], borderWidth: 0 }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                cutout: '75%'
+            }
+        });
+    </script>
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

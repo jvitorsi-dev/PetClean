@@ -14,7 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
  * <ul>
  * <li>Requisicoes de API (prefixo /api) recebem 401 com JSON explicativo;</li>
  * <li>requisicoes de navegacao recebem 302 para /login, guardando a rota pendente
- * para o retorno pos-login (US-02, criterio 2).</li>
+ * para o retorno pos-login (US-02, criterio 2). O proprio /login encaminha o
+ * navegador para a tela do projeto (paginas/login.html).</li>
  * </ul>
  */
 @Component

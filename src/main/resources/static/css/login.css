@@ -1,0 +1,203 @@
+/* Reset básico para consistência entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F3DCC2; /* Cor de fundo bege claro da imagem */
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container Principal */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 448px;
+    padding: 20px;
+}
+
+/* Card Branco */
+.login-card {
+    background-color: #FFFFFF;
+    border-radius: 30px;
+    padding: 40px 32px;
+    width: 100%;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 24px;
+}
+
+
+/* Link Voltar ao Login (Topo) */
+.back-to-home-top {
+    margin-bottom: 16px;
+}
+
+.back-to-home-top a {
+    color: #4A5565;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.back-to-home-top a:hover {
+    color: #FF8C94;
+}
+
+
+
+
+
+
+
+
+/* Cabeçalho do Card */
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-logo {
+    max-width: 204px;
+    height: auto;
+    margin-bottom: 12px;
+}
+
+.login-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #6A7282;
+}
+
+/* Estrutura do Formulário */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #364153;
+}
+
+/* Customização dos Inputs com Ícone interno */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    color: #A0AEC0;
+    font-size: 16px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 14px 16px 14px 44px;
+    background-color: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: "Poppins", sans-serif;
+    color: #2C3E50;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-wrapper input:focus {
+    border-color: #FF8C94; /* Borda destaca com a cor do botão ao focar */
+}
+
+.input-wrapper input::placeholder {
+    color: #A0AEC0;
+}
+
+/* Opções de Lembrar e Esqueci Senha */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #4A5565;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.remember-me input {
+    accent-color: #FF8C94; /* Cor do checkbox quando marcado */
+    width: 16px;
+    height: 16px;
+}
+
+.forgot-password {
+    color: #FF8C94;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Botão Entrar */
+.btn-submit {
+    background-color: #FF8C94; /* Tom salmão/rosa do Figma */
+    color: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(255, 140, 148, 0.3);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-submit:hover {
+    background-color: #e57d84;
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+/* Rodapé */
+.login-footer {
+    text-align: center;
+}
+
+.login-footer p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #FFFFFF; /* Branco opaco para contraste com o fundo bege */
+    opacity: 0.8;
+}

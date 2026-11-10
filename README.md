@@ -6,7 +6,7 @@ descritas no documento, com os critérios de aceitação *Dado/Quando/Então* ve
 
 Segue o mesmo modelo do projeto de referência (`projeto-musica`): mesmas camadas
 (`model`, `repository`, `projection`, `control`, `swagger`), Spring Data JPA, banco H2 em memória,
-`import.sql` para a carga inicial e springdoc/Swagger UI para documentação.
+`data.sql` (UTF-8) para a carga inicial e springdoc/Swagger UI para documentação.
 
 ---
 
@@ -29,10 +29,35 @@ Depois de subir, acesse:
 | Portal do projeto (página inicial) | http://localhost:8080/ |
 | Swagger UI (todos os endpoints) | http://localhost:8080/swagger-ui.html |
 | OpenAPI JSON | http://localhost:8080/api-docs |
-| Tela de login (US-01) | http://localhost:8080/login |
+| Tela de login (US-01) | http://localhost:8080/login *(redireciona para a página original)* |
+| Site público do PetClean | http://localhost:8080/paginas/inicio.html |
 | Console do banco H2 | http://localhost:8080/h2-console |
 
 No console do H2 use: **JDBC URL** `jdbc:h2:mem:petcleandb`, **usuário** `sa`, **senha** vazia.
+
+### Painel do Pet Shop (interface migrada do PHP)
+
+As telas do sistema são as páginas originais do projeto PHP, agora renderizadas por Thymeleaf e
+alimentadas pela API Java. Depois de subir a aplicação:
+
+1. abra http://localhost:8080/paginas/login.html e entre com um dos usuários de demonstração abaixo;
+2. você cai no **dashboard**; o menu lateral leva às demais telas.
+
+| Tela | URL |
+|---|---|
+| Login | http://localhost:8080/paginas/login.html |
+| Dashboard | http://localhost:8080/paginas/dashboard.html |
+| Clientes (tutores) | http://localhost:8080/paginas/clientes.html |
+| Pets | http://localhost:8080/paginas/pets.html |
+| Estoque | http://localhost:8080/paginas/estoque.html |
+| Agendamentos | http://localhost:8080/paginas/agendamentos.html |
+| Relatórios | http://localhost:8080/paginas/relatorios.html |
+| Perfil | http://localhost:8080/paginas/perfil.html |
+| Configurações | http://localhost:8080/paginas/configuracoes.html |
+
+Abrir qualquer URL do painel sem sessão redireciona para o login e, após autenticar, volta para a
+página pedida. O detalhamento da migração (matriz de rastreabilidade, incompatibilidades e
+pendências) está em [`docs/MIGRACAO-PHP-JAVA.md`](docs/MIGRACAO-PHP-JAVA.md).
 
 ### Usuários de demonstração (senha em hash bcrypt — RNF-04)
 
@@ -46,9 +71,13 @@ No console do H2 use: **JDBC URL** `jdbc:h2:mem:petcleandb`, **usuário** `sa`, 
 ### Testes
 
 ```bash
-./mvnw test          # 27 testes JUnit (criterios de aceitacao)
-bash testes-api.sh   # 45 verificacoes de ponta a ponta na API rodando
+./mvnw test              # 34 testes JUnit (criterios de aceitacao)
+bash testes-api.sh       # 45 verificacoes de ponta a ponta na API rodando
+bash validar-estatico.sh # checagens da migracao (HTML, JS, links, variaveis)
 ```
+
+O passo a passo de **todas** as validacoes (testes, smoke, funcional, visual e estatico), com o
+resultado esperado de cada uma, esta em [`docs/VALIDACAO.md (referência técnica) e `docs/COMO-TESTAR.md` (passo a passo)`](docs/VALIDACAO.md (referência técnica) e `docs/COMO-TESTAR.md` (passo a passo)).
 
 ---
 
@@ -127,6 +156,15 @@ curl -b cookie.txt http://localhost:8080/api/clientes?termo=Maria
 | **US-02** Proteger rotas | 401 para API / 302 para navegador, com retorno à rota pedida | `InterceptorSeguranca` |
 | **US-14** Logout | invalida a sessão | `POST /logout` |
 
+### Perfil do usuário (tela de Perfil)
+| Funcionalidade | Regra implementada | Endpoint |
+|---|---|---|
+| Dados do perfil | nome, e-mail (único), telefone, pet shop e endereço | `GET` · `PUT /api/usuarios/{id}` |
+| Alterar senha | exige a senha atual; nova senha em **bcrypt**; grava a data da troca | `PUT /api/usuarios/{id}/senha` |
+| Foto de perfil | imagem até 2 MB, gravada no banco e exibida no avatar de todas as páginas | `POST` · `GET /api/usuarios/{id}/foto` |
+
+Cada usuário só altera o próprio perfil (`403` caso contrário).
+
 ---
 
 ## 4. Estrutura do projeto
@@ -168,9 +206,9 @@ petclean/
     │   └── swagger/SwaggerConfig.java
     ├── main/resources/
     │   ├── application.properties
-    │   ├── import.sql                # dados de demonstração
+    │   ├── data.sql                  # dados de demonstração (UTF-8)
     │   └── static/index.html         # portal com atalhos e roteiro de teste
-    └── test/java/...                 # 27 testes JUnit
+    └── test/java/...                 # 34 testes JUnit
 ```
 
 ---

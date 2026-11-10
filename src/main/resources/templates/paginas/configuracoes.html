@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Configurações</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/configuracoes.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- MENU LATERAL -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <img src="../assets/icones/dash.png" alt="Dashboard" class="menu-icon-png">
+                    <span>Dashboard</span>
+                </a>
+                <a href="clientes.html" class="menu-item">
+                    <img src="../assets/icones/clientes.png" alt="Clientes" class="menu-icon-png">
+                    <span>Clientes</span>
+                </a>
+                <a href="pets.html" class="menu-item">
+                    <img src="../assets/icones/pets.png" alt="Pets" class="menu-icon-png">
+                    <span>Pets</span>
+                </a>
+                <a href="agendamentos.html" class="menu-item">
+                    <img src="../assets/icones/agendamentos.png" alt="Agendamentos" class="menu-icon-png">
+                    <span>Agendamentos</span>
+                </a>
+                <a href="estoque.html" class="menu-item">
+                    <img src="../assets/icones/estoque.png" alt="Estoque" class="menu-icon-png">
+                    <span>Estoque</span>
+                </a>
+                <a href="relatorios.html" class="menu-item">
+                    <img src="../assets/icones/relatorios.png" alt="Relatórios" class="menu-icon-png">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout">
+                    <img src="../assets/icones/sair.png" alt="Sair" class="menu-icon-png">
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTAINER DA DIREITA -->
+        <div class="main-container-right">
+
+            <!-- CABEÇALHO SUPERIOR -->
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Configurações</h1>
+                    <p>Gerencie a identidade visual e as preferências do painel</p>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+
+                    <!-- RECIPIENTE DE NOTIFICAÇÕES -->
+                    <div class="notificacoes-usuario-wrapper" id="notificacoes-gatilho">
+                        <div class="alerta-notificacao">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="badge-dot" style="display:none;">3</span>
+                        </div>
+                        <div class="dropdown-notificacoes-menu">
+                            <div class="notif-header">
+                                <h3>Notificações</h3>
+                                <button type="button" class="btn-marcar-todas">Marcar todas como lidas</button>
+                            </div>
+                            <p class="notif-sub" id="notif-count-text">Carregando...</p>
+                            <div class="notif-list" id="notif-list-container"></div>
+                            <a href="relatorios.html" class="notif-footer-link">Ver todas as notificações</a>
+                        </div>
+                    </div>
+
+                    <!-- RECIPIENTE DO PERFIL -->
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span class="user-name">
+                                    [[${nomeUsuario}]]
+                                    </span>
+                                    <span class="user-role">
+                                        [[${cargoUsuario}]]
+                                    </span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-perfil-menu">
+                            <div class="dropdown-cabecalho-usuario">
+                                <div class="dropdown-avatar">
+                                    <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                                </div>
+                                <div class="dropdown-meta-dados">
+                                    <strong>
+                                        [[${nomeUsuario}]]
+                                    </strong>
+                                    <span>
+                                        [[${emailUsuario}]]
+                                    </span>
+                                </div>
+                            </div>
+                            <ul class="dropdown-lista-links">
+                                <li><a href="perfil.html" class="dropdown-link-item"><i
+                                            class="fa-regular fa-user"></i><span>Meu Perfil</span></a></li>
+                                <li><a href="configuracoes.html" class="dropdown-link-item"><i
+                                            class="fa-solid fa-gear"></i><span>Configurações</span></a></li>
+                                <li class="dropdown-divisor-linha"></li>
+                                <li><a href="login.html" class="dropdown-link-item link-sair-painel"><i
+                                            class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- MIOLO DE CONFIGURAÇÕES -->
+            <main class="config-body-wrapper">
+                <div class="config-body">
+
+                    <!-- Bloco 1: Identidade Visual e Temas Avançados -->
+                    <section class="card customization-card">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-palette card-icon"></i>
+                            <div>
+                                <h3>Personalização de Cores</h3>
+                                <p>Ajuste a atmosfera visual e a tonalidade principal do PetClean.</p>
+                            </div>
+                        </div>
+
+                        <div class="theme-control-group">
+                            <div class="control-row">
+                                <div class="control-label">
+                                    <h4>Modo Escuro (Dark Mode)</h4>
+                                    <p>Troca o fundo claro por tons de grafite para ambientes com pouca luz.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="check-dark-mode">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+
+                            <div class="control-row-palette">
+                                <div class="control-label">
+                                    <h4>Cor Temática Principal</h4>
+                                    <p>Altera os detalhes de botões, links ativos e realces do sistema.</p>
+                                </div>
+                                <div class="palette-options">
+                                    <button type="button" class="btn-color-pick color-rose active" data-color="#FF8C94"
+                                        title="Rosa Padrão"></button>
+                                    <button type="button" class="btn-color-pick color-mint" data-color="#A8E6CE"
+                                        title="Verde Menta"></button>
+                                    <button type="button" class="btn-color-pick color-blue" data-color="#3B82F6"
+                                        title="Azul Corporativo"></button>
+                                    <button type="button" class="btn-color-pick color-purple" data-color="#8B5CF6"
+                                        title="Roxo Moderno"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Bloco 2: Varreduras Automáticas -->
+                    <section class="card preferences-card">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-sliders card-icon"></i>
+                            <div>
+                                <h3>Filtros de Alerta do Painel</h3>
+                                <p>Selecione quais rotinas em background devem gerar avisos automáticos no sininho.</p>
+                            </div>
+                        </div>
+
+                        <div class="config-list-group">
+                            <div class="config-sub-item">
+                                <div class="config-text">
+                                    <h4>Monitoramento Crítico de Insumos</h4>
+                                    <p>Verifica a tabela de estoque e gera notificações se um item cair abaixo do
+                                        mínimo.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="pref-estoque" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+
+                            <div class="config-sub-item">
+                                <div class="config-text">
+                                    <h4>Sinalizador de Agendamentos do Dia</h4>
+                                    <p>Dispara um balão de alerta para lembrar o administrador dos serviços programados
+                                        para hoje.</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" id="pref-agenda" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Bloco 3: Segurança de Sessão -->
+                    <!-- Bloco 3: Segurança de Sessão -->
+                    <section class="card session-card">
+                        <div class="card-title-group">
+                            <i class="fa-solid fa-shield-halved card-icon"></i>
+                            <div>
+                                <h3>Gerenciamento de Acesso</h3>
+                                <p>Controle a integridade das conexões e termine sessões duplicadas.</p>
+                            </div>
+                        </div>
+                        <div class="session-action-box">
+                            <p>Se você suspeitar que esqueceu sua conta aberta em outro computador, encerre todas as
+                                sessões ativas imediatamente.</p>
+
+                            <!-- Encerra a sessão na API Java (POST /logout); o handler está no main.js -->
+                            <button type="button" class="btn-terminate-sessions">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Invalidar Todas as Sessões
+                            </button>
+                        </div>
+                    </section>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="../js/configuracoes.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+
+</body>
+
+</html>

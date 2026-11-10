@@ -1,0 +1,213 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #ffffff;
+  color: #000;
+}
+
+/* MENU PADRÃO DO SITE */
+.topo {
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: flex-start; /* menu à esquerda */
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.logo img {
+  width: 180px;
+}
+
+.menu {
+  display: flex;
+  gap: 20px;
+  margin-left: 40px;
+}
+
+.menu a {
+  background: rgba(255, 255, 255, 0.38);
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.menu a:hover,
+.menu a.ativo {
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+
+/* ÁREA PRINCIPAL */
+.funcionalidades {
+  padding-top: 140px; /* espaço para o menu */
+  width: 100%;
+}
+
+/* TÍTULO */
+.section {
+  background: linear-gradient(
+    135deg,
+    rgba(168, 230, 206, 0.49) 0%,
+    rgba(220, 237, 194, 0.56) 100%
+  );
+  padding: 80px 60px;
+  text-align: center;
+}
+
+.funcionalidades-do-pet-clean {
+  font-size: 60px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.tudo-que-voc-precisa-para-gerenciar-seu-pet-shop {
+  font-size: 24px;
+  color: #364153;
+  margin-top: 10px;
+}
+
+/* GRID DE FUNCIONALIDADES */
+.container2 {
+  width: 100%;
+  max-width: 1100px;
+  margin: 60px auto;
+}
+
+.container3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+/* CARD BASE */
+.container4,
+.container5,
+.container6,
+.container7,
+.container8,
+.container9 {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+              0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* TÍTULOS DOS CARDS */
+.gerenciamento-de-clientes,
+.gerenciamento-de-pets,
+.agendamentos,
+.controle-de-estoque,
+.dashboards-anal-ticos,
+.seguran-a-e-acesso {
+  font-size: 24px;
+  font-weight: 700;
+  color: #101828;
+  margin-bottom: 12px;
+}
+
+/* TEXTOS DOS CARDS */
+.cadastro-completo-com-cpf-telefone-e-mail-e-ende,
+.cadastro-de-pets-vinculados-ao-tutor-com-informa,
+.cadastro-f-cil-de-servi-os-visualiza-o-da-agenda,
+.cadastro-de-produtos-com-quantidade-e-pre-o-atual,
+.vis-o-completa-com-total-de-clientes-pets-agenda,
+.sistema-de-login-seguro-com-prote-o-de-dados-e-in {
+  font-size: 16px;
+  line-height: 26px;
+  color: #4a5565;
+}
+
+/* CTA FINAL */
+.section2 {
+  background: linear-gradient(135deg, rgba(220, 237, 194, 0.69) 100%);
+  padding: 80px 60px;
+  text-align: center;
+}
+
+.pronto-para-transformar-seu-pet-shop {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.link {
+  background: #FFD3B5;
+  padding: 15px 80px;
+  border-radius: 10px;
+  display: inline-block;
+  box-shadow: 0px 4px 6px -4px rgba(0, 0, 0, 0.1),
+              0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.link:hover {
+  background: #FFD3B5;
+  box-shadow: 0px 6px 8px -4px rgba(0, 0, 0, 0.15),
+              0px 12px 20px -3px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.solicite-uma-demonstra-o {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .menu {
+    flex-wrap: wrap;
+    margin-left: 0;
+  }
+
+  .container3 {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 60px 20px;
+  }
+
+  .section2 {
+    padding: 60px 20px;
+  }
+}
+
+.topo {
+  width: 92% !important; /* Estica o bloco original até o canto direito da tela */
+}
+
+.btn-nav-login {
+  background: #FFD3B5;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: #000000 !important;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: auto; /* Empurra o botão exclusivamente para a ponta direita */
+  transition: 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-nav-login:hover {
+  background: #FFD3B5;
+  transform: translateY(-2px);
+}

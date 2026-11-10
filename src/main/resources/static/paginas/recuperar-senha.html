@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Recuperar Senha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/recuperar-senha.css">
+</head>
+<body>
+
+    <main class="login-container">
+        <div class="login-card">
+            
+            <div class="back-to-login-top">
+                <a href="login.html"><i class="fa-solid fa-arrow-left"></i> Voltar ao login</a>
+            </div>
+
+            <header class="login-header">
+                <img src="../assets/popy-logotipo.png" alt="PetClean Logo" class="login-logo">
+                <h1 class="recovery-title">Esqueceu a Senha?</h1>
+                <p class="login-subtitle recovery-desc">
+                    Não se preocupe! Digite seu email e enviaremos instruções para redefinir sua senha.
+                </p>
+            </header>
+
+            <form id="form-recuperar" class="login-form">
+                
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">Enviar Link de Recuperação</button>
+                
+            </form>
+
+            <div class="back-to-login-bottom">
+                <span>Lembrou da senha? <a href="login.html">Voltar ao login</a></span>
+            </div>
+        </div>
+
+        <footer class="login-footer">
+            <p>© 2026 PetClean. Todos os direitos reservados.</p>
+        </footer>
+    </main>
+
+    <script>
+document.getElementById("form-recuperar").addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    const btnSubmit = this.querySelector(".btn-submit");
+    const textoOriginal = btnSubmit.textContent;
+    
+    // Feedback visual de carregamento
+    btnSubmit.textContent = "Enviando...";
+    btnSubmit.disabled = true;
+
+    const formData = new FormData(this);
+
+    /* PENDENCIA: o projeto original enviava o e-mail de recuperacao por
+       php/autenticacao/recuperar.php. A API Java nao possui endpoint de
+       recuperacao de senha nem servico de e-mail, portanto nao ha envio. */
+    console.warn("Recuperar senha: recurso sem endpoint na API Java (pendência documentada).");
+    alert("Não foi possível enviar o link de recuperação: recurso ainda não disponível na API Java (pendência documentada).");
+    btnSubmit.textContent = textoOriginal;
+    btnSubmit.disabled = false;
+});
+
+
+
+</script>
+</body>
+</html>

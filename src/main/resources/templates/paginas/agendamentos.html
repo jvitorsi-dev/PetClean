@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Agendamentos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- MENU LATERAL -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item"><img src="../assets/icones/dash.png" class="menu-icon-png"><span>Dashboard</span></a>
+                <a href="clientes.html" class="menu-item"><img src="../assets/icones/clientes.png" class="menu-icon-png"><span>Clientes</span></a>
+                <a href="pets.html" class="menu-item"><img src="../assets/icones/pets.png" class="menu-icon-png"><span>Pets</span></a>
+                <a href="agendamentos.html" class="menu-item active"><img src="../assets/icones/agendamentos.png" class="menu-icon-png"><span>Agendamentos</span></a>
+                <a href="estoque.html" class="menu-item"><img src="../assets/icones/estoque.png" class="menu-icon-png"><span>Estoque</span></a>
+                <a href="relatorios.html" class="menu-item"><img src="../assets/icones/relatorios.png" class="menu-icon-png"><span>Relatórios</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout"><img src="../assets/icones/sair.png" class="menu-icon-png"><span>Sair</span></a>
+            </div>
+        </aside>
+
+        <!-- CONTAINER DA DIREITA -->
+        <div class="main-container-right">
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Agendamentos</h1>
+                    <p>Controle o fluxo operacional do dia e serviços marcados</p>
+                </div>
+
+                <div class="header-actions">
+                    <form action="agendamentos.html" method="GET" class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" name="busca" placeholder="Buscar por serviço, pet ou dono..." th:value="${busca}">
+                    </form>
+
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span class="user-name">[[${nomeUsuario}]]</span>
+                                <span class="user-role">[[${cargoUsuario}]]</span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main style="padding: 32px;">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                    <button type="button" class="btn-submit-profile" id="btn-novo-agendamento" style="padding: 10px 20px; font-size: 14px; border-radius: 12px;">
+                        <i class="fa-solid fa-plus"></i> Novo Agendamento
+                    </button>
+                </div>
+
+                <div class="card main-table-container">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #E5E7EB;">
+                                <th style="padding: 12px;">Data / Hora</th>
+                                <th style="padding: 12px;">Serviço</th>
+                                <th style="padding: 12px;">Paciente (Pet)</th>
+                                <th style="padding: 12px;">Tutor (Dono)</th>
+                                <th style="padding: 12px; text-align: center;">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                                    <tr th:if="${#lists.isEmpty(agendamentos)}"><td colspan="5" style="padding: 24px; text-align: center; color: #99A1AF; font-style: italic;">Nenhum serviço agendado correspondente à busca.</td></tr>
+                            
+                                    
+                                            <tr style="border-bottom: 1px solid #E5E7EB;" th:each="a : ${agendamentos}">
+                                                <td style="padding: 12px;">
+                                                    <strong style="color: #2C3E50;">[[${#temporals.format(a.data,'dd/MM/yyyy')}]]</strong>
+                                                    <span style="font-size: 13px; color: #6A7282; margin-left: 6px;"><i class="fa-regular fa-clock" style="margin-right: 3px;"></i>[[${#temporals.format(a.hora,'HH:mm')}]]</span>
+                                                </td>
+                                                <td style="padding: 12px;"><span style="background: rgba(168,230,206,0.2); color: #065F46; padding: 4px 10px; border-radius: 12px; font-size: 14px; font-weight: 500;">[[${servicosLabel[a.servico.name()]}]]</span></td>
+                                                <td style="padding: 12px; font-weight: 500;">[[${a.pet.nome}]]</td>
+                                                <td style="padding: 12px;">[[${a.cliente.nome}]]</td>
+                                                <td style="padding: 12px; text-align: center;">
+                                                    <button class="btn-change-password btn-editar" th:data-id="${a.id}" th:data-data="${a.data}" th:data-hora="${a.hora}" th:data-servico="${a.servico.name()}" th:data-pet="${a.pet.id}" style="padding: 4px 10px; font-size: 12px; border-color: #3b82f6; color: #3b82f6; margin-right: 6px;">
+                                                        Editar
+                                                    </button>
+                                                    <button class="btn-change-password btn-excluir" th:data-id="${a.id}" style="padding: 4px 10px; font-size: 12px; border-color: #ef4444; color: #ef4444;">
+                                                        Excluir
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                    
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- MODAL: ADICIONAR / EDITAR AGENDAMENTO -->
+    <div class="modal-overlay" id="modal-agendamento">
+        <div class="modal-box">
+            <button class="modal-close" id="btn-fechar-modal">✕</button>
+            <h2 id="modal-titulo">Novo Agendamento</h2>
+            <form id="form-agendamento">
+                <input type="hidden" id="agendamento-id" name="id">
+                <div class="form-modal-group">
+                    <label for="agend-data">Data do Serviço *</label>
+                    <input type="date" id="agend-data" name="data_servico" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="agend-hora">Horário *</label>
+                    <input type="time" id="agend-hora" name="hora_servico" required />
+                </div>
+                <div class="form-modal-group">
+                    <label for="agend-servico">Tipo de Serviço *</label>
+                    <select id="agend-servico" name="servico" style="width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; background: #fff;" required>
+                        <option value="">Selecione...</option>
+                        <option value="BANHO">Banho</option>
+                        <option value="TOSA">Tosa</option>
+                        <option value="BANHO_E_TOSA">Banho e Tosa</option>
+                        <option value="CONSULTA_VETERINARIA">Consulta</option>
+                    </select>
+                </div>
+                <div class="form-modal-group">
+                    <label for="agend-pet">Paciente (Pet / Tutor) *</label>
+                    <select id="agend-pet" name="pet_id" style="width: 100%; padding: 10px; border: 1px solid #E5E7EB; border-radius: 8px; background: #fff;" required>
+                        <option value="">Selecione o paciente...</option>
+                        
+                                <option th:value="${p.id}" th:each="p : ${pets}">[[${p.nome}]] ([[${p.cliente.nome}]])</option>
+                        
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancelar-modal" id="btn-cancelar-modal">Cancelar</button>
+                    <button type="submit" class="btn-salvar-modal">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/agendamentos.js"></script>
+</body>
+</html>

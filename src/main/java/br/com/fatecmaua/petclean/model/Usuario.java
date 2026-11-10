@@ -1,5 +1,7 @@
 package br.com.fatecmaua.petclean.model;
 
+import java.time.LocalDate;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +10,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 /**
@@ -41,6 +44,38 @@ public class Usuario {
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 20)
 	private PerfilEnum perfil;
+
+	// ---------------------------------------------------------------------
+	// Dados do perfil: campos que o PHP guardava na tabela de usuarios e que
+	// a tela de Perfil edita (nome, e-mail, telefone, pet shop e endereco).
+	// ---------------------------------------------------------------------
+
+	@Schema(description = "Telefone do usuario", example = "(11) 98765-4321")
+	@Column(length = 20)
+	private String telefone;
+
+	@Schema(description = "Nome do pet shop exibido no perfil", example = "PetClean Central")
+	@Column(name = "nome_petshop", length = 120)
+	private String nomePetshop;
+
+	@Schema(description = "Endereco do pet shop", example = "Rua das Flores, 123 - Santo Andre/SP")
+	@Column(length = 200)
+	private String endereco;
+
+	/**
+	 * Foto de perfil (avatar). Fica no proprio banco para a aplicacao nao depender
+	 * de uma pasta externa de uploads.
+	 */
+	@Lob
+	@Column(name = "foto")
+	private byte[] foto;
+
+	@Column(name = "foto_content_type", length = 60)
+	private String fotoContentType;
+
+	@Schema(description = "Data da ultima alteracao de senha", example = "2026-11-07")
+	@Column(name = "data_alteracao_senha")
+	private LocalDate dataAlteracaoSenha;
 
 	public Usuario() {
 
@@ -92,6 +127,54 @@ public class Usuario {
 
 	public void setPerfil(PerfilEnum perfil) {
 		this.perfil = perfil;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public String getNomePetshop() {
+		return nomePetshop;
+	}
+
+	public void setNomePetshop(String nomePetshop) {
+		this.nomePetshop = nomePetshop;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+	public String getFotoContentType() {
+		return fotoContentType;
+	}
+
+	public void setFotoContentType(String fotoContentType) {
+		this.fotoContentType = fotoContentType;
+	}
+
+	public LocalDate getDataAlteracaoSenha() {
+		return dataAlteracaoSenha;
+	}
+
+	public void setDataAlteracaoSenha(LocalDate dataAlteracaoSenha) {
+		this.dataAlteracaoSenha = dataAlteracaoSenha;
 	}
 
 }

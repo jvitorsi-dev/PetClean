@@ -59,11 +59,15 @@ echo "=== US-11 / US-12 / US-13 / US-16 / US-17: agendamentos ==="
 req GET /api/agendamentos "" 200
 req GET "/api/agendamentos?status=AGENDADO" "" 200
 req GET /api/agendamentos/agenda "" 200
+# datas derivadas de hoje (nunca literais: o script tem de continuar valido em qualquer dia)
 HOJE=$(date +%F)
+ONTEM=$(date -d "yesterday" +%F 2>/dev/null || date -v-1d +%F)
+FUTURO=$(date -d "+30 days" +%F 2>/dev/null || date -v+30d +%F)
+req POST /api/agendamentos "{\"idCliente\":1,\"idPet\":1,\"servico\":\"BANHO\",\"data\":\"$ONTEM\",\"hora\":\"10:00\"}" 422
 req POST /api/agendamentos "{\"idCliente\":1,\"idPet\":1,\"servico\":\"BANHO\",\"data\":\"$HOJE\",\"hora\":\"09:00\"}" 409
-req POST /api/agendamentos "{\"idCliente\":1,\"idPet\":3,\"servico\":\"BANHO\",\"data\":\"2026-12-20\",\"hora\":\"08:00\"}" 422
+req POST /api/agendamentos "{\"idCliente\":1,\"idPet\":3,\"servico\":\"BANHO\",\"data\":\"$FUTURO\",\"hora\":\"08:00\"}" 422
 AG=$(curl -s -X POST "$BASE/api/agendamentos" -H "Content-Type: application/json" -b "$COOKIE" -c "$COOKIE" \
-  -d "{\"idCliente\":1,\"idPet\":1,\"servico\":\"BANHO_E_TOSA\",\"data\":\"2026-12-20\",\"hora\":\"08:00\"}")
+  -d "{\"idCliente\":1,\"idPet\":1,\"servico\":\"BANHO_E_TOSA\",\"data\":\"$FUTURO\",\"hora\":\"08:00\"}")
 echo "     agendamento criado: $AG"
 ID_AG=$(echo "$AG" | sed -n 's/.*"id":\([0-9]*\).*/\1/p')
 req PATCH "/api/agendamentos/$ID_AG/status" '{"status":"CONFIRMADO"}' 200
@@ -91,6 +95,14 @@ req GET /api/dashboard "" 200
 req GET "/api/dashboard?periodo=semanal" "" 200
 req GET "/api/dashboard?periodo=mensal" "" 200
 req GET /api/dashboard/estoque-critico "" 200
+
+
+echo
+echo "=== Tela de Perfil: dados, senha e foto ==="
+req GET /api/usuarios/1 "" 200
+req PUT /api/usuarios/1 '{"nome":"Helen Vitoria Silva Aclina","email":"helen@petclean.com","telefone":"(11) 91234-5678","nomePetshop":"PetClean Central","endereco":"Rua das Flores, 123 - Santo Andre/SP"}' 200
+req PUT /api/usuarios/1/senha '{"senhaAtual":"senha-errada","novaSenha":"outraSenha123"}' 422
+req PUT /api/usuarios/2 '{"nome":"Nao Pode","email":"gabriel@petclean.com"}' 403
 
 echo
 echo "=== US-14: logout ==="

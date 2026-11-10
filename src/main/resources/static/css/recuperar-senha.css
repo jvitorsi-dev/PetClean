@@ -1,0 +1,195 @@
+/* ==========================================================================
+   1. CONFIGURAÇÕES GERAIS E RESET
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #F3DCC2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   2. ESTRUTURA DO CARD DE RECUPERAÇÃO (PADRÃO LOGIN)
+   ========================================================================== */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-card {
+    width: 100%;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 24px;
+    border: 0.80px #E5E7EB solid;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.02);
+    position: relative;
+}
+
+/* Links de Navegação Superior (Voltar ao Login) */
+.back-to-login-top {
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.back-to-login-top a {
+    font-size: 13px;
+    color: #6A7282;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease;
+}
+
+.back-to-login-top a:hover {
+    color: #FF8C94;
+}
+
+/* Cabeçalho do Card */
+.login-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+    object-fit: contain;
+}
+
+.recovery-title {
+    font-size: 22px;
+    color: #2C3E50;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.recovery-desc {
+    font-size: 14px;
+    color: #6A7282;
+    line-height: 20px;
+}
+
+/* ==========================================================================
+   3. FORMULÁRIO E CAMPOS DE ENTRADA (INPUTS)
+   ========================================================================== */
+.login-form {
+    width: 100%;
+    text-align: left;
+}
+
+.input-group {
+    margin-bottom: 24px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    color: #4A5565;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    color: #99A1AF;
+    font-size: 16px;
+}
+
+.input-wrapper input {
+    width: 100%;
+    height: 48px;
+    padding: 12px 16px 12px 44px;
+    background: #F9FAFB;
+    border: 0.80px #E5E7EB solid;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    color: #2C3E50;
+    transition: all 0.2s ease;
+}
+
+.input-wrapper input:focus {
+    border-color: #FF8C94;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 140, 148, 0.1);
+}
+
+/* ==========================================================================
+   4. BOTÃO DE SUBMISSÃO
+   ========================================================================== */
+.btn-submit {
+    width: 100%;
+    height: 48px;
+    background: #FF8C94;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-submit:hover {
+    background: #ee7d85;
+}
+
+.btn-submit:disabled {
+    background: #E5E7EB;
+    color: #99A1AF;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   5. LINKS INFERIORES E RODAPÉ
+   ========================================================================== */
+.back-to-login-bottom {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 14px;
+    color: #6A7282;
+}
+
+.back-to-login-bottom a {
+    color: #FF8C94;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-to-login-bottom a:hover {
+    text-decoration: underline;
+}
+
+.login-footer {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.login-footer p {
+    font-size: 12px;
+    color: #99A1AF;
+}

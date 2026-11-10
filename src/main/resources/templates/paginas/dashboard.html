@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/menus-globais.css">
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- MENU LATERAL -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/dash-popy.png" alt="PetClean Logo" class="brand-logo">
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item active">
+                    <img src="../assets/icones/dash.png" alt="Ícone Dashboard" class="menu-icon-png">
+                    <span>Dashboard</span>
+                </a>
+                <a href="clientes.html" class="menu-item">
+                    <img src="../assets/icones/clientes.png" alt="Ícone Clientes" class="menu-icon-png">
+                    <span>Clientes</span>
+                </a>
+                <a href="pets.html" class="menu-item">
+                    <img src="../assets/icones/pets.png" alt="Ícone Pets" class="menu-icon-png">
+                    <span>Pets</span>
+                </a>
+                <a href="agendamentos.html" class="menu-item">
+                    <img src="../assets/icones/agendamentos.png" alt="Ícone Agendamentos" class="menu-icon-png">
+                    <span>Agendamentos</span>
+                </a>
+                <a href="estoque.html" class="menu-item">
+                    <img src="../assets/icones/estoque.png" alt="Ícone Estoque" class="menu-icon-png">
+                    <span>Estoque</span>
+                </a>
+                <a href="relatorios.html" class="menu-item">
+                    <img src="../assets/icones/relatorios.png" alt="Ícone Relatórios" class="menu-icon-png">
+                    <span>Relatórios</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="login.html" class="menu-item logout">
+                    <img src="../assets/icones/sair.png" alt="Ícone Sair" class="menu-icon-png">
+                    <span>Sair</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <div class="main-content">
+
+            <header class="top-header">
+                <div class="header-welcome">
+                    <h1>Dashboard</h1>
+                    <p>Olá,
+                        [[${nomeUsuario}]]! Tenha um ótimo dia
+                    </p>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+
+                    <!-- GATILHO NOTIFICAÇÕES -->
+                    <div class="notificacoes-usuario-wrapper" id="notificacoes-gatilho">
+                        <div class="alerta-notificacao">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="badge-dot" style="display:none;">3</span>
+                        </div>
+
+                        <div class="dropdown-notificacoes-menu">
+                            <div class="notif-header">
+                                <h3>Notificações</h3>
+                                <button type="button" class="btn-marcar-todas">Marcar todas como lidas</button>
+                            </div>
+                            <p class="notif-sub" id="notif-count-text">Carregando...</p>
+                            <div class="notif-list" id="notif-list-container"></div>
+                            <a href="relatorios.html" class="notif-footer-link">Ver todas as notificações</a>
+                        </div>
+                    </div>
+
+                    <!-- GATILHO PERFIL (Atualizado com renderização de foto real) -->
+                    <div class="perfil-usuario-wrapper" id="perfil-gatilho">
+                        <div class="perfil-identificacao">
+                            <div class="user-info">
+                                <span
+                                    class="user-name">[[${nomeUsuario}]]
+                                </span>
+                                <span class="user-role">
+                                    [[${cargoUsuario}]]
+                                </span>
+                            </div>
+                            <div class="user-avatar">
+                                <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-perfil-menu">
+                            <div class="dropdown-cabecalho-usuario">
+                                <div class="dropdown-avatar">
+                                    <th:block th:if="${fotoPerfil != null and !fotoPerfil.isEmpty()}"><img th:src="${fotoPerfil}" class="avatar-img-render"></th:block><th:block th:unless="${fotoPerfil != null and !fotoPerfil.isEmpty()}" th:text="${inicialAvatar}"></th:block>
+                                </div>
+                                <div class="dropdown-meta-dados">
+                                    <strong>
+                                        [[${nomeUsuario}]]
+                                    </strong>
+                                    <span>
+                                        [[${emailUsuario}]]
+                                    </span>
+                                </div>
+                            </div>
+                            <ul class="dropdown-lista-links">
+                                <li><a href="perfil.html" class="dropdown-link-item"><i
+                                            class="fa-regular fa-user"></i><span>Meu Perfil</span></a></li>
+                                <li><a href="configuracoes.html" class="dropdown-link-item"><i
+                                            class="fa-solid fa-gear"></i><span>Configurações</span></a></li>
+                                <li class="dropdown-divisor-linha"></li>
+                                <li><a href="login.html" class="dropdown-link-item link-sair-painel"><i
+                                            class="fa-solid fa-arrow-right-from-bracket"></i><span>Sair</span></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="dashboard-body">
+
+                <!-- CARDS DE MÉTRICAS -->
+                <section class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-data">
+                            <h3>Total de Clientes</h3>
+                            <p class="metric-value">
+                                [[${totalClientes}]]
+                            </p>
+                            <span class="metric-trend up">Tutores na base</span>
+                        </div>
+                        <div class="metric-icon green-bg"><i class="fa-solid fa-users"></i></div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-data">
+                            <h3>Total de Pets</h3>
+                            <p class="metric-value">
+                                [[${totalPets}]]
+                            </p>
+                            <span class="metric-trend up">Animais vinculados</span>
+                        </div>
+                        <div class="metric-icon pink-bg"><i class="fa-solid fa-paw"></i></div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-data">
+                            <h3>Agendamentos Hoje</h3>
+                            <p class="metric-value">
+                                [[${totalAgendamentosHoje}]]
+                            </p>
+                            <span class="metric-trend warning">Para a data atual</span>
+                        </div>
+                        <div class="metric-icon orange-bg"><i class="fa-solid fa-calendar-check"></i></div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-data">
+                            <h3>Faturamento Estimado</h3>
+                            <p class="metric-value">R$
+                                [[${#numbers.formatDecimal(faturamentoValor,1,2)}]]
+                            </p>
+                            <span class="metric-trend up">Soma total acumulada</span>
+                        </div>
+                        <div class="metric-icon blue-bg"><i class="fa-solid fa-dollar-sign"></i></div>
+                    </div>
+                </section>
+
+                <!-- GRÁFICOS INTERATIVOS -->
+                <section class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Agendamentos por Dia</h3>
+                        <div style="position: relative; height:220px; width:100%">
+                            <canvas id="graficoDias"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Faturamento Mensal</h3>
+                        <div style="position: relative; height:220px; width:100%">
+                            <canvas id="graficoFaturamento"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bottom-grid">
+                    <div class="chart-card pie-section">
+                        <h3>Serviços Mais Solicitados</h3>
+                        <div
+                            style="position: relative; height: 260px; width: 100%; display: flex; justify-content: center; align-items: center; padding-top: 10px;">
+                            <canvas id="graficoPizza"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="appointments-card">
+                        <div class="card-header">
+                            <h3>Agendamentos de Hoje</h3>
+                            <a href="agendamentos.html" class="view-all">Ver todos</a>
+                        </div>
+
+                        <div class="appointments-list">
+                            
+                                    <div style="text-align:center; padding:40px; color:#94a3b8; font-style:italic;" th:if="${#lists.isEmpty(proximos)}">
+                                        Nenhum agendamento marcado para o dia de hoje.
+                                    </div>
+                            
+                                    
+                                            <div class="appointment-item" th:each="a : ${proximos}">
+                                                <div class="pet-avatar-icon"><i class="fa-solid fa-paw"></i></div>
+                                                <div class="appointment-details">
+                                                    <h4>
+                                                        [[${a.pet.nome}]]
+                                                    </h4>
+                                                    <p>
+                                                        [[${a.cliente.nome}]]
+                                                    </p>
+                                                </div>
+                                                <div class="appointment-time">
+                                                    <span>
+                                                        [[${servicosLabel[a.servico.name()]}]]
+                                                    </span>
+                                                    <time>
+                                                        [[${#temporals.format(a.hora,'HH:mm')}]]
+                                                    </time>
+                                                </div>
+                                            </div>
+                                    
+                            
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Script do Chart.js e Lógica de Renderização -->
+    <!-- Chart.js servido localmente (era https://cdn.jsdelivr.net/npm/chart.js):
+         evita falha da pagina quando o CDN e bloqueado ou a conexao cai -->
+    <script src="../js/vendor/chart.umd.min.js"></script>
+    <!-- Os arrays dos graficos chegam em data-* (sem th:inline="javascript") -->
+    <script id="dados-dashboard" th:data-labels-dias="${labelsDiasJson}"
+        th:data-agendamentos-dias="${agendamentosDiasJson}"
+        th:data-labels-meses="${labelsMesesJson}"
+        th:data-faturamento-meses="${faturamentoMesesJson}"
+        th:data-pizza="${pizzaDadosJson}"></script>
+    <script>
+        const dadosDashboard = document.getElementById('dados-dashboard').dataset;
+        const diasLabels = JSON.parse(dadosDashboard.labelsDias || '[]');
+        const diasDados = JSON.parse(dadosDashboard.agendamentosDias || '[]');
+
+        const mesesLabels = JSON.parse(dadosDashboard.labelsMeses || '[]');
+        const mesesDados = JSON.parse(dadosDashboard.faturamentoMeses || '[]');
+
+        const pizzaDados = JSON.parse(dadosDashboard.pizza || '[]');
+
+        // 1. Gráfico de Barras: Agendamentos por Dia
+        const ctxDias = document.getElementById('graficoDias').getContext('2d');
+        new Chart(ctxDias, {
+            type: 'bar',
+            data: {
+                labels: diasLabels,
+                datasets: [{
+                    label: 'Atendimentos',
+                    data: diasDados,
+                    backgroundColor: '#10b981',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+            }
+        });
+
+        // 2. Gráfico de Linhas: Faturamento Mensal
+        const ctxMeses = document.getElementById('graficoFaturamento').getContext('2d');
+        new Chart(ctxMeses, {
+            type: 'line',
+            data: {
+                labels: mesesLabels,
+                datasets: [{
+                    label: 'Faturamento (R$)',
+                    data: mesesDados,
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // 3. Gráfico de Pizza Dinâmico
+        const ctxPizza = document.getElementById('graficoPizza').getContext('2d');
+        new Chart(ctxPizza, {
+            type: 'pie',
+            data: {
+                labels: ['Banho', 'Tosa', 'Banho e Tosa', 'Consulta'],
+                datasets: [{
+                    data: pizzaDados,
+                    backgroundColor: ['#a7f3d0', '#fca5a5', '#fef08a', '#bfdbfe'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: { family: 'Poppins', size: 12 },
+                            boxWidth: 12,
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="../js/api.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

@@ -31,6 +31,12 @@ public class ConfiguracaoWeb implements WebMvcConfigurer {
 			"/login", "/logout",
 			// portal e paginas
 			"/", "/index.html", "/favicon.ico", "/error",
+			// recursos estaticos usados pelas paginas (sem isso o CSS/JS recebe 401)
+			"/css/**", "/js/**", "/assets/**", "/images/**", "/webjars/**",
+			// paginas publicas do site (as do painel continuam protegidas)
+			"/paginas/login.html", "/paginas/inicio.html", "/paginas/sobrenos.html",
+			"/paginas/funcionalidades.html", "/paginas/faleconosco.html",
+			"/paginas/solicitar-demo.html", "/paginas/recuperar-senha.html",
 			// Swagger / OpenAPI (UI, JSON, YAML, config e assets webjars)
 			"/api-docs", "/api-docs/**", "/api-docs.yaml", "/v3/api-docs", "/v3/api-docs/**",
 			"/swagger-resources/**",

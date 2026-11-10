@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetClean - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <style>
+        /* Estilo rápido para o container de erro dinâmico */
+        .erro-alerta {
+            background-color: #FEE2E2;
+            color: #EF4444;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 14px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="login-container">
+        <div class="login-card">
+            
+            <div class="back-to-home-top">
+                <a href="inicio.html"><i class="fa-solid fa-arrow-left"></i> Voltar ao início</a>
+            </div>
+
+            <header class="login-header">
+                <img src="../assets/popy-logotipo.png" alt="PetClean Logo" class="login-logo">
+                <p class="login-subtitle">Faça login para continuar</p>
+                <div id="mensagem-erro" class="erro-alerta"></div>
+            </header>
+
+            <form class="login-form">
+                
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember">
+                        <span>Lembrar-me</span>
+                    </label>
+                    <a href="recuperar-senha.html" class="forgot-password">Esqueci a senha</a>
+                </div>
+
+                <button type="submit" class="btn-submit">Entrar</button>
+                
+            </form>
+        </div>
+
+        <footer class="login-footer">
+            <p>© PetClean. Todos os direitos reservados.</p>
+        </footer>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>
