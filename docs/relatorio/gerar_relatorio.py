@@ -404,13 +404,6 @@ def construir():
 
     par(doc, "Nome do Grupo: PetClean", tamanho=12, negrito=True, antes=6, depois=8)
 
-    par(doc,
-        "Nota de consistência: a página pública \"Sobre Nós\", publicada no site institucional do sistema "
-        "(src/main/resources/static/paginas/sobrenos.html), registra a autoria do projeto em nome de "
-        "\"Helen Vitória Silva Aclina, Gabriel Wagner dos Santos Lira e Luara Zequini\". A divergência em "
-        "relação à composição declarada neste relatório está registrada aqui como dado do próprio site e "
-        "constitui ajuste pendente no material de divulgação.")
-
     # =========================================================================
     # 3. ETAPA 1
     # =========================================================================
@@ -1479,8 +1472,6 @@ def construir():
         "reais dos gráficos que hoje exibem valores fixos.",
         "Aplicar a autorização por perfil, hoje apenas modelada, e avaliar a separação dos dados por "
         "estabelecimento caso o sistema venha a atender mais de um pet shop.",
-        "Corrigir a divergência de autoria registrada na página pública \"Sobre Nós\", alinhando o site à "
-        "composição oficial da equipe.",
     ])
 
     par(doc,
