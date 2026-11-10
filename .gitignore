@@ -35,5 +35,7 @@ build/
 ### Capturas de referencia da validacao visual (evidencia local, nao versionar)
 docs/referencia/
 
-### Material de entrega (zip da apresentacao, nao versionar)
-entrega/
+### Apresentacao da API: artefatos gerados por docs/apresentacao/build/make.py
+docs/apresentacao/preview/
+docs/apresentacao/fontes/ttf/
+docs/apresentacao/gerador/__pycache__/
