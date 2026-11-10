@@ -34,3 +34,7 @@ build/
 
 ### Capturas de referencia da validacao visual (evidencia local, nao versionar)
 docs/referencia/
+
+### Apresentacao da API (gerado por docs/apresentacao/build/make.py)
+docs/apresentacao/preview/
+docs/apresentacao/fontes/ttf/
