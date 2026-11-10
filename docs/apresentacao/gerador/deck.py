@@ -162,10 +162,30 @@ def s01_capa():
                 spacing=1.0)
         cv.text(x + 0.76, 4.92, 1.3, 0.24, papel, size=7.8, color=MUTED, spacing=1.2)
 
-    cv.rect(7.22, 1.26, 5.72, 3.92, WHITE, LINE, radius=0.24)
-    cv.img(7.38, 1.42, 5.4, 3.6, os.path.join(ASSETS, "fotodos3.png"))
-    cv.text(7.22, 5.3, 5.72, 0.24, "Helen Aclina · Gabriel Wagner · João Vitor Silva",
-            size=8.6, color=MUTED, align="c", spacing=1.0)
+    # Amostra real de resposta: GET /api/pets?termo=thor (dados do data.sql)
+    rows_json = [
+        [("{", CMT)],
+        [('  "id": ', PLN), ("1", TYP), (",", PLN)],
+        [('  "nome": ', PLN), ('"Thor"', STR), (",", PLN)],
+        [('  "especie": ', PLN), ('"CACHORRO"', STR), (",", PLN)],
+        [('  "raca": ', PLN), ('"Golden Retriever"', STR), (",", PLN)],
+        [('  "porte": ', PLN), ('"GRANDE"', STR), (",", PLN)],
+        [('  "idade": ', PLN), ("4", TYP), (",", PLN)],
+        [('  "cliente": {', PLN)],
+        [('    "nome": ', PLN), ('"Maria da Silva"', STR)],
+        [("  }", PLN)],
+        [("}", PLN)],
+    ]
+    code_card(cv, 7.22, 1.26, 5.72, 3.92, rows_json, size=9.2, step=0.26,
+              pad=0.26, label="json",
+              head=("Resposta da API  ", "GET /api/pets?termo=thor"))
+    cv.line(7.48, 4.72, 5.2, 0.010, LINE)
+    cv.text(7.48, 4.84, 5.2, 0.24,
+            runs=[dict(t="200 ", color=MINT_TEXT, bold=True, size=8.4),
+                  dict(t="OK", color=MUTED, size=8.4),
+                  dict(t="   ·   application/json   ·   1 objeto", color=MUTED_2,
+                       size=8.4)],
+            size=8.4, spacing=1.0)
 
     cv.rect(M, 5.9, CW, 0.92, WHITE, LINE, radius=0.2)
     itens = [("15 minutos", "de apresentação"), ("3 blocos", "iguais de 5 min"),
